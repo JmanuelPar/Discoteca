@@ -26,7 +26,7 @@ View binding<br/>
 
 *******************
 
-The purpose of the application is to be able to constitute, visualize and record its collection of musical media (CD, vinyl, cassette) in its mobile phone and/or Google Drive.</br>
+The purpose of the app is to be able to constitute, visualize and record its collection of musical media (CD, vinyl, cassette) in its mobile phone and/or Google Drive.</br>
 
 --- General principle --- <br/>
 A musical media can have a barcode <br/>
