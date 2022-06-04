@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Style Buttons -->
+    <style name="Widget.Discoteca.Button" parent="Widget.MaterialComponents.Button">
+        <item name="shapeAppearance">@style/ShapeAppearance.Discoteca.SmallComponent</item>
+    </style>
+
+    <style name="Widget.Discoteca.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="shapeAppearance">@style/ShapeAppearance.Discoteca.SmallComponent</item>
+    </style>
+
+    <style name="ShapeAppearance.Discoteca.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+    </style>
+
+    <!-- Style Text Input OutlinedBox -->
+    <style name="TextAppearance.Discoteca.Subtitle1.OutlineBox" parent="@style/TextAppearance.Discoteca.Subtitle1">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.Discoteca.Caption.OutlineBox" parent="@style/TextAppearance.Discoteca.Caption">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!-- Style Alert Dialog -->
+    <style name="MaterialAlertDialog.Discoteca" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearance.Discoteca.MediumComponent</item>
+    </style>
+
+    <style name="ShapeAppearance.Discoteca.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
+    </style>
+
+    <style name="MaterialAlertDialog.Discoteca.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="MaterialAlertDialog.Discoteca.Body.Text" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Widget.Discoteca.Button.Dialog" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="shapeAppearance">@style/ShapeAppearance.Discoteca.SmallComponent</item>
+    </style>
+
+    <!-- Style BottomSheet Dialog -->
+    <style name="Widget.Discoteca.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="backgroundTint">?attr/colorSurface</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Discoteca.LargeComponent</item>
+    </style>
+
+    <style name="ShapeAppearance.Discoteca.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">20dp</item>
+        <item name="cornerSizeTopRight">20dp</item>
+    </style>
+
+    <!-- Style SearchView -->
+    <style name="Widget.Discoteca.SearchView" parent="Widget.AppCompat.SearchView">
+        <item name="searchHintIcon">@null</item>
+        <item name="queryBackground">@android:color/transparent</item>
+    </style>
+
+    <!-- Style SnackBar Button -->
+    <style name="Widget.Discoteca.SnackbarButton" parent="Widget.MaterialComponents.Button.TextButton.Snackbar">
+        <item name="android:textColor">?attr/colorPrimaryVariant</item>
+        <item name="android:textSize">16sp</item>
+        <item name="rippleColor">@color/color_ripple_snack_bar_button</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Discoteca.SmallComponent</item>
+    </style>
+
+    <!-- Style Material Toolbar ThemeOverlay -->
+    <style name="ThemeOverlayToolbar" parent="">
+        <item name="android:editTextColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/work_sans</item>
+    </style>
+
+    <!-- Style Popup Menu Card -->
+    <style name="PopupMenuCard" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="textAppearanceLargePopupMenu">@style/TextAppearance.App.Subtitle1</item>
+        <item name="textAppearanceSmallPopupMenu">@style/TextAppearance.App.Subtitle1</item>
+    </style>
+
+    <style name="TextAppearance.App.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/work_sans</item>
+        <item name="android:fontFamily">@font/work_sans</item>
+        <item name="android:textColor">?android:colorPrimary</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="IconImage" parent="">
+        <item name="android:tint">?android:attr/colorPrimary</item>
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="IconEnd" parent="">
+        <item name="endIconMode">custom</item>
+        <item name="endIconDrawable">@drawable/ic_info_outline</item>
+        <item name="endIconTint">@color/color_on_surface_emphasis_medium</item>
+    </style>
+
+    <style name="MenuCardItem" parent="">
+        <item name="android:background">?android:attr/colorBackground</item>
+        <item name="android:foreground">?selectableItemBackground</item>
+    </style>
+
+</resources>

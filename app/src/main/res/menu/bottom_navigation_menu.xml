@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/discFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_library_music"
+        android:title="@string/catalog" />
+
+    <item
+        android:id="@+id/infoFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_info_outline"
+        android:title="@string/information" />
+
+    <item
+        android:id="@+id/interFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_sync"
+        android:title="@string/interaction" />
+
+    <item
+        android:id="@+id/placeholder"
+        android:title="" />
+</menu>

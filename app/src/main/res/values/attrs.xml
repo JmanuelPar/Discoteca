@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ds">
+        <attr name="emphasisHighAlpha" format="float" />
+        <attr name="emphasisMediumAlpha" format="float" />
+        <attr name="emphasisDisabledAlpha" format="float" />
+        <attr name="emphasisStrokeColorAlpha" format="float" />
+        <attr name="rippleColorAlpha" format="float" />
+        <attr name="background_card_color" format="color" />
+        <attr name="background_scan_color" format="color" />
+        <attr name="background_scrim_color" format="color" />
+        <attr name="background_appbar_color" format="color" />
+    </declare-styleable>
+</resources>

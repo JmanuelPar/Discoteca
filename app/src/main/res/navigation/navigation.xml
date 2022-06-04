@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@+id/discFragment">
+
+    <fragment
+        android:id="@+id/discFragment"
+        android:name="com.diego.discoteca.ui.disc.DiscFragment"
+        android:label="@string/catalog"
+        tools:layout="@layout/fragment_disc">
+
+        <argument
+            android:name="snackBarMessage"
+            android:defaultValue='noDisplay'
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_discFragment_to_discDetailFragment"
+            app:destination="@id/discDetailFragment" />
+
+        <action
+            android:id="@+id/action_discFragment_to_addDiscFragment"
+            app:destination="@id/addDiscFragment" />
+
+        <action
+            android:id="@+id/action_discFragment_to_scanBarcodeFragment"
+            app:destination="@id/scanBarcodeFragment" />
+
+        <action
+            android:id="@+id/action_discFragment_to_updateDiscFragment"
+            app:destination="@id/updateDiscFragment" />
+        <argument
+            android:name="idAdded"
+            app:argType="long"
+            android:defaultValue="-1L" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/interFragment"
+        android:name="com.diego.discoteca.ui.interaction.InteractionFragment"
+        android:label="@string/interaction"
+        tools:layout="@layout/fragment_interaction">
+
+        <action
+            android:id="@+id/action_interFragment_to_discFragment"
+            app:destination="@id/discFragment"
+            app:popUpTo="@id/discFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.diego.discoteca.ui.information.InformationFragment"
+        android:label="@string/information"
+        tools:layout="@layout/fragment_information">
+
+        <action
+            android:id="@+id/action_infoFragment_to_scanBarcodeFragment"
+            app:destination="@id/scanBarcodeFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/discDetailFragment"
+        android:name="com.diego.discoteca.ui.discDetail.DiscDetailFragment"
+        android:label="@string/detail"
+        tools:layout="@layout/fragment_disc_detail">
+
+        <argument
+            android:name="discId"
+            app:argType="long" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/addDiscFragment"
+        android:name="com.diego.discoteca.ui.addDisc.AddDiscFragment"
+        android:label="@string/manually"
+        tools:layout="@layout/fragment_add_disc">
+
+        <action
+            android:id="@+id/action_addDiscFragment_to_discFragment"
+            app:destination="@id/discFragment"
+            app:popUpTo="@id/discFragment"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_addDiscFragment_to_discResultScanFragment"
+            app:destination="@id/discResultScanFragment"
+            app:popUpTo="@id/discFragment" />
+
+        <action
+            android:id="@+id/action_addDiscFragment_to_discResultSearchFragment"
+            app:destination="@id/discResultSearchFragment" />
+
+        <action
+            android:id="@+id/action_addDiscFragment_to_discPresentFragment"
+            app:destination="@id/discPresentFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/scanBarcodeFragment"
+        android:name="com.diego.discoteca.ui.scan.ScanBarcodeFragment"
+        android:label="@string/scan"
+        tools:layout="@layout/fragment_scan_barcode">
+
+        <action
+            android:id="@+id/action_scanBarcodeFragment_to_discResultScanFragment"
+            app:destination="@id/discResultScanFragment"
+            app:popUpTo="@id/scanBarcodeFragment"
+            app:popUpToInclusive="true" />
+
+        <argument
+            android:name="code"
+            app:argType="string" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/updateDiscFragment"
+        android:name="com.diego.discoteca.ui.updateDisc.UpdateDiscFragment"
+        android:label="@string/modify"
+        tools:layout="@layout/fragment_update_disc">
+
+        <argument
+            android:name="discId"
+            app:argType="long" />
+
+        <action
+            android:id="@+id/action_updateDiscFragment_to_discFragment"
+            app:destination="@id/discFragment"
+            app:popUpTo="@id/discFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/discResultScanFragment"
+        android:name="com.diego.discoteca.ui.discResultScan.DiscResultScanFragment"
+        android:label=""
+        tools:layout="@layout/fragment_disc_result_scan">
+
+        <argument
+            android:name="discResultScan"
+            app:argType="com.diego.discoteca.model.DiscResultScan" />
+
+        <action
+            android:id="@+id/action_discResultScanFragment_to_discResultDetailFragment"
+            app:destination="@id/discResultDetailFragment" />
+
+        <action
+            android:id="@+id/action_discResultScanFragment_to_discFragment"
+            app:destination="@id/discFragment"
+            app:popUpTo="@id/discFragment"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_discResultScanFragment_to_discDetailFragment"
+            app:destination="@id/discDetailFragment" />
+
+        <action
+            android:id="@+id/action_discResultScanFragment_to_infoFragment"
+            app:destination="@id/infoFragment"
+            app:popUpTo="@id/discFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/discResultDetailFragment"
+        android:name="com.diego.discoteca.ui.discResultDetail.DiscResultDetailFragment"
+        android:label="@string/detail"
+        tools:layout="@layout/fragment_disc_result_detail">
+
+        <argument
+            android:name="discResultDetail"
+            app:argType="com.diego.discoteca.model.DiscResultDetail" />
+
+        <action
+            android:id="@+id/action_discResultDetailFragment_to_discFragment"
+            app:destination="@id/discFragment"
+            app:popUpTo="@id/discFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/discResultSearchFragment"
+        android:name="com.diego.discoteca.ui.discResultSearch.DiscResultSearchFragment"
+        android:label=""
+        tools:layout="@layout/fragment_disc_result_search">
+
+        <argument
+            android:name="discPresent"
+            app:argType="com.diego.discoteca.model.DiscPresent" />
+
+        <action
+            android:id="@+id/action_discResultSearchFragment_to_discResultDetailFragment"
+            app:destination="@id/discResultDetailFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/discPresentFragment"
+        android:name="com.diego.discoteca.ui.discPresent.DiscPresentFragment"
+        android:label=""
+        tools:layout="@layout/fragment_disc_present">
+
+        <argument
+            android:name="discPresent"
+            app:argType="com.diego.discoteca.model.DiscPresent" />
+
+        <action
+            android:id="@+id/action_discPresentFragment_to_discFragment"
+            app:destination="@id/discFragment"
+            app:popUpTo="@id/discFragment"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_discPresentFragment_to_discDetailFragment"
+            app:destination="@id/discDetailFragment" />
+
+        <action
+            android:id="@+id/action_discPresentFragment_to_discPresentDetailFragment"
+            app:destination="@id/discPresentDetailFragment" />
+
+        <action
+            android:id="@+id/action_discPresentFragment_to_discResultSearchFragment"
+            app:destination="@id/discResultSearchFragment"
+            app:popUpTo="@id/discPresentFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/discPresentDetailFragment"
+        android:name="com.diego.discoteca.ui.discPresentDetail.DiscPresentDetailFragment"
+        android:label="@string/detail"
+        tools:layout="@layout/fragment_disc_present_detail">
+
+        <argument
+            android:name="discPresent"
+            app:argType="com.diego.discoteca.model.DiscPresent" />
+
+        <action
+            android:id="@+id/action_discPresentDetailFragment_to_discResultSearchFragment"
+            app:destination="@id/discResultSearchFragment"
+            app:popUpTo="@id/addDiscFragment" />
+
+    </fragment>
+
+</navigation>

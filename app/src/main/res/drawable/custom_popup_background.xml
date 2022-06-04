@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="?attr/background_card_color" />
+    <stroke
+        android:width="0.5dp"
+        android:color="@color/color_on_surface_emphasis_disabled" />
+    <corners android:radius="20dp" />
+    <padding
+        android:bottom="8dp"
+        android:top="8dp" />
+</shape>

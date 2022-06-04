@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="countFormatMedia"
+            type="com.diego.discoteca.model.CountFormatMedia" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/disc_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:textAppearance="@style/TextAppearance.Discoteca.Headline6"
+            app:layout_constraintEnd_toStartOf="@+id/disc_count_format_media"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@{countFormatMedia.countMedia}"
+            tools:text="@string/disc_count_example" />
+
+        <TextView
+            android:id="@+id/disc_count_format_media"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Discoteca.Headline6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/disc_count"
+            app:layout_constraintTop_toTopOf="parent"
+            app:countFormatMedia="@{countFormatMedia.formatMedia}"
+            tools:text="@string/disc_count_media_example" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="informationViewModel"
+            type="com.diego.discoteca.ui.information.InformationViewModel" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="64dp"
+        android:transitionGroup="true"
+        app:cardBackgroundColor="?attr/background_card_color"
+        app:cardCornerRadius="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".information.InformationViewModel">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_search_scan_database"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:onClick="@{() -> informationViewModel.onButtonSearchScanClicked()}"
+                android:text="@string/search_discoteca_scan_barcode"
+                android:textAppearance="@style/TextAppearance.Discoteca.Button"
+                android:visibility="@{informationViewModel.isEmptyDatabase() ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/icon_catalog"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="32dp"
+                android:contentDescription="@string/img_catalog"
+                android:src="@drawable/ic_album"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_search_scan_database"
+                app:tint="?android:attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/nb_disc_total"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="center_horizontal"
+                android:textAppearance="@style/TextAppearance.Discoteca.Headline6"
+                app:countDiscs="@{informationViewModel.countDiscs}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/icon_catalog"
+                tools:text="@string/nb_disc_discoteca_example" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_list_format_media"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toTopOf="@+id/my_version"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nb_disc_total" />
+
+            <TextView
+                android:id="@+id/my_version"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="@string/app_version"
+                android:textAppearance="@style/TextAppearance.Discoteca.Overline"
+                android:textColor="@color/color_on_surface_emphasis_medium"
+                app:layout_constraintBaseline_toBaselineOf="@+id/app_version"
+                app:layout_constraintEnd_toStartOf="@+id/app_version"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/app_version"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginBottom="16dp"
+                android:text="@{informationViewModel.numberVersion}"
+                android:textAppearance="@style/TextAppearance.Discoteca.Overline"
+                android:textColor="@color/color_on_surface_emphasis_medium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/my_version"
+                tools:text="1.O.1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

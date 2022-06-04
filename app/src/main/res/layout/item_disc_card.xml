@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="disc"
+            type="com.diego.discoteca.domain.Disc" />
+
+        <variable
+            name="listener"
+            type="com.diego.discoteca.adapter.DiscAdapter.DiscListener" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="@{(view) -> listener.onDiscClicked(view, disc)}"
+        android:transitionName="@{@string/disc_card_transition_name(disc.id)}"
+        app:cardBackgroundColor="?attr/background_card_color"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:strokeColor="@color/color_stroke_card"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:id="@+id/card_info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/disc_icon"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/img_disc"
+                app:discCoverImage="@{disc}"
+                tools:src="@drawable/ic_disc_outline_error" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="8dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:id="@+id/disc_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="8dp"
+                    android:singleLine="true"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    app:discName="@{disc}"
+                    tools:text="@string/disc_name" />
+
+                <TextView
+                    android:id="@+id/disc_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="8dp"
+                    android:singleLine="true"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    android:textColor="@color/color_on_surface_emphasis_medium"
+                    app:discTitle="@{disc}"
+                    tools:text="@string/disc_title" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/disc_country_year"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textColor="@color/color_on_surface_emphasis_medium"
+                        app:discCountryYear="@{disc}"
+                        app:layout_constraintBottom_toBottomOf="@+id/img_overflow_menu"
+                        app:layout_constraintEnd_toStartOf="@+id/img_overflow_menu"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="@string/disc_country_year_example" />
+
+                    <ImageView
+                        android:id="@+id/img_overflow_menu"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/a_menu"
+                        android:onClick="@{(view) -> listener.onPopupMenuClicked(view,disc)}"
+                        android:src="@drawable/ic_more_vert"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/color_on_surface_emphasis_medium">
+
+                    </ImageView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

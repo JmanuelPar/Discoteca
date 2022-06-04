@@ -1,0 +1,54 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext {
+        kotlinVersion = '1.6.21'
+        navigationVersion = '2.4.2'
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext {
+    activityVersion = '1.4.0'
+    appCompatVersion = '1.4.2'
+    cameraxVersion = '1.0.2'
+    constraintLayoutVersion = '2.1.4'
+    coroutinesVersion = '1.6.1-native-mt'
+    dataStoreVersion = '1.0.0'
+    fragmentVersion = '1.4.1'
+    glideVersion = '4.13.2'
+    googleApiClientVersion = '1.34.1'
+    googleApiServicesDriveVersion = 'v3-rev20220508-1.32.1'
+    ktxVersion = '1.8.0'
+    lifecycleExtensionsVersion = '2.2.0'
+    lifecycleVersion = '2.4.1'
+    materialVersion = '1.6.1'
+    mlkitVersion = '17.0.2'
+    moshiVersion = '1.13.0'
+    moshiConverterVersion = '2.9.0'
+    okhttpLoggingInterceptorVersion = '4.9.3'
+    pagingVersion = '3.1.1'
+    playServiceVersion = '20.2.0'
+    preferencesVersion = '1.2.0'
+    recyclerViewVersion = '1.2.1'
+    reflectVersion = '1.6.21'
+    retrofitVersion = '2.9.0'
+    roomVersion = '2.4.2'
+    splashscreenVersion = '1.0.0-rc01'
+    timberVersion = '5.0.1'
+    zoneDateTimeVersion = '1.1.5'
+}

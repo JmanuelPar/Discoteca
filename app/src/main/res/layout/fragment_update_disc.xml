@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="updateDiscViewModel"
+            type="com.diego.discoteca.ui.updateDisc.UpdateDiscViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:transitionGroup="true"
+        app:cardBackgroundColor="?attr/background_card_color"
+        app:cardCornerRadius="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".updateDisc.UpdateDiscViewModel">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/it_disc_artist"
+                style="@style/IconEnd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/artist_group_name_hint"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                app:discNameTextHelper="@{updateDiscViewModel.disc}"
+                app:errorEnabled="@{updateDiscViewModel.isVisibleEmDiscArt()}"
+                app:errorText="@{updateDiscViewModel.errorMessageDiscArtist}"
+                app:helperTextTextColor="?colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_disc_artist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:afterTextChanged="@{(editable) -> updateDiscViewModel.setDiscArtist(editable)}"
+                    android:inputType="text"
+                    android:maxLength="64"
+                    app:discName="@{updateDiscViewModel.disc}"
+                    tools:ignore="TextContrastCheck" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/it_disc_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/disc_title_hint"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                app:discTitleTextHelper="@{updateDiscViewModel.disc}"
+                app:errorEnabled="@{updateDiscViewModel.isVisibleEmDiscTitle()}"
+                app:errorText="@{updateDiscViewModel.errorMessageDiscTitle}"
+                app:helperTextTextColor="?colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/it_disc_artist">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_disc_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:afterTextChanged="@{(editable) -> updateDiscViewModel.setDiscTitle(editable)}"
+                    android:inputType="text"
+                    android:maxLength="64"
+                    app:discTitle="@{updateDiscViewModel.disc}"
+                    tools:ignore="TextContrastCheck" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/it_disc_year"
+                style="@style/IconEnd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/disc_year_release_hint"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                app:discYearTextHelper="@{updateDiscViewModel.disc}"
+                app:errorEnabled="@{updateDiscViewModel.isVisibleEmDiscYear()}"
+                app:errorText="@{updateDiscViewModel.errorMessageDiscYear}"
+                app:helperTextTextColor="?colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/it_disc_title">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_disc_year"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:afterTextChanged="@{(editable) -> updateDiscViewModel.setDiscYear(editable)}"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    app:discYearEditText="@{updateDiscViewModel.disc}"
+                    tools:ignore="TextContrastCheck" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:onClick="@{() -> updateDiscViewModel.updateButtonClicked()}"
+                android:text="@string/modify"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

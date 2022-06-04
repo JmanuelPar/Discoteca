@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="discResultDetailViewModel"
+            type="com.diego.discoteca.ui.discResultDetail.DiscResultDetailViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/disc_result_list_detail_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:transitionName="@string/disc_detail_card_transition_name"
+        app:cardBackgroundColor="?attr/background_card_color"
+        app:cardCornerRadius="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".discResultDetail.DiscResultDetailViewModel">
+
+            <TextView
+                android:id="@+id/tv_disc_present"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center_horizontal"
+                android:paddingBottom="8dp"
+                android:textAppearance="@style/TextAppearance.Discoteca.Body1"
+                android:textColor="@color/color_on_surface_emphasis_medium"
+                app:discPresent="@{discResultDetailViewModel.discResultDetail.disc}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/disc_present_scan" />
+
+            <LinearLayout
+                android:id="@+id/layout_disc_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/custom_linear_background"
+                android:orientation="vertical"
+                app:discLightVisibility="@{discResultDetailViewModel.discResultDetail}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_disc_present"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tv_disc_light_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
+                    app:discLightName="@{discResultDetailViewModel.discResultDetail.disc.discLight}"
+                    tools:text="@string/disc_name" />
+
+                <TextView
+                    android:id="@+id/tv_disc_light_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
+                    app:discLightTitle="@{discResultDetailViewModel.discResultDetail.disc.discLight}"
+                    tools:text="@string/disc_title" />
+
+                <TextView
+                    android:id="@+id/tv_disc_light_country_year"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
+                    app:discLightCountryYear="@{discResultDetailViewModel.discResultDetail.disc.discLight}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/disc_title"
+                    tools:text="@string/disc_country_year_example" />
+
+                <TextView
+                    android:id="@+id/tv_disc_light_format_media"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/TextAppearance.Discoteca.Caption"
+                    app:discLightFormatMedia="@{discResultDetailViewModel.discResultDetail.disc.discLight}"
+                    tools:text="@string/disc_format_media_example" />
+
+                <TextView
+                    android:id="@+id/tv_disc_light_format"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/TextAppearance.Discoteca.Caption"
+                    app:discLightFormat="@{discResultDetailViewModel.discResultDetail.disc}"
+                    tools:text="@string/disc_format" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_answer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center_horizontal"
+                android:paddingBottom="8dp"
+                android:textAppearance="@style/TextAppearance.Discoteca.Body1"
+                app:discResultDetailAnswer="@{discResultDetailViewModel.discResultDetail}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_disc_light"
+                tools:text="@string/a_answer"
+                tools:visibility="visible" />
+
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:scrollbarSize="1.5dp"
+                android:scrollbarThumbVertical="@color/color_on_surface_emphasis_disabled"
+                android:scrollbars="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/button_no"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_answer">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/disc_result_cover_image"
+                        android:layout_width="180dp"
+                        android:layout_height="180dp"
+                        android:contentDescription="@string/img_disc"
+                        app:discCoverImage="@{discResultDetailViewModel.discResultDetail.disc}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/ic_disc_outline_error" />
+
+                    <TextView
+                        android:id="@+id/tv_disc_result_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="@style/TextAppearance.Discoteca.Headline5"
+                        app:discName="@{discResultDetailViewModel.discResultDetail.disc}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/disc_result_cover_image"
+                        tools:text="@string/artist_group_name" />
+
+                    <TextView
+                        android:id="@+id/tv_disc_result_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="@style/TextAppearance.Discoteca.Headline6"
+                        app:discTitle="@{discResultDetailViewModel.discResultDetail.disc}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_disc_result_name"
+                        tools:ignore="TextContrastCheck"
+                        tools:text="@string/disc_title" />
+
+                    <TextView
+                        android:id="@+id/tv_disc_result_country_year"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center_horizontal"
+                        android:paddingBottom="16dp"
+                        android:textAppearance="@style/TextAppearance.Discoteca.Headline6"
+                        app:discCountryYear="@{discResultDetailViewModel.discResultDetail.disc}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_disc_result_title"
+                        tools:ignore="TextContrastCheck"
+                        tools:text="@string/disc_country_year_example" />
+
+                    <TextView
+                        android:id="@+id/tv_disc_result_format_media"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
+                        app:discDetailFormatMedia="@{discResultDetailViewModel.discResultDetail.disc}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_disc_result_country_year"
+                        tools:ignore="TextContrastCheck"
+                        tools:text="@string/disc_format_media_example" />
+
+                    <TextView
+                        android:id="@+id/tv_disc_result_format"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
+                        app:discFormat="@{discResultDetailViewModel.discResultDetail.disc}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_disc_result_format_media"
+                        tools:text="@string/disc_format" />
+
+                    <TextView
+                        android:id="@+id/tv_barcode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
+                        app:tvBarcode="@{discResultDetailViewModel.discResultDetail}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_disc_result_format" />
+
+                    <TextView
+                        android:id="@+id/tv_disc_result_barcode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
+                        android:textColor="@color/color_on_surface_emphasis_medium"
+                        app:discBarcodeDetail="@{discResultDetailViewModel.discResultDetail}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_barcode"
+                        tools:text="@string/disc_barcode" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </ScrollView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:onClick="@{() -> discResultDetailViewModel.onButtonYesClicked()}"
+                app:buttonYesResultDetail="@{discResultDetailViewModel.discResultDetail}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button_no"
+                tools:text="@string/update" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:onClick="@{() -> discResultDetailViewModel.onButtonNoClicked()}"
+                app:buttonNoResultDetail="@{discResultDetailViewModel.discResultDetail}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/button_yes"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="@string/cancel" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>
