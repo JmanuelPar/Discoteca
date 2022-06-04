@@ -15,6 +15,7 @@ Lifecycle-aware components<br/>
 Material design<br/>
 Mlkit barcode scanning<br/>
 Moshi<br/>
+MVVM
 Navigation<br/>
 Paging 3<br/>
 RecyclerView<br/>
