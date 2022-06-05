@@ -31,9 +31,9 @@ The purpose of the app is to be able to constitute, visualize and record its col
 
 --- General principle --- <br/>
 A musical media can have a barcode <br/>
-Three ways to record your music media : <br/>
+Three ways to record your music media in app : <br/>
 * Read barcode with in-app reader -> Discogs Api -> result -> save in app
-* Do a search with media info -> Discogs -> result -> save in app
-* Add the media directly to the application with its info
+* Do a search with media infos filled by the user -> Discogs -> result -> save in app
+* Add the media directly to the application with its info filled by the user
 
 Thanks you !
