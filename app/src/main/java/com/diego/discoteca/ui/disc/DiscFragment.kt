@@ -47,7 +47,7 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
     private lateinit var mRvListDiscs: RecyclerView
     private lateinit var myLayoutManager: GridLayoutManager
     private lateinit var discAdapter: DiscAdapter
-   private lateinit var searchView: SearchView
+    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

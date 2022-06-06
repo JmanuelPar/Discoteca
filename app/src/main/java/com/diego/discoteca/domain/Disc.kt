@@ -126,6 +126,7 @@ data class Disc(
                 "\n title : $title" +
                 "\n year : $year" +
                 "\n country : $country" +
+                "\n format : $format" +
                 "\n formatMedia : $formatMedia" +
                 "\n barcode : $barcode" +
                 "\n addBy : $addBy" +
