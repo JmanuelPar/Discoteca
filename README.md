@@ -2,7 +2,7 @@
 
 Hello !
 
-A project to put into practice different concepts of the Android Architecture Components / Android Jetpack and other API / libraries, written in Kotlin :
+A project to put into practice different concepts of the Android Architecture Components / Android Jetpack and other API / libraries. Project developed in Kotlin :
 
 CameraX<br/>
 DataStore<br/>
