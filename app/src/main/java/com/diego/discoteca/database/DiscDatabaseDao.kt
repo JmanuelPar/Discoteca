@@ -69,8 +69,7 @@ interface DiscDatabaseDao {
         "SELECT * FROM disc_table " +
                 "WHERE (nameNormalize LIKE '%' || :name || '%' OR titleNormalize LIKE '%' || :title || '%') " +
                 "AND year = :year " +
-                "AND addBy = 1 " +
-                "ORDER BY nameNormalize ASC"
+                "AND addBy = 1 "
     )
     suspend fun getDiscDbManually(
         name: String,
@@ -84,8 +83,7 @@ interface DiscDatabaseDao {
                 "AND title = :title " +
                 "AND year = :year " +
                 "AND idDisc = :idDisc " +
-                "AND addBy = 3 " +
-                "ORDER BY lower(name) ASC"
+                "AND addBy = 3 "
     )
     suspend fun getDiscDbSearch(
         idDisc: Int,
