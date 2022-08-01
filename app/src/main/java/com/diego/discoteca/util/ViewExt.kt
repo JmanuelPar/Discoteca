@@ -91,7 +91,7 @@ fun View.showSnackBar(message: String, anchorView: View) {
     MySnackBar.make(
         this,
         message,
-        MySnackBar.LENGTH_INDEFINITE
+        MySnackBar.LENGTH_SHORT
     )
         .setAnchorView(anchorView)
         .show()
@@ -101,9 +101,8 @@ fun View.showSnackBarNoAnchor(message: String) {
     MySnackBar.make(
         this,
         message,
-        MySnackBar.LENGTH_INDEFINITE
-    )
-        .show()
+        MySnackBar.LENGTH_SHORT
+    ).show()
 }
 
 /**

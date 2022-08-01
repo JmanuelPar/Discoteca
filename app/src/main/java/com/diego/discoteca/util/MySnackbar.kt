@@ -59,9 +59,6 @@ class MySnackBar private constructor(
             val mySnackBar = MySnackBar(parent, content, animationCallback2)
             mySnackBar.duration = duration
             binding.snackBarText.text = text
-            binding.snackBarAction.setOnClickListener {
-                mySnackBar.dismiss()
-            }
 
             return mySnackBar
         }
