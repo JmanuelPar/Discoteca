@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.diego.discoteca.R
 import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.MyApp
+import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.databinding.FragmentDiscPresentDetailBinding
 import com.diego.discoteca.model.DiscPresent
 import com.diego.discoteca.util.*
@@ -20,8 +20,8 @@ class DiscPresentDetailFragment : Fragment() {
     private val mDiscPresentDetailViewModel: DiscPresentDetailViewModel by viewModels {
         val arguments = DiscPresentDetailFragmentArgs.fromBundle(requireArguments())
         DiscPresentDetailViewModelFactory(
-            MyApp.instance.repository,
-            arguments.discPresent
+            repository = (requireContext().applicationContext as DiscotecaApplication).repository,
+            discPresent = arguments.discPresent
         )
     }
 

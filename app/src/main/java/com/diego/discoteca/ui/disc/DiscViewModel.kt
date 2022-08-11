@@ -1,11 +1,10 @@
 package com.diego.discoteca.ui.disc
 
 import androidx.lifecycle.*
-import com.diego.discoteca.R
-import com.diego.discoteca.activity.MyApp
 import com.diego.discoteca.data.*
 import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.repository.DiscRepository
+import com.diego.discoteca.util.UIText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -14,7 +13,7 @@ import kotlinx.coroutines.launch
 class DiscViewModel(
     private val repository: DiscRepository,
     private val preferencesManager: PreferencesManager,
-    snackBarMessage: String,
+    uiText: UIText?,
     private val idAdded: Long
 ) : ViewModel() {
 
@@ -75,13 +74,13 @@ class DiscViewModel(
     val navigateToUpdateDisc: LiveData<Long?>
         get() = _navigateToUpdateDisc
 
-    private val _showSnackBar = MutableLiveData<String?>()
-    val showSnackBar: LiveData<String?>
+    private val _showSnackBar = MutableLiveData<UIText?>()
+    val showSnackBar: LiveData<UIText?>
         get() = _showSnackBar
 
     init {
         onId(idAdded)
-        onShowSnackBar(snackBarMessage)
+        onShowSnackBar(uiText)
     }
 
     fun onSortOrderSelected(sortOrder: SortOrder) {
@@ -135,7 +134,7 @@ class DiscViewModel(
     fun yesDeleteDiscClicked(discId: Long) {
         viewModelScope.launch {
             deleteDisc(discId)
-            onShowSnackBar(MyApp.res.getString(R.string.disc_deleted))
+            onShowSnackBar(UIText.DiscDeleted)
         }
     }
 
@@ -151,8 +150,8 @@ class DiscViewModel(
         repository.deleteById(discId)
     }
 
-    private fun onShowSnackBar(snackBarMessage: String) {
-        _showSnackBar.value = snackBarMessage
+    private fun onShowSnackBar(uiText: UIText?) {
+        _showSnackBar.value = uiText
     }
 
     fun onShowSnackBarDone() {

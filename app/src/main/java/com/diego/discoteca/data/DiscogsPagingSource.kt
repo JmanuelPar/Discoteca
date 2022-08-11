@@ -3,11 +3,12 @@ package com.diego.discoteca.data
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.diego.discoteca.BuildConfig
-import com.diego.discoteca.activity.MyApp
+import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.database.asDomainModel
 import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.*
 import com.diego.discoteca.network.DiscogsApiService
+import com.diego.discoteca.repository.DiscRepository
 import com.diego.discoteca.repository.DiscogsRepository.Companion.NETWORK_DISCOGS_PAGE_SIZE
 import com.diego.discoteca.util.*
 import retrofit2.HttpException
@@ -17,6 +18,7 @@ private const val DISCOGS_STARTING_PAGE_INDEX = 0
 
 class DiscogsPagingSourceSearchBarcode(
     private val service: DiscogsApiService,
+    private val repository: DiscRepository,
     private val barcode: String
 ) : PagingSource<Int, Disc>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Disc> {
@@ -46,7 +48,7 @@ class DiscogsPagingSourceSearchBarcode(
 
             /* Get list of disc in database with barcode scanned by the user,
             added by scan (none, one or more) */
-            val repository = MyApp.instance.repository
+           // val repository = DiscotecaApplication.instance.repository
             val listDbScan = repository.getListDiscDbScan(barcode)
 
             val listApi = response.results?.asDomainModel(barcode)?.sortedBy {

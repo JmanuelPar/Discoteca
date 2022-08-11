@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.diego.discoteca.R
 import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.MyApp
+import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.databinding.FragmentInteractionBinding
 import com.diego.discoteca.util.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -46,6 +46,17 @@ import java.util.*
  * https://developers.google.com/drive/api/v3/quickstart/java
  * https://developers.google.com/drive/api/v3/reference
  */
+
+enum class InteractionCode {
+    EXISTS_BACK_UP,
+    NOT_EXISTS_BACK_UP,
+    NOT_EXISTS_BACK_UP_ERROR,
+    NOT_EXISTS_RESTORATION,
+    NOT_EXISTS_RESTORATION_ERROR,
+    BACK_UP,
+    RESTORATION
+}
+
 class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
 
     // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...)
@@ -62,7 +73,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
     private lateinit var binding: FragmentInteractionBinding
 
     private val mInteractionViewModel: InteractionViewModel by viewModels {
-        InteractionViewModelFactory(MyApp.instance.repository)
+        InteractionViewModelFactory((requireContext().applicationContext as DiscotecaApplication).repository)
     }
 
     private val callbackOnBackPressed = object : OnBackPressedCallback(false) {
@@ -123,7 +134,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
             else showDialogTitleAction(
                 getString(R.string.no_connect_message)
             ) {
-                goToDiscFragment(NO_DISPLAY)
+                goToDiscFragment(UIText.NoDisplay)
             }
         }
 
@@ -144,8 +155,8 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
         mInteractionViewModel.iconGDriveUploadClicked.observe(viewLifecycleOwner) {
             if (it == true) {
                 showDialogMessageAction(
-                    getString(R.string.answer_back_up),
-                    getString(R.string.back_up)
+                    message = getString(R.string.answer_back_up),
+                    positiveButton = getString(R.string.back_up)
                 ) {
                     uploadDatabaseToGDrive()
                 }
@@ -156,8 +167,8 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
         mInteractionViewModel.iconGDriveDownloadClicked.observe(viewLifecycleOwner) {
             if (it == true) {
                 showDialogMessageAction(
-                    getString(R.string.answer_restore),
-                    getString(R.string.restore)
+                    message = getString(R.string.answer_restore),
+                    positiveButton = getString(R.string.restore)
                 ) {
                     downloadDatabaseFromGDrive()
                 }
@@ -210,7 +221,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
             showDialogTitleAction(
                 getString(R.string.sign_in_unexpected_error)
             ) {
-                goToDiscFragment(NO_DISPLAY)
+                goToDiscFragment(UIText.NoDisplay)
             }
         }
     }
@@ -262,13 +273,17 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
 
             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
                 try {
-                    // Get id of folder MyDiscotecaDatabase in G Drive
+                    // Get id of folder MyDiscotecaDatabase in G Drive, Upload database ok
                     val folderId = createAndGetFolderId(googleDriveService)
 
                     startGDriveFileBackUpAndUpload(
-                        googleDriveService,
-                        folderId,
-                        File(MyApp.instance.getDatabasePath(DATABASE_NAME).absolutePath)
+                        googleDriveService = googleDriveService,
+                        folderId = folderId,
+                        fileDatabase = File(
+                            requireContext().getDatabasePath(
+                                DATABASE_NAME
+                            ).absolutePath
+                        )
                     )
 
                     withContext(Dispatchers.Main) {
@@ -277,7 +292,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
                             enabled = true
                         )
                         mInteractionViewModel.updateIconGDriveDownload(true)
-                        showSnackBar(getString(R.string.ok_back_up))
+                        showSnackBar(UIText.DatabaseBackUp)
                         updateScrimLayoutAndOnBackPressed(
                             display = false,
                             enabled = false
@@ -303,7 +318,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
                                 showDialogTitleAction(
                                     getString(R.string.no_connect_message)
                                 ) {
-                                    goToDiscFragment(NO_DISPLAY)
+                                    goToDiscFragment(UIText.NoDisplay)
                                 }
                             }
                             is UserRecoverableAuthIOException -> showDialogTitleAction(
@@ -352,8 +367,14 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
         // Get the number of discs present in database currently
         val numberDiscsDatabase = binding.discsInteractionMessage.text.toString()
 
-        val resultFileBackUp = getGDriveFileBackUp(googleDriveService, folderId)
-        val resultFileRestoration = getGDriveFileRestoration(googleDriveService, folderId)
+        val resultFileBackUp = getGDriveFileBackUp(
+            googleDriveService = googleDriveService,
+            folderId = folderId
+        )
+        val resultFileRestoration = getGDriveFileRestoration(
+            googleDriveService = googleDriveService,
+            folderId = folderId
+        )
 
         val fileMetadata = com.google.api.services.drive.model.File()
         val fileContent = FileContent("application/octet-stream", fileDatabase)
@@ -385,7 +406,10 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
             }
         }
         val backUpTimeFormat = "${getTimeFormat(backUpTime)}\n$numberDiscsDatabase"
-        val restorationTimeFormat = getRestorationTimeFormat(resultFileRestoration, EXISTS_BACK_UP)
+        val restorationTimeFormat = getRestorationTimeFormat(
+            resultFileRestoration = resultFileRestoration,
+            code = EXISTS_BACK_UP
+        )
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
             updateBackUpTime(backUpTimeFormat)
@@ -415,8 +439,8 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
 
                             // Check file back up database in G Drive
                             val resultFileBackUp = getGDriveFileBackUp(
-                                googleDriveService,
-                                folderId
+                                googleDriveService = googleDriveService,
+                                folderId = folderId
                             )
 
                             when {
@@ -424,7 +448,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
                                 resultFileBackUp.files.size > 0 -> {
                                     // Path of my database
                                     val fileDatabasePath = File(
-                                        MyApp.instance.getDatabasePath(DATABASE_NAME).absolutePath
+                                        requireContext().getDatabasePath(DATABASE_NAME).absolutePath
                                     )
                                     val fileBackUpId = resultFileBackUp.files[0].id
 
@@ -440,8 +464,8 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
 
                                     // File restoration in G Drive
                                     startGDriveFileRestorationAndCreate(
-                                        googleDriveService,
-                                        folderId
+                                        googleDriveService = googleDriveService,
+                                        folderId = folderId
                                     )
 
                                     withContext(Dispatchers.Main) {
@@ -453,7 +477,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
                                             display = false,
                                             enabled = false
                                         )
-                                        goToDiscFragment(getString(R.string.ok_restore))
+                                        goToDiscFragment(UIText.DatabaseRestored)
                                     }
                                 }
                                 else -> {
@@ -464,13 +488,13 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
 
                                     // Check file restoration in folder G Drive
                                     val resultFileRestoration = getGDriveFileRestoration(
-                                        googleDriveService,
-                                        folderId
+                                        googleDriveService = googleDriveService,
+                                        folderId = folderId
                                     )
 
                                     val restorationTimeFormat = getRestorationTimeFormat(
-                                        resultFileRestoration,
-                                        NOT_EXISTS_RESTORATION_ERROR
+                                        resultFileRestoration = resultFileRestoration,
+                                        code = NOT_EXISTS_RESTORATION_ERROR
                                     )
 
                                     withContext(Dispatchers.Main) {
@@ -480,7 +504,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
                                         )
                                         updateBackUpTime(backUpTimeFormat)
                                         updateRestorationTime(restorationTimeFormat)
-                                        showSnackBar(getString(R.string.nok_restore))
+                                        showSnackBar(UIText.DatabaseNotRestored)
                                         updateScrimLayoutAndOnBackPressed(
                                             display = false,
                                             enabled = false
@@ -503,7 +527,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
                                 )
                                 updateBackUpTime(backUpTimeFormat)
                                 updateRestorationTime(restorationTimeFormat)
-                                showSnackBar(getString(R.string.nok_restore))
+                                showSnackBar(UIText.DatabaseNotRestored)
                                 updateScrimLayoutAndOnBackPressed(
                                     display = false,
                                     enabled = false
@@ -529,7 +553,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
                                 showDialogTitleAction(
                                     getString(R.string.no_connect_message)
                                 ) {
-                                    goToDiscFragment(NO_DISPLAY)
+                                    goToDiscFragment(UIText.NoDisplay)
                                 }
                             }
                             is UserRecoverableAuthIOException -> showDialogTitleAction(
@@ -550,13 +574,19 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
         folderId: String
     ) {
         // File back up database present in G Drive
-        val resultFileBackUp = getGDriveFileBackUp(googleDriveService, folderId)
-        val resultFileRestoration = getGDriveFileRestoration(googleDriveService, folderId)
+        val resultFileBackUp = getGDriveFileBackUp(
+            googleDriveService = googleDriveService,
+            folderId = folderId
+        )
+        val resultFileRestoration = getGDriveFileRestoration(
+            googleDriveService = googleDriveService,
+            folderId = folderId
+        )
 
         // Get the number of discs of the last back up in G Drive
         val numberDiscsLastBackUp = getNumberDiscs(
-            resultFileBackUp.files[0].name,
-            BACK_UP
+            fileName = resultFileBackUp.files[0].name,
+            mode = BACK_UP
         )
         val fileMetadata = com.google.api.services.drive.model.File()
 
@@ -616,14 +646,14 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
 
                             // Check file back up database in folder G Drive
                             val resultFileBackUp = getGDriveFileBackUp(
-                                googleDriveService,
-                                folderId
+                                googleDriveService = googleDriveService,
+                                folderId = folderId
                             )
 
                             // Check file restoration in folder G Drive
                             val resultFileRestoration = getGDriveFileRestoration(
-                                googleDriveService,
-                                folderId
+                                googleDriveService = googleDriveService,
+                                folderId = folderId
                             )
 
                             when {
@@ -634,8 +664,8 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
                                        Get last back up time
                                        Get restoration time */
                                     val numberDiscsLastBackUp = getNumberDiscs(
-                                        resultFileBackUp.files[0].name,
-                                        BACK_UP
+                                        fileName = resultFileBackUp.files[0].name,
+                                        mode = BACK_UP
                                     )
                                     val backUpTime =
                                         resultFileBackUp.files[0].modifiedTime.toString()
@@ -643,8 +673,8 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
                                         "${getTimeFormat(backUpTime)}\n$numberDiscsLastBackUp"
 
                                     val restorationTimeFormat = getRestorationTimeFormat(
-                                        resultFileRestoration,
-                                        EXISTS_BACK_UP
+                                        resultFileRestoration = resultFileRestoration,
+                                        code = EXISTS_BACK_UP
                                     )
 
                                     withContext(Dispatchers.Main) {
@@ -665,8 +695,8 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
                                        Get restoration time */
                                     val backUpTimeFormat = getTimeFormat(NOT_EXISTS_BACK_UP_ERROR)
                                     val restorationTimeFormat = getRestorationTimeFormat(
-                                        resultFileRestoration,
-                                        NOT_EXISTS_RESTORATION_ERROR
+                                        resultFileRestoration = resultFileRestoration,
+                                        code = NOT_EXISTS_RESTORATION_ERROR
                                     )
 
                                     withContext(Dispatchers.Main) {
@@ -712,7 +742,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
                                 showDialogTitleAction(
                                     getString(R.string.no_connect_message)
                                 ) {
-                                    goToDiscFragment(NO_DISPLAY)
+                                    goToDiscFragment(UIText.NoDisplay)
                                 }
                             }
                             is UserRecoverableAuthIOException -> showDialogTitleAction(
@@ -780,8 +810,8 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
                    Get the number of the discs of the last restoration
                    Get last restoration time */
                 val numberDiscsLastRestoration = getNumberDiscs(
-                    resultFileRestoration.files[0].name,
-                    RESTORATION
+                    fileName = resultFileRestoration.files[0].name,
+                    mode = RESTORATION
                 )
                 val restorationTime = resultFileRestoration.files[0].modifiedTime.toString()
 
@@ -830,24 +860,24 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
         callbackOnBackPressed.isEnabled = enabled
     }
 
-    private fun showSnackBar(message: String) {
+    private fun showSnackBar(uiText: UIText) {
         (activity as MainActivity).showSnackBar(
-            message,
-            (activity as MainActivity).getBottomAppBar()
+            uiText = uiText,
+            anchorView = (activity as MainActivity).getBottomAppBar()
         )
     }
 
     private fun showDialogTitle(message: String) {
         requireContext().showDialogTitle(
-            getString(R.string.app_name),
-            message
+            title = getString(R.string.app_name),
+            message = message
         )
     }
 
     private fun showDialogTitleAction(message: String, action: () -> Unit) {
         requireContext().showDialogTitleAction(
-            getString(R.string.app_name),
-            message
+            title = getString(R.string.app_name),
+            message = message
         ) {
             action()
         }
@@ -866,10 +896,10 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
         }
     }
 
-    private fun goToDiscFragment(snackBarMessage: String) {
+    private fun goToDiscFragment(uiText: UIText) {
         (activity as MainActivity).navigateTo(
             InteractionFragmentDirections.actionInterFragmentToDiscFragment(
-                snackBarMessage = snackBarMessage,
+                uiText = uiText,
                 idAdded = -1L
             )
         )

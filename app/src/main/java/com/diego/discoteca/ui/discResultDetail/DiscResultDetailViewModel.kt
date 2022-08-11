@@ -1,13 +1,12 @@
 package com.diego.discoteca.ui.discResultDetail
 
 import androidx.lifecycle.*
-import com.diego.discoteca.R
-import com.diego.discoteca.activity.MyApp
 import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.DiscLight
 import com.diego.discoteca.model.DiscResultDetail
 import com.diego.discoteca.repository.DiscRepository
 import com.diego.discoteca.util.SCAN
+import com.diego.discoteca.util.UIText
 import kotlinx.coroutines.launch
 
 class DiscResultDetailViewModel(
@@ -21,8 +20,8 @@ class DiscResultDetailViewModel(
     val discResultDetail: LiveData<DiscResultDetail>
         get() = _discResultDetail
 
-    private val _navigateToDisc = MutableLiveData<Pair<String, Long>?>()
-    val navigateToDisc: LiveData<Pair<String, Long>?>
+    private val _navigateToDisc = MutableLiveData<Pair<UIText, Long>?>()
+    val navigateToDisc: LiveData<Pair<UIText, Long>?>
         get() = _navigateToDisc
 
     private val _navigatePopStack = MutableLiveData<Boolean>()
@@ -43,7 +42,7 @@ class DiscResultDetailViewModel(
                                 || discChosen.isPresentBySearch == true -> {
                             updateDisc(false)
                             onNavigateToDisc(
-                                snackBarMessage = MyApp.res.getString(R.string.disc_updated),
+                                uiText = UIText.DiscUpdated,
                                 id = discChosen.discLight!!.id
                             )
                         }
@@ -53,7 +52,7 @@ class DiscResultDetailViewModel(
                             // Button add -> add this disc in database, keep the barcode
                             val id = addDiscDatabase(false)
                             onNavigateToDisc(
-                                snackBarMessage = MyApp.res.getString(R.string.disc_added),
+                                uiText = UIText.DiscAdded,
                                 id = id
                             )
                         }
@@ -66,7 +65,7 @@ class DiscResultDetailViewModel(
                         discChosen.isPresentByManually == true -> {
                             updateDisc(true)
                             onNavigateToDisc(
-                                snackBarMessage = MyApp.res.getString(R.string.disc_updated),
+                                uiText = UIText.DiscUpdated,
                                 id = discChosen.discLight!!.id
                             )
                         }
@@ -77,7 +76,7 @@ class DiscResultDetailViewModel(
                             // Button add -> add this disc in database, don't keep the barcode
                             val id = addDiscDatabase(true)
                             onNavigateToDisc(
-                                snackBarMessage = MyApp.res.getString(R.string.disc_added),
+                                uiText = UIText.DiscAdded,
                                 id = id
                             )
                         }
@@ -91,8 +90,8 @@ class DiscResultDetailViewModel(
         onNavigatePopStack()
     }
 
-    private fun onNavigateToDisc(snackBarMessage: String, id: Long) {
-        _navigateToDisc.value = Pair(snackBarMessage, id)
+    private fun onNavigateToDisc(uiText: UIText, id: Long) {
+        _navigateToDisc.value = Pair(uiText, id)
     }
 
     fun onNavigateToDiscDone() {

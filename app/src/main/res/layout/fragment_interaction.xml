@@ -81,9 +81,9 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="16dp"
                     android:gravity="center_horizontal"
-                    android:text="@{interactionViewModel.tvLogIn}"
                     android:textAppearance="@style/TextAppearance.Discoteca.Body1"
                     android:textColor="?android:colorPrimary"
+                    app:getUIText="@{interactionViewModel.googleAccount}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/important_interaction_message"
@@ -171,11 +171,11 @@
                     android:contentDescription="@string/img_google_drive"
                     android:onClick="@{() -> interactionViewModel.iconGDriveUploadClicked()}"
                     android:src="@drawable/ic_drive"
-                    app:stateIcon="@{interactionViewModel.stateIconGDriveUpload}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/line_upload"
-                    app:numberDiscs="@{interactionViewModel.numberDiscs}" />
+                    app:numberDiscs="@{interactionViewModel.numberDiscs}"
+                    app:stateIcon="@{interactionViewModel.stateIconGDriveUpload}" />
 
                 <com.google.android.material.progressindicator.LinearProgressIndicator
                     android:id="@+id/progress_bar_linear_upload"

@@ -13,7 +13,10 @@ class DiscPresentDetailViewModelFactory(
     @Suppress("unchecked_cast")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DiscPresentDetailViewModel::class.java)) {
-            return DiscPresentDetailViewModel(repository, discPresent) as T
+            return DiscPresentDetailViewModel(
+                repository = repository,
+                discPresent = discPresent
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

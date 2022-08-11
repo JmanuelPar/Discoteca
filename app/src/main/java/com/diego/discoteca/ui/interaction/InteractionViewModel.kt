@@ -1,9 +1,8 @@
 package com.diego.discoteca.ui.interaction
 
 import androidx.lifecycle.*
-import com.diego.discoteca.R
-import com.diego.discoteca.activity.MyApp
 import com.diego.discoteca.repository.DiscRepository
+import com.diego.discoteca.util.UIText
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
 class InteractionViewModel(val repository: DiscRepository) : ViewModel() {
@@ -14,9 +13,9 @@ class InteractionViewModel(val repository: DiscRepository) : ViewModel() {
     val isSignIn: LiveData<Boolean>
         get() = _isSignIn
 
-    private val _tvLogIn = MutableLiveData<String?>()
-    val tvLogIn: LiveData<String?>
-        get() = _tvLogIn
+    private val _googleAccount = MutableLiveData<UIText?>()
+    val googleAccount: LiveData<UIText?>
+        get() = _googleAccount
 
     private val _driveLogOutClicked = MutableLiveData<Boolean>()
     val driveLogOutClicked: LiveData<Boolean>
@@ -75,7 +74,7 @@ class InteractionViewModel(val repository: DiscRepository) : ViewModel() {
         updateProgressLinearGDriveDownload(false)
     }
 
-    fun updateUI(account: GoogleSignInAccount?) {
+/*    fun updateUI(account: GoogleSignInAccount?) {
         when {
             account != null -> {
                 // Log in in Drive
@@ -88,16 +87,37 @@ class InteractionViewModel(val repository: DiscRepository) : ViewModel() {
             else -> {
                 // Not log in in Drive
                 displayAccount(
-                    MyApp.res.getString(R.string.sign_in_recommendation),
+                    DiscotecaApplication.res.getString(R.string.sign_in_recommendation),
                     false
+                )
+                updateIconGDriveAndTime()
+            }
+        }
+    }*/
+
+    fun updateUI(account: GoogleSignInAccount?) {
+        when {
+            account != null -> {
+                // Log in in Drive
+                displayAccount(
+                    text = UIText.AccountLogIn("${account.displayName}\n${account.email}"),
+                    visibility = true
+                )
+                updateIconGDriveUpload(true)
+            }
+            else -> {
+                // Not log in in Drive
+                displayAccount(
+                    text = UIText.AccountNotLogIn,
+                    visibility = false
                 )
                 updateIconGDriveAndTime()
             }
         }
     }
 
-    private fun displayAccount(text: String?, visibility: Boolean) {
-        _tvLogIn.value = text
+    private fun displayAccount(text: UIText, visibility: Boolean) {
+        _googleAccount.value = text
         _visibilitySignInButton.value = !visibility
         _visibilityDriveLogOutButton.value = visibility
         _visibilityDriveDisconnectButton.value = visibility

@@ -14,7 +14,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.diego.discoteca.activity.MyApp
+import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.R
 import com.diego.discoteca.activity.MainActivity
 import com.diego.discoteca.activity.dataStore
@@ -29,6 +29,7 @@ import com.google.android.material.transition.MaterialFade
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 class DiscFragment : Fragment(), DiscAdapter.DiscListener {
@@ -36,10 +37,10 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
     private val mDiscViewModel: DiscViewModel by viewModels {
         val arguments = DiscFragmentArgs.fromBundle(requireArguments())
         DiscViewModelFactory(
-            MyApp.instance.repository,
-            PreferencesManager(requireContext().dataStore),
-            arguments.snackBarMessage,
-            arguments.idAdded
+            repository = (requireContext().applicationContext as DiscotecaApplication).repository,
+            preferencesManager = PreferencesManager(requireContext().dataStore),
+            uiText = arguments.uiText,
+            idAdded = arguments.idAdded
         )
     }
 
@@ -91,7 +92,7 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         // List / Grid mode recyclerview
         mDiscViewModel.gridMode.observe(viewLifecycleOwner) { gridMode ->
             myLayoutManager.spanCount = if (gridMode) 2 else 1
-            delayedTransition(mRvListDiscs, MaterialFadeThrough())
+            delayedTransition(sceneRoot = mRvListDiscs, transition = MaterialFadeThrough())
             mRvListDiscs.adapter = discAdapter
             setBottomBarFab()
         }
@@ -100,8 +101,8 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         mDiscViewModel.buttonDeleteDisc.observe(viewLifecycleOwner) {
             it?.let { id ->
                 showDialogMessageAction(
-                    getString(R.string.answer_delete),
-                    getString(R.string.delete)
+                    message = getString(R.string.answer_delete),
+                    positiveButton = getString(R.string.delete)
                 ) {
                     mDiscViewModel.yesDeleteDiscClicked(id)
                 }
@@ -113,8 +114,8 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         mDiscViewModel.buttonUpdateDisc.observe(viewLifecycleOwner) {
             it?.let { id ->
                 showDialogMessageAction(
-                    getString(R.string.answer_modify),
-                    getString(R.string.modify)
+                    message = getString(R.string.answer_modify),
+                    positiveButton = getString(R.string.modify)
                 ) {
                     mDiscViewModel.yesUpdateDiscClicked(id)
                 }
@@ -135,9 +136,9 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
 
         // Show SnackBar
         mDiscViewModel.showSnackBar.observe(viewLifecycleOwner) {
-            it?.let { snackBarMessage ->
-                if (snackBarMessage != NO_DISPLAY) {
-                    showSnackBar(snackBarMessage)
+            it?.let { uiText ->
+                if (uiText != UIText.NoDisplay) {
+                    showSnackBar(uiText)
                 }
                 mDiscViewModel.onShowSnackBarDone()
             }
@@ -176,11 +177,11 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
     }
 
     override fun onDiscDeleteClicked(disc: Disc) {
-        mDiscViewModel.buttonDeleteDiscClicked(discId = disc.id)
+        mDiscViewModel.buttonDeleteDiscClicked(disc.id)
     }
 
     override fun onDiscUpdateClicked(disc: Disc) {
-        mDiscViewModel.buttonUpdateDiscClicked(discId = disc.id)
+        mDiscViewModel.buttonUpdateDiscClicked(disc.id)
     }
 
     override fun onPopupMenuClicked(view: View, disc: Disc) {
@@ -198,11 +199,11 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menu_delete -> {
-                    mDiscViewModel.buttonDeleteDiscClicked(discId = disc.id)
+                    mDiscViewModel.buttonDeleteDiscClicked(disc.id)
                     true
                 }
                 R.id.menu_modify -> {
-                    mDiscViewModel.buttonUpdateDiscClicked(discId = disc.id)
+                    mDiscViewModel.buttonUpdateDiscClicked(disc.id)
                     true
                 }
                 else -> false
@@ -308,7 +309,7 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
     private fun setRecyclerView() {
         mRvListDiscs = binding.rvListDiscs
         myLayoutManager = GridLayoutManager(mRvListDiscs.context, 1)
-        discAdapter = DiscAdapter(this, myLayoutManager)
+        discAdapter = DiscAdapter(listener = this, myLayoutManager =  myLayoutManager)
         mRvListDiscs.apply {
             adapter = discAdapter
             discAdapter.stateRestorationPolicy =
@@ -392,20 +393,16 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         }
     }
 
-    private fun showSnackBar(snackBarMessage: String) {
+    private fun showSnackBar(uiText: UIText) {
         val isSearch = mDiscViewModel.isSearch.value
         when {
-            isSearch != null && isSearch -> {
-                (activity as MainActivity).showSnackBarNoAnchor(
-                    snackBarMessage
-                )
-            }
-            else -> {
-                (activity as MainActivity).showSnackBar(
-                    snackBarMessage,
-                    (activity as MainActivity).getFabView()
-                )
-            }
+            isSearch != null && isSearch -> (activity as MainActivity).showSnackBarNoAnchor(
+                uiText
+            )
+            else -> (activity as MainActivity).showSnackBar(
+                uiText = uiText,
+                anchorView = (activity as MainActivity).getFabView()
+            )
         }
     }
 

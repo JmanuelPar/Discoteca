@@ -12,7 +12,10 @@ class DiscResultDetailViewModelFactory(
     @Suppress("unchecked_cast")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DiscResultDetailViewModel::class.java)) {
-            return DiscResultDetailViewModel(repository, discResultDetail) as T
+            return DiscResultDetailViewModel(
+                repository = repository,
+                discItem = discResultDetail
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

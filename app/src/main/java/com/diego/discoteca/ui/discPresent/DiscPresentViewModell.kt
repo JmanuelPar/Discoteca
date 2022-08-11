@@ -1,8 +1,6 @@
 package com.diego.discoteca.ui.discPresent
 
 import androidx.lifecycle.*
-import com.diego.discoteca.R
-import com.diego.discoteca.activity.MyApp
 import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.DiscPresent
 import com.diego.discoteca.repository.DiscRepository
@@ -39,8 +37,8 @@ class DiscPresentViewModel(
             }
         }.asLiveData()
 
-    private val _navigateToDisc = MutableLiveData<Pair<String, Long>?>()
-    val navigateToDisc: LiveData<Pair<String, Long>?>
+    private val _navigateToDisc = MutableLiveData<Pair<UIText, Long>?>()
+    val navigateToDisc: LiveData<Pair<UIText, Long>?>
         get() = _navigateToDisc
 
     private val _navigateToDiscResultSearch = MutableLiveData<DiscPresent?>()
@@ -71,7 +69,7 @@ class DiscPresentViewModel(
                 MANUALLY -> {
                     val id = addDiscDatabase()
                     onNavigateToDisc(
-                        snackBarMessage = MyApp.res.getString(R.string.disc_added),
+                        uiText = UIText.DiscAdded,
                         id = id
                     )
                 }
@@ -82,26 +80,26 @@ class DiscPresentViewModel(
 
     fun onButtonCancelClicked() {
         onNavigateToDisc(
-            snackBarMessage = getSnackBarMessage(),
+            uiText = getSnackBarMessage(),
             id = discItem.list[0].id
         )
     }
 
     fun onButtonOkClicked() {
         onNavigateToDisc(
-            snackBarMessage = getSnackBarMessage(),
+            uiText = getSnackBarMessage(),
             id = discItem.list[0].id
         )
     }
 
     private fun getSnackBarMessage() =
         when (discItem.list.size) {
-            1 -> MyApp.res.getString(R.string.disc_already_present_one)
-            else -> MyApp.res.getString(R.string.disc_already_present_more)
+            1 -> UIText.DiscAlreadyPresentOne
+            else -> UIText.DiscAlreadyPresentMore
         }
 
-    private fun onNavigateToDisc(snackBarMessage: String, id: Long) {
-        _navigateToDisc.value = Pair(snackBarMessage, id)
+    private fun onNavigateToDisc(uiText: UIText, id: Long) {
+        _navigateToDisc.value = Pair(uiText, id)
     }
 
     fun onNavigateToDiscDone() {

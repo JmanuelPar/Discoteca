@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.diego.discoteca.R
 import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.MyApp
+import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.databinding.FragmentDiscDetailBinding
 import com.diego.discoteca.util.themeColor
 import com.google.android.material.transition.MaterialContainerTransform
@@ -18,8 +18,8 @@ class DiscDetailFragment : Fragment() {
     private val mDiscDetailViewModel: DiscDetailViewModel by viewModels {
         val arguments = DiscDetailFragmentArgs.fromBundle(requireArguments())
         DiscDetailViewModelFactory(
-            MyApp.instance.repository,
-            arguments.discId
+            repository = (requireContext().applicationContext as DiscotecaApplication).repository,
+            discId = arguments.discId
         )
     }
 

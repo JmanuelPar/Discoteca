@@ -75,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="@{discResultScanViewModel.discScan.barcode}"
+                    android:text="@{discResultScanViewModel.discResultScan.barcode}"
                     android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
                     tools:text="@string/disc_barcode" />
 
@@ -87,7 +87,7 @@
                     android:gravity="center_horizontal"
                     android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
                     android:textColor="@color/color_on_surface_emphasis_medium"
-                    app:messageNoResultRecommendation="@{discResultScanViewModel.discScan}"
+                    app:messageNoResultRecommendation="@{discResultScanViewModel.discResultScan}"
                     tools:text="@string/disc_recommendation_api" />
 
             </LinearLayout>
@@ -111,8 +111,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="@{discResultScanViewModel.messageResult}"
                     android:textAppearance="@style/TextAppearance.Discoteca.Headline6"
+                    app:getUIText="@{discResultScanViewModel.totalResult}"
                     tools:text="@string/disc_api_barcode_example" />
 
                 <TextView
@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:paddingBottom="16dp"
-                    android:text="@{discResultScanViewModel.discScan.barcode}"
+                    android:text="@{discResultScanViewModel.discResultScan.barcode}"
                     android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
                     android:textColor="@color/color_on_surface_emphasis_medium"
                     tools:text="@string/disc_barcode" />
@@ -220,8 +220,8 @@
                     android:id="@+id/tv_error_result_recommendation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:gravity="center_horizontal"
                     android:text="@{discResultScanViewModel.messageError}"

@@ -54,8 +54,8 @@ class MainActivity : AppCompatActivity() {
                 goToScanBarcodeFragment()
             } else {
                 this.showDialogTitle(
-                    this.getString(R.string.permission_denied_title),
-                    this.getString(R.string.permission_camera_denied_message)
+                    title = this.getString(R.string.permission_denied_title),
+                    message = this.getString(R.string.permission_camera_denied_message)
                 )
             }
         }
@@ -210,22 +210,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun hideToolBar() {
-        mTransitionDelayed(toolbar, 84L)
+        mTransitionDelayed(sceneRoot = toolbar, mDuration = 84L)
         supportActionBar?.hide()
     }
 
     private fun showToolBar() {
-        mTransitionDelayed(toolbar, 150L)
+        mTransitionDelayed(sceneRoot = toolbar, mDuration = 150L)
         supportActionBar?.show()
     }
 
     private fun hideNoInternet() {
-        mTransitionDelayed(layoutNoInternet, 84L)
+        mTransitionDelayed(sceneRoot = layoutNoInternet, mDuration = 84L)
         layoutNoInternet.visibility = View.GONE
     }
 
     private fun showNoInternet() {
-        mTransitionDelayed(layoutNoInternet, 150L)
+        mTransitionDelayed(sceneRoot = layoutNoInternet, mDuration = 150L)
         layoutNoInternet.visibility = View.VISIBLE
     }
 
@@ -294,7 +294,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         expandedButton = true
-        mTransitionDelayed(binding.menuCardView, 150L)
+        mTransitionDelayed(sceneRoot = binding.menuCardView, mDuration = 150L)
         binding.menuCardView.visibility = View.VISIBLE
     }
 
@@ -303,7 +303,7 @@ class MainActivity : AppCompatActivity() {
         showBottomBar()
         binding.menuCardScrim.visibility = View.GONE
         expandedButton = false
-        mTransitionDelayed(binding.menuCardView, 54L)
+        mTransitionDelayed(sceneRoot = binding.menuCardView, mDuration = 54L)
         binding.menuCardView.visibility = View.INVISIBLE
         fabButton.show()
     }
@@ -395,16 +395,16 @@ class MainActivity : AppCompatActivity() {
         return fabButton
     }
 
-    fun showSnackBar(message: String, anchorView: View) {
+    fun showSnackBar(uiText: UIText, anchorView: View) {
         lifecycleScope.launch {
             showBottomBar()
             delay(300)
-            binding.root.showSnackBar(message, anchorView)
+            binding.root.showSnackBar(message = getMyUIText(uiText), anchorView = anchorView)
         }
     }
 
-    fun showSnackBarNoAnchor(message: String) {
-        binding.root.showSnackBarNoAnchor(message)
+    fun showSnackBarNoAnchor(uiText: UIText) {
+        binding.root.showSnackBarNoAnchor(message = this.getMyUIText(uiText))
     }
 
     fun showScrimLayout(display: Boolean) {

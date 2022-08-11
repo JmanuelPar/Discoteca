@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.diego.discoteca.R
 import com.diego.discoteca.R.color
-import com.diego.discoteca.activity.MyApp
 import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.DiscLight
 import com.diego.discoteca.model.DiscResultDetail
@@ -23,44 +22,37 @@ import com.google.android.material.textfield.TextInputLayout
 
 @BindingAdapter("discYearEditText")
 fun TextView.setDiscYearEditText(item: Disc?) {
-    item?.let {
-        text = item.year
-    }
+    item?.let { disc -> text = disc.year }
 }
 
 @BindingAdapter("discNameTextHelper")
 fun TextInputLayout.setDiscNameTextHelper(item: Disc?) {
-    item?.let {
-        helperText = item.name
-    }
+    item?.let { disc -> helperText = disc.name }
 }
 
 @BindingAdapter("discTitleTextHelper")
 fun TextInputLayout.setDiscTitleTextHelper(item: Disc?) {
-    item?.let {
-        helperText = item.title
-    }
+    item?.let { disc -> helperText = disc.title }
 }
 
 @BindingAdapter("discYearTextHelper")
 fun TextInputLayout.setDiscYearTextHelper(item: Disc?) {
-    item?.let {
-        helperText = item.year
-    }
+    item?.let { disc -> helperText = disc.year }
 }
 
 @BindingAdapter("errorText")
-fun TextInputLayout.setErrorText(message: String?) {
-    message?.let {
-        error = message
-    }
+fun TextInputLayout.setErrorText(uiText: UIText?) {
+    isErrorEnabled = uiText?.let {
+        error = context.getMyUIText(it)
+        true
+    } ?: false
 }
 
 @BindingAdapter("statusIcon")
 fun ImageView.setStatusIcon(item: Boolean) {
     setColorFilter(
-        if (item) MyApp.res.getColor(color.teal_200, null)
-        else MyApp.res.getColor(color.black, null)
+        ContextCompat.getColor(context, if (item) color.teal_200 else color.black),
+        android.graphics.PorterDuff.Mode.SRC_IN
     )
 }
 
@@ -118,14 +110,14 @@ fun ImageView.setStateIconGDriveDownload(enabled: Boolean) {
 fun TextView.setTextInterMessage(numberDiscs: Int, isSignIn: Boolean) {
     text = when {
         (numberDiscs > 0 && isSignIn) || (numberDiscs > 0 && !isSignIn) ->
-            MyApp.res.getQuantityString(
+            context.resources.getQuantityString(
                 R.plurals.plural_nb_disc_discoteca,
                 numberDiscs,
                 numberDiscs
             )
         numberDiscs == 0 && isSignIn ->
-            MyApp.res.getString(R.string.disc_interaction_message_empty_unable_to_restore)
-        else -> MyApp.res.getString(R.string.no_disc)
+            context.getString(R.string.disc_interaction_message_empty_unable_to_restore)
+        else -> context.getString(R.string.no_disc)
     }
 }
 
@@ -138,38 +130,37 @@ fun TextView.setGDriveTime(time: String, isSignIn: Boolean) {
 }
 
 @BindingAdapter("discArtistTitle")
-fun TextView.setDiscArtistTitle(disc: Disc?) {
-    disc?.let {
+fun TextView.setDiscArtistTitle(item: Disc?) {
+    item?.let { disc ->
         val artistTitle = "${disc.name} - ${disc.title}"
         text = artistTitle
     }
 }
 
 @BindingAdapter("discCountryYear")
-fun TextView.setDiscCountryYear(disc: Disc?) {
-    disc?.let {
+fun TextView.setDiscCountryYear(item: Disc?) {
+    item?.let { disc ->
         text = when {
-            disc.country.isEmpty() && disc.year.isEmpty() -> MyApp.res.getString(R.string.not_specified)
+            disc.country.isEmpty() && disc.year.isEmpty() -> context.getString(R.string.not_specified)
             disc.country.isEmpty() && disc.year.isNotEmpty() -> disc.year
             disc.country.isNotEmpty() && disc.year.isEmpty() ->
-                "${disc.country} - ${MyApp.res.getString(R.string.not_specified)}"
+                "${disc.country} - ${context.getString(R.string.not_specified)}"
             else -> "${disc.country} - ${disc.year}"
         }
     }
 }
 
-
 @BindingAdapter("discCoverImage")
 fun ImageView.setCoverImage(item: Disc?) {
-    item?.let {
-        val imgUri = item.coverImage.toUri().buildUpon().scheme("https").build()
-        Glide.with(this.context)
+    item?.let { disc ->
+        val imgUri = disc.coverImage.toUri().buildUpon().scheme("https").build()
+        Glide.with(context)
             .load(imgUri)
             .apply(
                 RequestOptions().placeholder(R.drawable.loading_animation)
                     .error(
                         ContextCompat.getDrawable(
-                            this.context,
+                            context,
                             R.drawable.ic_disc_outline_error
                         )
                     )
@@ -181,29 +172,29 @@ fun ImageView.setCoverImage(item: Disc?) {
 
 @BindingAdapter("discName")
 fun TextView.setDiscName(item: Disc?) {
-    item?.let { text = item.name }
+    item?.let { disc -> text = disc.name }
 }
 
 @BindingAdapter("discTitle")
 fun TextView.setDiscTitle(item: Disc?) {
-    item?.let { text = item.title }
+    item?.let { disc -> text = disc.title }
 }
 
 @BindingAdapter("discFormatMedia")
 fun TextView.setDiscFormatMedia(item: Disc?) {
-    item?.let {
-        text = item.formatMedia.ifEmpty { MyApp.res.getString(R.string.media_undefined) }
+    item?.let { disc ->
+        text = disc.formatMedia.ifEmpty { context.getString(R.string.media_undefined) }
     }
 }
 
 @BindingAdapter("discDetailFormatMedia")
 fun TextView.setDiscDetailFormatMedia(item: Disc?) {
-    item?.let {
+    item?.let { disc ->
         when {
-            item.formatMedia.isEmpty() -> visibility = View.GONE
+            disc.formatMedia.isEmpty() -> visibility = View.GONE
             else -> {
                 visibility = View.VISIBLE
-                text = item.formatMedia
+                text = disc.formatMedia
             }
         }
     }
@@ -211,25 +202,25 @@ fun TextView.setDiscDetailFormatMedia(item: Disc?) {
 
 @BindingAdapter("countFormatMedia")
 fun TextView.setCountFormatMedia(formatMedia: String) {
-    text = formatMedia.ifEmpty { MyApp.res.getString(R.string.undefined) }
+    text = formatMedia.ifEmpty { context.getString(R.string.undefined) }
 }
 
 
 @BindingAdapter("discFormat")
 fun TextView.setDiscFormat(item: Disc?) {
-    item?.let {
-        text = item.format.ifEmpty { MyApp.res.getString(R.string.media_undefined) }
+    item?.let { disc ->
+        text = disc.format.ifEmpty { context.getString(R.string.media_undefined) }
     }
 }
 
 @BindingAdapter("discBarcode")
 fun TextView.setDiscBarcode(item: Disc?) {
-    item?.let {
+    item?.let { disc ->
         when {
-            item.barcode.isEmpty() -> visibility = View.GONE
+            disc.barcode.isEmpty() -> visibility = View.GONE
             else -> {
                 visibility = View.VISIBLE
-                text = item.barcode
+                text = disc.barcode
             }
         }
     }
@@ -240,8 +231,8 @@ fun TextView.setTotalResult(total: Int) {
     when (total) {
         0 -> visibility = View.GONE
         else -> {
-            text = MyApp.res.getQuantityString(
-                R.plurals.plural_total_result,
+            text = context.resources.getQuantityString(
+                R.plurals.plural_total_api_result,
                 total,
                 total
             )
@@ -255,7 +246,7 @@ fun TextView.setChooseDisc(total: Int) {
     when (total) {
         0 -> visibility = View.GONE
         else -> {
-            text = MyApp.res.getString(R.string.choose_disc)
+            text = context.getString(R.string.choose_disc)
             visibility = View.VISIBLE
         }
     }
@@ -267,7 +258,7 @@ fun TextView.setNbManually(size: Int) {
         0 -> visibility = View.GONE
         else -> {
             visibility = View.VISIBLE
-            text = MyApp.res.getQuantityString(
+            text = context.resources.getQuantityString(
                 R.plurals.plural_nb_disc_present_manually,
                 size,
                 size
@@ -282,7 +273,7 @@ fun TextView.setNbScan(size: Int) {
         0 -> visibility = View.GONE
         else -> {
             visibility = View.VISIBLE
-            text = MyApp.res.getQuantityString(
+            text = context.resources.getQuantityString(
                 R.plurals.plural_nb_disc_present_scan,
                 size,
                 size
@@ -297,7 +288,7 @@ fun TextView.setNbSearch(size: Int) {
         0 -> visibility = View.GONE
         else -> {
             visibility = View.VISIBLE
-            text = MyApp.res.getQuantityString(
+            text = context.resources.getQuantityString(
                 R.plurals.plural_nb_disc_present_search,
                 size,
                 size
@@ -312,7 +303,7 @@ fun TextView.setNbDiscPresentDiscoteca(size: Int) {
         0 -> visibility = View.GONE
         else -> {
             visibility = View.VISIBLE
-            text = MyApp.res.getQuantityString(
+            text = context.resources.getQuantityString(
                 R.plurals.plural_nb_disc_present_discoteca,
                 size,
                 size
@@ -327,15 +318,15 @@ fun TextView.setDiscPresent(item: Disc?) {
         when {
             disc.isPresentByManually == true -> {
                 visibility = View.VISIBLE
-                text = MyApp.res.getString(R.string.disc_present_manually)
+                text = context.getString(R.string.disc_present_manually)
             }
             disc.isPresentByScan == true -> {
                 visibility = View.VISIBLE
-                text = MyApp.res.getString(R.string.disc_present_scan)
+                text = context.getString(R.string.disc_present_scan)
             }
             disc.isPresentBySearch == true -> {
                 visibility = View.VISIBLE
-                text = MyApp.res.getString(R.string.disc_present_search)
+                text = context.getString(R.string.disc_present_search)
             }
             else -> visibility = View.GONE
         }
@@ -344,15 +335,15 @@ fun TextView.setDiscPresent(item: Disc?) {
 
 @BindingAdapter("strokeColorPresent")
 fun MaterialCardView.setStrokeColorPresent(item: Disc?) {
-    item?.let {
+    item?.let { disc ->
         strokeColor = when {
-            item.isPresentByScan == true -> {
+            disc.isPresentByScan == true -> {
                 MaterialColors.getColor(
                     this,
                     com.google.android.material.R.attr.colorPrimary
                 )
             }
-            item.isPresentBySearch == true -> {
+            disc.isPresentBySearch == true -> {
                 MaterialColors.getColor(
                     this,
                     com.google.android.material.R.attr.colorPrimaryVariant
@@ -365,35 +356,35 @@ fun MaterialCardView.setStrokeColorPresent(item: Disc?) {
 
 @BindingAdapter("discLightName")
 fun TextView.setDiscLightName(item: DiscLight?) {
-    item?.let { text = item.name }
+    item?.let { discLight -> text = discLight.name }
 }
 
 @BindingAdapter("discLightTitle")
 fun TextView.setDiscLightTitle(item: DiscLight?) {
-    item?.let { text = item.title }
+    item?.let { discLight -> text = discLight.title }
 }
 
 @BindingAdapter("discLightCountryYear")
 fun TextView.setDiscLightCountryYear(item: DiscLight?) {
-    item?.let {
+    item?.let { discLight ->
         text = when {
-            item.country.isEmpty() && item.year.isEmpty() -> MyApp.res.getString(R.string.not_specified)
-            item.country.isEmpty() && item.year.isNotEmpty() -> item.year
-            item.country.isNotEmpty() && item.year.isEmpty() ->
-                "${item.country} - ${MyApp.res.getString(R.string.not_specified)}"
-            else -> "${item.country} - ${item.year}"
+            discLight.country.isEmpty() && discLight.year.isEmpty() -> context.getString(R.string.not_specified)
+            discLight.country.isEmpty() && discLight.year.isNotEmpty() -> discLight.year
+            discLight.country.isNotEmpty() && discLight.year.isEmpty() ->
+                "${discLight.country} - ${context.getString(R.string.not_specified)}"
+            else -> "${discLight.country} - ${discLight.year}"
         }
     }
 }
 
 @BindingAdapter("discLightFormatMedia")
 fun TextView.setDiscLightFormatMedia(item: DiscLight?) {
-    item?.let {
+    item?.let { discLight ->
         when {
-            item.formatMedia.isEmpty() -> visibility = View.GONE
+            discLight.formatMedia.isEmpty() -> visibility = View.GONE
             else -> {
                 visibility = View.VISIBLE
-                text = item.formatMedia
+                text = discLight.formatMedia
             }
         }
     }
@@ -406,7 +397,7 @@ fun TextView.setDiscLightFormat(item: Disc?) {
             true -> visibility = View.GONE
             else -> {
                 text =
-                    disc.discLight?.format?.ifEmpty { MyApp.res.getString(R.string.media_undefined) }
+                    disc.discLight?.format?.ifEmpty { context.getString(R.string.media_undefined) }
                 visibility = View.VISIBLE
             }
         }
@@ -439,11 +430,11 @@ fun TextView.setDiscResultDetailAnswer(item: DiscResultDetail?) {
                     }
                     discResultDetail.disc.isPresentByManually == true
                             || discResultDetail.disc.isPresentBySearch == true -> {
-                        text = MyApp.res.getString(R.string.answer_update)
+                        text = context.getString(R.string.answer_update)
                         visibility = View.VISIBLE
                     }
                     else -> {
-                        text = MyApp.res.getString(R.string.answer_add)
+                        text = context.getString(R.string.answer_add)
                         visibility = View.VISIBLE
                     }
                 }
@@ -455,11 +446,11 @@ fun TextView.setDiscResultDetailAnswer(item: DiscResultDetail?) {
                         visibility = View.GONE
                     }
                     discResultDetail.disc.isPresentByManually == true -> {
-                        text = MyApp.res.getString(R.string.answer_update)
+                        text = context.getString(R.string.answer_update)
                         visibility = View.VISIBLE
                     }
                     else -> {
-                        text = MyApp.res.getString(R.string.answer_add)
+                        text = context.getString(R.string.answer_add)
                         visibility = View.VISIBLE
                     }
                 }
@@ -474,22 +465,22 @@ fun MaterialButton.setButtonYesResultDetail(item: DiscResultDetail?) {
         text = when (discResultDetail.code) {
             SCAN -> {
                 when {
-                    discResultDetail.disc.isPresentByScan == true -> MyApp.res.getString(R.string.ok)
+                    discResultDetail.disc.isPresentByScan == true -> context.getString(R.string.ok)
                     discResultDetail.disc.isPresentByManually == true
                             || discResultDetail.disc.isPresentBySearch == true ->
-                        MyApp.res.getString(R.string.update)
-                    else -> MyApp.res.getString(R.string.add)
+                        context.getString(R.string.update)
+                    else -> context.getString(R.string.add)
                 }
             }
             // SEARCH
             else -> {
                 when {
                     discResultDetail.disc.isPresentByScan == true
-                            || discResultDetail.disc.isPresentBySearch == true -> MyApp.res.getString(
+                            || discResultDetail.disc.isPresentBySearch == true -> context.getString(
                         R.string.ok
                     )
-                    discResultDetail.disc.isPresentByManually == true -> MyApp.res.getString(R.string.update)
-                    else -> MyApp.res.getString(R.string.add)
+                    discResultDetail.disc.isPresentByManually == true -> context.getString(R.string.update)
+                    else -> context.getString(R.string.add)
                 }
             }
         }
@@ -504,7 +495,7 @@ fun MaterialButton.setButtonNoResultDetail(item: DiscResultDetail?) {
                 if (discResultDetail.disc.isPresentByScan == true) {
                     visibility = View.GONE
                 } else {
-                    text = MyApp.res.getString(R.string.cancel)
+                    text = context.getString(R.string.cancel)
                     visibility = View.VISIBLE
                 }
             }
@@ -514,7 +505,7 @@ fun MaterialButton.setButtonNoResultDetail(item: DiscResultDetail?) {
                 ) {
                     visibility = View.GONE
                 } else {
-                    text = MyApp.res.getString(R.string.cancel)
+                    text = context.getString(R.string.cancel)
                     visibility = View.VISIBLE
                 }
             }
@@ -526,8 +517,8 @@ fun MaterialButton.setButtonNoResultDetail(item: DiscResultDetail?) {
 fun TextView.setMessageNoResultRecommendation(item: DiscResultScan?) {
     item?.let { discScan ->
         text = when (discScan.code) {
-            API -> MyApp.res.getString(R.string.disc_recommendation_api)
-            else -> MyApp.res.getString(R.string.disc_recommendation_database)
+            API -> context.getString(R.string.disc_recommendation_api)
+            else -> context.getString(R.string.disc_recommendation_database)
         }
     }
 }
@@ -535,9 +526,9 @@ fun TextView.setMessageNoResultRecommendation(item: DiscResultScan?) {
 @BindingAdapter("discAddText")
 fun TextView.setDiscAddText(code: Int) {
     text = when (code) {
-        MANUALLY -> MyApp.res.getString(R.string.disc_add_manually)
-        SEARCH -> MyApp.res.getString(R.string.disc_add_search)
-        else -> MyApp.res.getString(R.string.disc_add_scan)
+        MANUALLY -> context.getString(R.string.disc_add_manually)
+        SEARCH -> context.getString(R.string.disc_add_search)
+        else -> context.getString(R.string.disc_add_scan)
     }
 }
 
@@ -545,7 +536,7 @@ fun TextView.setDiscAddText(code: Int) {
 fun TextView.setIsVisible(isVisible: Boolean) {
     when {
         isVisible -> {
-            text = MyApp.res.getString(R.string.answer_search)
+            text = context.getString(R.string.answer_search)
             visibility = View.VISIBLE
         }
         else -> visibility = View.GONE
@@ -556,7 +547,7 @@ fun TextView.setIsVisible(isVisible: Boolean) {
 fun MaterialButton.setButtonSearch(isVisible: Boolean) {
     when {
         isVisible -> {
-            text = MyApp.res.getString(R.string.search)
+            text = context.getString(R.string.search)
             visibility = View.VISIBLE
         }
         else -> visibility = View.GONE
@@ -566,32 +557,32 @@ fun MaterialButton.setButtonSearch(isVisible: Boolean) {
 @BindingAdapter("buttonCancelOk")
 fun MaterialButton.setButtonCancelOk(isVisible: Boolean) {
     text = when {
-        isVisible -> MyApp.res.getString(R.string.cancel)
-        else -> MyApp.res.getString(R.string.ok)
+        isVisible -> context.getString(R.string.cancel)
+        else -> context.getString(R.string.ok)
     }
 }
 
 @BindingAdapter("textPresent")
 fun TextView.setTextPresent(code: Int) {
     text = when (code) {
-        MANUALLY -> MyApp.res.getString(R.string.answer_add_still)
-        else -> MyApp.res.getString(R.string.answer_search_still)
+        MANUALLY -> context.getString(R.string.answer_add_still)
+        else -> context.getString(R.string.answer_search_still)
     }
 }
 
 @BindingAdapter("buttonAddPresent")
 fun MaterialButton.setButtonAddPresent(addBy: Int) {
     text = when (addBy) {
-        MANUALLY -> MyApp.res.getString(R.string.add)
-        else -> MyApp.res.getString(R.string.search)
+        MANUALLY -> context.getString(R.string.add)
+        else -> context.getString(R.string.search)
     }
 }
 
 @BindingAdapter("countDiscs")
 fun TextView.setCountDiscs(count: Int) {
     text = when (count) {
-        0 -> MyApp.res.getString(R.string.no_disc)
-        else -> MyApp.res.getQuantityString(
+        0 -> context.getString(R.string.no_disc)
+        else -> context.resources.getQuantityString(
             R.plurals.plural_nb_disc_discoteca,
             count,
             count
@@ -608,7 +599,7 @@ fun TextView.setTvBarcode(item: DiscResultDetail?) {
                     || discResultDetail.disc.barcode.isEmpty()) ->
                 visibility = View.GONE
             else -> {
-                text = MyApp.res.getString(R.string.barcode)
+                text = context.getString(R.string.barcode)
                 visibility = View.VISIBLE
             }
         }
@@ -624,10 +615,31 @@ fun TextView.setDiscBarcodeDetail(item: DiscResultDetail?) {
                     || discResultDetail.disc.barcode.isEmpty()) ->
                 visibility = View.GONE
             else -> {
-                text = item.disc.barcode
+                text = discResultDetail.disc.barcode
                 visibility = View.VISIBLE
             }
         }
+    }
+}
+
+/*@BindingAdapter("totalResult")
+fun TextView.setTotalResult(uiText: UIText?) {
+    uiText?.let {
+        text = context.getMyUIText2(uiText)
+    }
+}
+
+@BindingAdapter("googleAccount")
+fun TextView.setGoogleAccount(uiText: UIText?){
+    uiText?.let {
+        text = context.getMyUIText2(uiText)
+    }
+}*/
+
+@BindingAdapter("getUIText")
+fun TextView.getUIText(uiText: UIText?){
+    uiText?.let {
+        text = context.getMyUIText(it)
     }
 }
 

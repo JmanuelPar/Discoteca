@@ -7,7 +7,7 @@ import androidx.fragment.app.*
 import androidx.navigation.NavDirections
 import com.diego.discoteca.R
 import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.MyApp
+import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.databinding.FragmentAddDiscBinding
 import com.diego.discoteca.util.*
 import com.google.android.material.transition.MaterialSharedAxis
@@ -15,7 +15,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 class AddDiscFragment : Fragment() {
 
     private val mAddDiscViewModel: AddDiscViewModel by viewModels {
-        AddDiscViewModelFactory(MyApp.instance.repository)
+        AddDiscViewModelFactory((requireContext().applicationContext as DiscotecaApplication).repository)
     }
 
     private lateinit var binding: FragmentAddDiscBinding
@@ -38,14 +38,14 @@ class AddDiscFragment : Fragment() {
             addDiscViewModel = mAddDiscViewModel
             itDiscArtist.setEndIconOnClickListener {
                 showDialogTitle(
-                    getString(R.string.artist_group_name),
-                    getString(R.string.information_artist_message)
+                    title = getString(R.string.artist_group_name),
+                    message = getString(R.string.information_artist_message)
                 )
             }
             itDiscYear.setEndIconOnClickListener {
                 showDialogTitle(
-                    getString(R.string.disc_year_release),
-                    getString(R.string.information_year_message)
+                    title = getString(R.string.disc_year_release),
+                    message = getString(R.string.information_year_message)
                 )
             }
         }
@@ -54,9 +54,9 @@ class AddDiscFragment : Fragment() {
         mAddDiscViewModel.showBottomSheet.observe(viewLifecycleOwner) {
             it?.let { discAdd ->
                 childFragmentManager.showBottomSheetModal(
-                    discAdd.name,
-                    discAdd.title,
-                    discAdd.year
+                    artistName = discAdd.name,
+                    title = discAdd.title,
+                    year = discAdd.year
                 ) {
                     when (discAdd.addBy) {
                         MANUALLY -> mAddDiscViewModel.addDisc(discAdd)
@@ -69,12 +69,13 @@ class AddDiscFragment : Fragment() {
 
         // Go to DiscFragment
         mAddDiscViewModel.navigateToDisc.observe(viewLifecycleOwner) {
-            it?.let { pair ->
+            it?.let { id ->
                 goToDiscFragment(
-                    AddDiscFragmentDirections.actionAddDiscFragmentToDiscFragment(
-                        pair.first,
-                        pair.second
-                    )
+                    AddDiscFragmentDirections
+                        .actionAddDiscFragmentToDiscFragment(
+                            uiText = UIText.DiscAdded,
+                            idAdded = id
+                        )
                 )
                 mAddDiscViewModel.onNavigateToDiscDone()
             }
@@ -112,7 +113,7 @@ class AddDiscFragment : Fragment() {
     }
 
     private fun showDialogTitle(title: String, message: String) {
-        requireContext().showDialogTitle(title, message)
+        requireContext().showDialogTitle(title = title, message = message)
     }
 
     private fun goToDiscFragment(navDirections: NavDirections) {

@@ -6,11 +6,13 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.DiscPresent
-import com.diego.discoteca.network.DiscogsApi
 import com.diego.discoteca.repository.DiscogsRepository
 import kotlinx.coroutines.flow.*
 
-class DiscResultSearchViewModel(private val discItem: DiscPresent) : ViewModel() {
+class DiscResultSearchViewModel(
+    private val discogsRepository: DiscogsRepository,
+    private val discItem: DiscPresent
+) : ViewModel() {
 
     val pagingDataFlow: Flow<PagingData<Disc>>
 
@@ -57,9 +59,7 @@ class DiscResultSearchViewModel(private val discItem: DiscPresent) : ViewModel()
     }
 
     private fun searchDisc(): Flow<PagingData<Disc>> {
-        return DiscogsRepository(DiscogsApi.retrofitService).getSearchDiscStream(
-            discPresent = discItem
-        )
+        return discogsRepository.getSearchDiscStream(discPresent = discItem)
     }
 
     fun onButtonBackClicked() {

@@ -140,10 +140,10 @@
     <string name="no_search_result_recommendation">Vous pouvez ajouter le disque manuellement\n\nFaire une nouvelle recherche</string>
     <string name="no_valid_year">Année non valide</string>
     <string name="not_specified">Non renseigné</string>
-    <string name="nok_restore">Non restauré !</string>
+    <string name="database_not_restored">Non restauré !</string>
     <string name="ok">OK</string>
-    <string name="ok_back_up">Sauvegardé !</string>
-    <string name="ok_restore">Restauré !</string>
+    <string name="database_back_up">Sauvegardé !</string>
+    <string name="database_restored">Restauré !</string>
     <string name="permission_camera_denied_message">L\'application a besoin de l\'autorisation pour l\'appareil photo
         afin d\'utiliser le lecteur de code barre</string>
     <string name="permission_camera_rationale_body">Il n\'est pas possible d\'utiliser le lecteur
@@ -174,7 +174,7 @@
         <item quantity="one">Il y a %1$d disque dans Discoteca, ajouté via la recherche</item>
         <item quantity="other">Il y a %1$d disques dans Discoteca, ajoutés via la recherche</item>
     </plurals>
-    <plurals name="plural_nb_disc_present_search_barcode">
+    <plurals name="plural_total_database_result">
         <item quantity="one">%1$d résultat dans Discoteca pour</item>
         <item quantity="other">%1$d résultats dans Discoteca pour</item>
     </plurals>
@@ -182,7 +182,7 @@
         <item quantity="one">%1$d résultat pour</item>
         <item quantity="other">%1$d résultats pour</item>
     </plurals>
-    <plurals name="plural_total_result">
+    <plurals name="plural_total_api_result">
         <item quantity="one">%1$d résultat pour</item>
         <item quantity="other">%1$d résultats pour</item>
     </plurals>
@@ -202,4 +202,6 @@
     <string name="undefined">Non défini</string>
     <string name="update">Actualiser</string>
     <string name="yes">Oui</string>
+    <string name="bonjour">BOnjour</string>
+    <string name="noDisplay">noDisplay</string>
 </resources>
