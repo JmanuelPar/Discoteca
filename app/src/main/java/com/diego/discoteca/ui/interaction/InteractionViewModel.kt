@@ -7,7 +7,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
 class InteractionViewModel(val repository: DiscRepository) : ViewModel() {
 
-    val numberDiscs = repository.getCountAllDiscs().asLiveData()
+    val numberDiscs = repository.countAllDiscs.asLiveData()
 
     private val _isSignIn = MutableLiveData<Boolean>()
     val isSignIn: LiveData<Boolean>
@@ -73,27 +73,6 @@ class InteractionViewModel(val repository: DiscRepository) : ViewModel() {
         updateProgressLinearGDriveUpload(false)
         updateProgressLinearGDriveDownload(false)
     }
-
-/*    fun updateUI(account: GoogleSignInAccount?) {
-        when {
-            account != null -> {
-                // Log in in Drive
-                displayAccount(
-                    "${account.displayName}\n${account.email}",
-                    true
-                )
-                updateIconGDriveUpload(true)
-            }
-            else -> {
-                // Not log in in Drive
-                displayAccount(
-                    DiscotecaApplication.res.getString(R.string.sign_in_recommendation),
-                    false
-                )
-                updateIconGDriveAndTime()
-            }
-        }
-    }*/
 
     fun updateUI(account: GoogleSignInAccount?) {
         when {

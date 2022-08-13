@@ -399,7 +399,10 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             showBottomBar()
             delay(300)
-            binding.root.showSnackBar(message = getMyUIText(uiText), anchorView = anchorView)
+            binding.root.showSnackBar(
+                message = getMyUIText(uiText),
+                anchorView = anchorView
+            )
         }
     }
 

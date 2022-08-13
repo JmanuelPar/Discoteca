@@ -29,7 +29,6 @@ import com.google.android.material.transition.MaterialFade
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 class DiscFragment : Fragment(), DiscAdapter.DiscListener {

@@ -622,20 +622,6 @@ fun TextView.setDiscBarcodeDetail(item: DiscResultDetail?) {
     }
 }
 
-/*@BindingAdapter("totalResult")
-fun TextView.setTotalResult(uiText: UIText?) {
-    uiText?.let {
-        text = context.getMyUIText2(uiText)
-    }
-}
-
-@BindingAdapter("googleAccount")
-fun TextView.setGoogleAccount(uiText: UIText?){
-    uiText?.let {
-        text = context.getMyUIText2(uiText)
-    }
-}*/
-
 @BindingAdapter("getUIText")
 fun TextView.getUIText(uiText: UIText?){
     uiText?.let {

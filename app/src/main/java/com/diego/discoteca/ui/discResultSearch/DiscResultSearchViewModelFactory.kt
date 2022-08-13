@@ -3,10 +3,10 @@ package com.diego.discoteca.ui.discResultSearch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.diego.discoteca.model.DiscPresent
-import com.diego.discoteca.repository.DiscogsRepository
+import com.diego.discoteca.repository.DiscRepository
 
 class DiscResultSearchViewModelFactory(
-    private val discogsRepository: DiscogsRepository,
+    private val repository: DiscRepository,
     private val discPresent: DiscPresent
 ) :
     ViewModelProvider.Factory {
@@ -14,7 +14,7 @@ class DiscResultSearchViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DiscResultSearchViewModel::class.java)) {
             return DiscResultSearchViewModel(
-                discogsRepository = discogsRepository,
+                repository = repository,
                 discItem = discPresent
             ) as T
         }

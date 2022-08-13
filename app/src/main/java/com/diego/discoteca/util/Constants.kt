@@ -3,7 +3,6 @@ package com.diego.discoteca.util
 const val USER_PREFERENCES_NAME = "user_preferences"
 const val DATABASE_NAME = "disc_database"
 const val G_DRIVE_FOLDER_NAME = "MyDatabaseDiscotecaApp"
-const val NO_DISPLAY = "noDisplay"
 const val API = "api"
 const val DATABASE = "database"
 const val MANUALLY = 1

@@ -18,8 +18,6 @@ import com.diego.discoteca.adapter.DiscsLoadStateAdapter
 import com.diego.discoteca.adapter.Listener
 import com.diego.discoteca.databinding.FragmentDiscResultScanBinding
 import com.diego.discoteca.model.DiscResultDetail
-import com.diego.discoteca.network.DiscogsApi
-import com.diego.discoteca.repository.DiscogsRepository
 import com.diego.discoteca.util.*
 import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.flow.collectLatest
@@ -33,7 +31,6 @@ class DiscResultScanFragment : Fragment() {
         val arguments = DiscResultScanFragmentArgs.fromBundle(requireArguments())
         DiscResultScanViewModelFactory(
             repository = (requireContext().applicationContext as DiscotecaApplication).repository,
-            discogsRepository = DiscogsRepository(DiscogsApi.retrofitService),
             discResultScan = arguments.discResultScan
         )
     }
@@ -85,14 +82,20 @@ class DiscResultScanFragment : Fragment() {
 
         mDiscResultScanViewModel.navigateToDiscResultDetail.observe(viewLifecycleOwner) {
             it?.let { pair ->
-                goToDiscResultDetailFragment(view = pair.first, discResultDetail = pair.second)
+                goToDiscResultDetailFragment(
+                    view = pair.first,
+                    discResultDetail = pair.second
+                )
                 mDiscResultScanViewModel.onDiscResultDetailClickedDone()
             }
         }
 
         mDiscResultScanViewModel.navigateToDiscDetail.observe(viewLifecycleOwner) { it ->
             it?.let { pair ->
-                goToDiscDetailFragment(view = pair.first, id = pair.second)
+                goToDiscDetailFragment(
+                    view = pair.first,
+                    id = pair.second
+                )
                 mDiscResultScanViewModel.onDiscDetailClickedDone()
             }
         }

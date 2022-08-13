@@ -6,8 +6,8 @@ import com.diego.discoteca.repository.DiscRepository
 
 class InformationViewModel(val repository: DiscRepository) : ViewModel() {
 
-    val countDiscs = repository.getCountAllDiscs().asLiveData()
-    val countFormatMediaList = repository.getCountFormatMediaList().asLiveData()
+    val countDiscs = repository.countAllDiscs.asLiveData()
+    val countFormatMediaList = repository.countFormatMediaList.asLiveData()
 
     private val _numberVersion = MutableLiveData<String>()
     val numberVersion: LiveData<String>

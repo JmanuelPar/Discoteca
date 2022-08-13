@@ -7,13 +7,11 @@ import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.DiscResultDetail
 import com.diego.discoteca.model.DiscResultScan
 import com.diego.discoteca.repository.DiscRepository
-import com.diego.discoteca.repository.DiscogsRepository
 import com.diego.discoteca.util.*
 import kotlinx.coroutines.flow.*
 
 class DiscResultScanViewModel(
     private val repository: DiscRepository,
-    private val discogsRepository: DiscogsRepository,
     private val discItem: DiscResultScan
 ) : ViewModel() {
 
@@ -69,30 +67,12 @@ class DiscResultScanViewModel(
         visibilityError(false)
     }
 
-    // DiscogsRepository(DiscogsApi.retrofitService)
     private fun scanDisc(): Flow<PagingData<Disc>> {
         return when (discItem.code) {
-            API -> discogsRepository.getSearchBarcodeStream(
-                repository = repository,
-                barcode = discItem.barcode
-            )
-            else -> discogsRepository.getSearchBarcodeDatabase(
-                repository = repository,
-                barcode = discItem.barcode
-            )
+            API -> repository.getSearchBarcodeStream(barcode = discItem.barcode)
+            else -> repository.getSearchBarcodeDatabase(barcode = discItem.barcode)
         }
     }
-
-    /*  private fun getPagerDatabaseBarcode() =
-          Pager(
-              config = PagingConfig(
-                  pageSize = DATABASE_PAGE_SIZE,
-                  enablePlaceholders = false
-              ),
-              pagingSourceFactory = {
-                  DatabasePagingSourceBarcode(barcode = discItem.barcode)
-              }
-          ).flow*/
 
     fun updateNbDisc(list: ItemSnapshotList<Disc>) {
         _nBManually.value = getSize(list)
@@ -113,22 +93,6 @@ class DiscResultScanViewModel(
         }
         return result.toSet().size
     }
-
-    /*fun updateTotal(total: Int) {
-        _messageResult.value = when (discItem.code) {
-            API -> DiscotecaApplication.res.getQuantityString(
-                R.plurals.plural_total_api_result,
-                total,
-                total
-            )
-            // DATABASE
-            else -> DiscotecaApplication.res.getQuantityString(
-                R.plurals.plural_total_database_result,
-                total,
-                total
-            )
-        }
-    }*/
 
     fun updateTotal(total: Int) {
         _totalResult.value = when (discItem.code) {

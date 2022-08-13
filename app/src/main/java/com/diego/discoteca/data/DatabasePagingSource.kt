@@ -2,10 +2,10 @@ package com.diego.discoteca.data
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.diego.discoteca.activity.DiscotecaApplication
+import com.diego.discoteca.database.DiscDatabaseDao
+import com.diego.discoteca.database.asDomainModel
 import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.DiscDb
-import com.diego.discoteca.repository.DiscRepository
 import com.diego.discoteca.util.MANUALLY
 import com.diego.discoteca.util.SCAN
 import com.diego.discoteca.util.SEARCH
@@ -14,7 +14,7 @@ import com.diego.discoteca.util.stringNormalizeDatabase
 private const val DATABASE_STARTING_PAGE_INDEX = 0
 
 class DatabasePagingSourceBarcode(
-    private val repository: DiscRepository,
+    private val dao: DiscDatabaseDao,
     private val barcode: String
 ) : PagingSource<Int, Disc>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Disc> {
@@ -22,12 +22,12 @@ class DatabasePagingSourceBarcode(
 
         return try {
             // Get list of disc in database with a barcode
-            val listBarcode = repository.getPagedListBarcode(
+            val listBarcode = dao.getPagedListBarcode(
                 barcode = barcode,
                 limit = params.loadSize,
                 offset = page * params.loadSize
-            )
-            //val listBarcode = emptyList<Disc>()
+            ).asDomainModel()
+
             /* A disc can have one or more versions for the same barcode
             Different artist/group can have the same barcode for the disc */
 
@@ -47,13 +47,11 @@ class DatabasePagingSourceBarcode(
             val listDbManuallySearch = mutableListOf<Disc>()
             if (list.isNotEmpty()) {
                 list.forEach { discDb ->
-                    val listDB = repository.getListDiscDbManuallySearch(
+                    val listDB = dao.getListDiscDbManuallySearch(
                         discDb.name,
                         discDb.title,
                         discDb.year
-                    )
-
-                   // val listDB = emptyList<Disc>()
+                    ).asDomainModel()
 
                     listDbManuallySearch += listDB
                 }
