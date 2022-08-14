@@ -5,9 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.diego.discoteca.model.*
+import com.diego.discoteca.util.Destination
 import kotlinx.coroutines.launch
 
-class ScanBarcodeViewModel(val code: String) : ViewModel() {
+class ScanBarcodeViewModel(val destination: Destination) : ViewModel() {
 
     private val _progressBarState = MutableLiveData<Boolean>()
     val progressBarState: LiveData<Boolean>
@@ -44,7 +45,7 @@ class ScanBarcodeViewModel(val code: String) : ViewModel() {
             onNavigateToDiscResultScan(
                 DiscResultScan(
                     barcode = barcode,
-                    code = code
+                    destination = destination
                 )
             )
         }

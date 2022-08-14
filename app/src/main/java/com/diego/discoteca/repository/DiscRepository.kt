@@ -74,9 +74,9 @@ class DiscRepository(
     suspend fun getListDiscDbPresent(name: String, title: String, year: String) =
         withContext(Dispatchers.IO) {
             dao.getListDiscDbPresent(
-                name.stringNormalizeDatabase(),
-                title.stringNormalizeDatabase(),
-                year
+                name = name.stringNormalizeDatabase(),
+                title = title.stringNormalizeDatabase(),
+                year = year
             ).asDomainModel()
         }
 

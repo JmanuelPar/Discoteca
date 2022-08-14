@@ -28,7 +28,7 @@ class ScanBarcodeFragment : Fragment() {
 
     private val mScanBarcodeViewModel: ScanBarcodeViewModel by viewModels {
         val arguments = ScanBarcodeFragmentArgs.fromBundle(requireArguments())
-        ScanBarcodeViewModelFactory(arguments.code)
+        ScanBarcodeViewModelFactory(arguments.destination)
     }
 
     private var processingBarcode = AtomicBoolean(false)

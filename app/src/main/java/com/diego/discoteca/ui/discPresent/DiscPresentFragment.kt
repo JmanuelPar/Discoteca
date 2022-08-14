@@ -114,9 +114,9 @@ class DiscPresentFragment : Fragment() {
         materialElevationScaleExitReenterTransition()
         val discDetailCardTransitionName = getString(R.string.disc_detail_card_transition_name)
         (activity as MainActivity).navigateToWithExtras(
-            DiscPresentFragmentDirections
+            directions = DiscPresentFragmentDirections
                 .actionDiscPresentFragmentToDiscPresentDetailFragment(discPresent),
-            FragmentNavigatorExtras(view to discDetailCardTransitionName)
+            extras = FragmentNavigatorExtras(view to discDetailCardTransitionName)
         )
     }
 

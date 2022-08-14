@@ -308,7 +308,10 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
     private fun setRecyclerView() {
         mRvListDiscs = binding.rvListDiscs
         myLayoutManager = GridLayoutManager(mRvListDiscs.context, 1)
-        discAdapter = DiscAdapter(listener = this, myLayoutManager =  myLayoutManager)
+        discAdapter = DiscAdapter(
+            listener = this,
+            myLayoutManager = myLayoutManager
+        )
         mRvListDiscs.apply {
             adapter = discAdapter
             discAdapter.stateRestorationPolicy =
@@ -366,8 +369,8 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         materialElevationScaleExitReenterTransition()
         val discDetailCardTransitionName = getString(R.string.disc_detail_card_transition_name)
         (activity as MainActivity).navigateToWithExtras(
-            DiscFragmentDirections.actionDiscFragmentToDiscDetailFragment(disc.id),
-            FragmentNavigatorExtras(view to discDetailCardTransitionName)
+            directions = DiscFragmentDirections.actionDiscFragmentToDiscDetailFragment(disc.id),
+            extras = FragmentNavigatorExtras(view to discDetailCardTransitionName)
         )
     }
 

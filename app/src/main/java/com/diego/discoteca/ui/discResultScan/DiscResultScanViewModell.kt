@@ -57,9 +57,9 @@ class DiscResultScanViewModel(
     val buttonRetry: LiveData<Boolean>
         get() = _buttonRetry
 
-    private val _navigateTo = MutableLiveData<String?>()
-    val navigateTo: MutableLiveData<String?>
-        get() = _navigateTo
+    private val _buttonBack = MutableLiveData<Destination>()
+    val buttonBack: MutableLiveData<Destination>
+        get() = _buttonBack
 
     init {
         pagingDataFlow = scanDisc().cachedIn(viewModelScope)
@@ -68,8 +68,9 @@ class DiscResultScanViewModel(
     }
 
     private fun scanDisc(): Flow<PagingData<Disc>> {
-        return when (discItem.code) {
-            API -> repository.getSearchBarcodeStream(barcode = discItem.barcode)
+        return when (discItem.destination) {
+            Destination.API -> repository.getSearchBarcodeStream(barcode = discItem.barcode)
+            // DATABASE
             else -> repository.getSearchBarcodeDatabase(barcode = discItem.barcode)
         }
     }
@@ -95,8 +96,8 @@ class DiscResultScanViewModel(
     }
 
     fun updateTotal(total: Int) {
-        _totalResult.value = when (discItem.code) {
-            API -> UIText.TotalApi(total)
+        _totalResult.value = when (discItem.destination) {
+            Destination.API -> UIText.TotalApi(total)
             // DATABASE
             else -> UIText.TotalDatabase(total)
         }
@@ -121,11 +122,18 @@ class DiscResultScanViewModel(
     }
 
     fun onDiscResultClicked(view: View, disc: Disc) {
-        when (discItem.code) {
-            API -> onDiscResultDetailClicked(
-                Pair(view, DiscResultDetail(disc, SCAN))
+        when (discItem.destination) {
+            Destination.API -> onDiscResultDetailClicked(
+                Pair(
+                    view,
+                    DiscResultDetail(
+                        disc = disc,
+                        code = SCAN
+                    )
+                )
             )
-            DATABASE -> onDiscDetailClicked(Pair(view, disc.id))
+            // DATABASE
+            else -> onDiscDetailClicked(Pair(view, disc.id))
         }
     }
 
@@ -145,11 +153,11 @@ class DiscResultScanViewModel(
         _navigateToDiscDetail.value = null
     }
 
-    fun onNavigateTo() {
-        _navigateTo.value = discItem.code
+    fun onButtonBackClicked() {
+        _buttonBack.value = discItem.destination
     }
 
-    fun onNavigateToDone() {
-        _navigateTo.value = null
+    fun onButtonBackClickedDone() {
+        _buttonBack.value = Destination.NONE
     }
 }

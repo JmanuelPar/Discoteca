@@ -125,7 +125,15 @@ class DiscResultDetailViewModel(
             barcode = if (search) "" else discChosen.barcode,
             idDisc = discChosen.idDisc,
             addBy = discItem.code,
-            discLight = DiscLight(0L, "", "", "", "", "", "")
+            discLight = DiscLight(
+                id = 0L,
+                name = "",
+                title = "",
+                year = "",
+                country = "",
+                format = "",
+                formatMedia = ""
+            )
         )
 
         repository.update(discUpdate)
