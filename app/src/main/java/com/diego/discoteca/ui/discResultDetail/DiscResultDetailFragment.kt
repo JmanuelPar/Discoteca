@@ -8,8 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.diego.discoteca.R
 import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.MyApp
+import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.databinding.FragmentDiscResultDetailBinding
+import com.diego.discoteca.util.UIText
 import com.diego.discoteca.util.themeColor
 import com.google.android.material.transition.MaterialContainerTransform
 
@@ -18,8 +19,8 @@ class DiscResultDetailFragment : Fragment() {
     private val mDiscResultDetailViewModel: DiscResultDetailViewModel by viewModels {
         val arguments = DiscResultDetailFragmentArgs.fromBundle(requireArguments())
         DiscResultDetailViewModelFactory(
-            MyApp.instance.repository,
-            arguments.discResultDetail
+            repository = (requireContext().applicationContext as DiscotecaApplication).repository,
+            discResultDetail = arguments.discResultDetail
         )
     }
 
@@ -51,7 +52,10 @@ class DiscResultDetailFragment : Fragment() {
 
         mDiscResultDetailViewModel.navigateToDisc.observe(viewLifecycleOwner) {
             it?.let { pair ->
-                goToDiscFragment(pair.first, pair.second)
+                goToDiscFragment(
+                    uiText = pair.first,
+                    id = pair.second
+                )
                 mDiscResultDetailViewModel.onNavigateToDiscDone()
             }
         }
@@ -72,10 +76,13 @@ class DiscResultDetailFragment : Fragment() {
         menu.clear()
     }
 
-    private fun goToDiscFragment(snackBarMessage: String, id: Long) {
+    private fun goToDiscFragment(uiText: UIText, id: Long) {
         (activity as MainActivity).navigateTo(
             DiscResultDetailFragmentDirections
-                .actionDiscResultDetailFragmentToDiscFragment(snackBarMessage, id)
+                .actionDiscResultDetailFragmentToDiscFragment(
+                    uiText = uiText,
+                    idAdded = id
+                )
         )
     }
 

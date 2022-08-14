@@ -6,7 +6,6 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.diego.discoteca.R
-import com.diego.discoteca.activity.MyApp
 import com.diego.discoteca.databinding.DiscsPagingLoadStateFooterViewBinding
 import retrofit2.HttpException
 import java.io.IOException
@@ -23,12 +22,12 @@ class DiscsLoadStateViewHolder(
     fun bind(loadState: LoadState) {
         if (loadState is LoadState.Error) {
             binding.errorMsg.text = when (loadState.error) {
-                is IOException -> MyApp.res.getString(R.string.no_connect_message)
+                is IOException -> binding.errorMsg.context.getString(R.string.no_connect_message)
                 is HttpException -> String.format(
-                    MyApp.res.getString(R.string.error_result_message),
+                    binding.errorMsg.context.getString(R.string.error_result_message),
                     loadState.error.localizedMessage
                 )
-                else -> MyApp.res.getString(R.string.error_result_message_unknown)
+                else -> binding.errorMsg.context.getString(R.string.error_result_message_unknown)
             }
         }
 

@@ -11,7 +11,10 @@ class UpdateDiscViewModelFactory(
     @Suppress("unchecked_cast")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(UpdateDiscViewModel::class.java)) {
-            return UpdateDiscViewModel(repository, discId) as T
+            return UpdateDiscViewModel(
+                repository = repository,
+                discId = discId
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

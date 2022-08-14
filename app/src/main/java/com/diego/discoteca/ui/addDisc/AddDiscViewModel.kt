@@ -2,8 +2,6 @@ package com.diego.discoteca.ui.addDisc
 
 import android.text.Editable
 import androidx.lifecycle.*
-import com.diego.discoteca.R
-import com.diego.discoteca.activity.MyApp
 import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.DiscAdd
 import com.diego.discoteca.model.DiscPresent
@@ -25,24 +23,24 @@ class AddDiscViewModel(private val repository: DiscRepository) : ViewModel() {
     private val discYear: LiveData<String>
         get() = _discYear
 
-    private val _errorMessageDiscArtist = MutableLiveData<String?>()
-    val errorMessageDiscArtist: LiveData<String?>
+    private val _errorMessageDiscArtist = MutableLiveData<UIText?>()
+    val errorMessageDiscArtist: LiveData<UIText?>
         get() = _errorMessageDiscArtist
 
-    private val _errorMessageDiscTitle = MutableLiveData<String?>()
-    val errorMessageDiscTitle: LiveData<String?>
+    private val _errorMessageDiscTitle = MutableLiveData<UIText?>()
+    val errorMessageDiscTitle: LiveData<UIText?>
         get() = _errorMessageDiscTitle
 
-    private val _errorMessageDiscYear = MutableLiveData<String?>()
-    val errorMessageDiscYear: LiveData<String?>
+    private val _errorMessageDiscYear = MutableLiveData<UIText?>()
+    val errorMessageDiscYear: LiveData<UIText?>
         get() = _errorMessageDiscYear
 
     private val _showBottomSheet = MutableLiveData<DiscAdd?>()
     val showBottomSheet: LiveData<DiscAdd?>
         get() = _showBottomSheet
 
-    private val _navigateToDisc = MutableLiveData<Pair<String, Long>?>()
-    val navigateToDisc: LiveData<Pair<String, Long>?>
+    private val _navigateToDisc = MutableLiveData<Long?>()
+    val navigateToDisc: LiveData<Long?>
         get() = _navigateToDisc
 
     private val _navigateToDiscPresent = MutableLiveData<DiscPresent?>()
@@ -52,18 +50,6 @@ class AddDiscViewModel(private val repository: DiscRepository) : ViewModel() {
     private val _navigateToDiscResultSearch = MutableLiveData<DiscPresent?>()
     val navigateToDiscResultSearch: LiveData<DiscPresent?>
         get() = _navigateToDiscResultSearch
-
-    val isVisibleEmDiscArt = Transformations.map(errorMessageDiscArtist) {
-        it?.isNotEmpty()
-    }
-
-    val isVisibleEmDiscTitle = Transformations.map(errorMessageDiscTitle) {
-        it?.isNotEmpty()
-    }
-
-    val isVisibleEmDiscYear = Transformations.map(errorMessageDiscYear) {
-        it?.isNotEmpty()
-    }
 
     fun setDiscArtist(editable: Editable) {
         _discNameArtist.value = editable.toString()
@@ -80,8 +66,8 @@ class AddDiscViewModel(private val repository: DiscRepository) : ViewModel() {
         checkDiscYear()
     }
 
-    private fun onNavigateToDisc(snackBarMessage: String, id: Long) {
-        _navigateToDisc.value = Pair(snackBarMessage, id)
+    private fun onNavigateToDisc(id: Long) {
+        _navigateToDisc.value = id
     }
 
     fun onNavigateToDiscDone() {
@@ -114,7 +100,7 @@ class AddDiscViewModel(private val repository: DiscRepository) : ViewModel() {
 
     private fun checkDiscArtist(): Boolean {
         if (discNameArtist.value?.trim().isNullOrEmpty()) {
-            _errorMessageDiscArtist.value = MyApp.res.getString(R.string.indicate_artist_group_name)
+            _errorMessageDiscArtist.value = UIText.DiscArtistNameIndicate
             return false
         } else {
             _errorMessageDiscArtist.value = null
@@ -124,7 +110,7 @@ class AddDiscViewModel(private val repository: DiscRepository) : ViewModel() {
 
     private fun checkDiscTitle(): Boolean {
         if (discTitle.value?.trim().isNullOrEmpty()) {
-            _errorMessageDiscTitle.value = MyApp.res.getString(R.string.indicate_title_disc)
+            _errorMessageDiscTitle.value = UIText.DiscTitleIndicate
             return false
         } else {
             _errorMessageDiscTitle.value = null
@@ -134,11 +120,11 @@ class AddDiscViewModel(private val repository: DiscRepository) : ViewModel() {
 
     private fun checkDiscYear() = when {
         discYear.value?.trim().isNullOrEmpty() -> {
-            _errorMessageDiscYear.value = MyApp.res.getString(R.string.indicate_year_disc)
+            _errorMessageDiscYear.value = UIText.DiscYearIndicate
             false
         }
         discYear.value?.length!! < 4 || discYear.value!! < "1900" -> {
-            _errorMessageDiscYear.value = MyApp.res.getString(R.string.no_valid_year)
+            _errorMessageDiscYear.value = UIText.NoValidDiscYear
             false
         }
         else -> {
@@ -190,10 +176,7 @@ class AddDiscViewModel(private val repository: DiscRepository) : ViewModel() {
                         )
                     )
 
-                    onNavigateToDisc(
-                        snackBarMessage = MyApp.res.getString(R.string.disc_added),
-                        id = id
-                    )
+                    onNavigateToDisc(id)
                 }
                 else -> onNavigateToDiscPresent(DiscPresent(listDb, discAdd))
             }
@@ -203,7 +186,7 @@ class AddDiscViewModel(private val repository: DiscRepository) : ViewModel() {
     fun searchDisc(discAdd: DiscAdd) {
         viewModelScope.launch {
             val listDb = getListDiscDbPresent(discAdd)
-            val discPresent = DiscPresent(listDb, discAdd)
+            val discPresent = DiscPresent(list = listDb, discAdd = discAdd)
             when {
                 listDb.isEmpty() -> onNavigateToDiscResultSearch(discPresent)
                 else -> onNavigateToDiscPresent(discPresent)
@@ -214,13 +197,12 @@ class AddDiscViewModel(private val repository: DiscRepository) : ViewModel() {
     private suspend fun addDiscDatabase(disc: Disc) =
         repository.insertLong(disc)
 
-
     /* Get list of disc in database added by manually/scan/search
     with artist/group name + title + year filled by the user */
     private suspend fun getListDiscDbPresent(discAdd: DiscAdd) =
         repository.getListDiscDbPresent(
-            discAdd.name,
-            discAdd.title,
-            discAdd.year
+            name = discAdd.name,
+            title = discAdd.title,
+            year = discAdd.year
         )
 }

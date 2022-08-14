@@ -8,8 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import com.diego.discoteca.R
 import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.MyApp
+import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.databinding.FragmentUpdateDiscBinding
+import com.diego.discoteca.util.UIText
 import com.diego.discoteca.util.materialSharedAxisEnterReturnTransition
 import com.diego.discoteca.util.showDialogTitle
 import com.diego.discoteca.util.showBottomSheetModal
@@ -20,8 +21,8 @@ class UpdateDiscFragment : Fragment() {
     private val mUpdateDiscViewModel: UpdateDiscViewModel by viewModels {
         val arguments = UpdateDiscFragmentArgs.fromBundle(requireArguments())
         UpdateDiscViewModelFactory(
-            MyApp.instance.repository,
-            arguments.discId
+            repository = (requireContext().applicationContext as DiscotecaApplication).repository,
+            discId = arguments.discId
         )
     }
 
@@ -44,14 +45,14 @@ class UpdateDiscFragment : Fragment() {
             updateDiscViewModel = mUpdateDiscViewModel
             itDiscArtist.setEndIconOnClickListener {
                 showDialogTitle(
-                    getString(R.string.artist_group_name),
-                    getString(R.string.information_artist_message)
+                    title = getString(R.string.artist_group_name),
+                    message = getString(R.string.information_artist_message)
                 )
             }
             itDiscYear.setEndIconOnClickListener {
                 showDialogTitle(
-                    getString(R.string.disc_year_release),
-                    getString(R.string.information_year_message)
+                    title = getString(R.string.disc_year_release),
+                    message = getString(R.string.information_year_message)
                 )
             }
         }
@@ -61,8 +62,8 @@ class UpdateDiscFragment : Fragment() {
             it?.let { id ->
                 goToDiscFragment(
                     UpdateDiscFragmentDirections.actionUpdateDiscFragmentToDiscFragment(
-                        getString(R.string.disc_modified),
-                        id
+                        uiText = UIText.DiscUpdated,
+                        idAdded = id
                     )
                 )
                 mUpdateDiscViewModel.onNavigateToDiscDone()
@@ -73,9 +74,9 @@ class UpdateDiscFragment : Fragment() {
         mUpdateDiscViewModel.showBottomSheet.observe(viewLifecycleOwner) {
             it?.let { disc ->
                 childFragmentManager.showBottomSheetModal(
-                    disc.name,
-                    disc.title,
-                    disc.year
+                    artistName = disc.name,
+                    title = disc.title,
+                    year = disc.year
                 ) {
                     mUpdateDiscViewModel.updateDisc()
                 }
@@ -93,7 +94,10 @@ class UpdateDiscFragment : Fragment() {
     }
 
     private fun showDialogTitle(title: String, message: String) {
-        requireContext().showDialogTitle(title, message)
+        requireContext().showDialogTitle(
+            title = title,
+            message = message
+        )
     }
 
     private fun goToDiscFragment(directions: NavDirections) {

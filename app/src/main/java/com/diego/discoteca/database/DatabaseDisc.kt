@@ -1,10 +1,10 @@
 package com.diego.discoteca.database
 
+import android.content.Context
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.diego.discoteca.R
-import com.diego.discoteca.activity.MyApp
 import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.Result
 import com.diego.discoteca.util.*
@@ -109,13 +109,17 @@ fun Disc.asDatabaseModel(): DatabaseDisc {
     )
 }
 
-fun List<Result>.asDomainModel(barcode: String): List<Disc> {
+fun List<Result>.asDomainModel(context: Context, barcode: String): List<Disc> {
     return map { result ->
-        processingResult(result, barcode)
+        processingResult(
+            result = result,
+            barcode = barcode,
+            context = context
+        )
     }
 }
 
-private fun processingResult(result: Result, barcode: String): Disc {
+private fun processingResult(result: Result, barcode: String, context: Context): Disc {
     val formats = result.formats
     val formatQuantity = result.formatQuantity ?: -1
     val listFormatsSize = formats?.size?.minus(1)
@@ -139,13 +143,13 @@ private fun processingResult(result: Result, barcode: String): Disc {
         val descriptionText = when {
             name.isNotEmpty() && descriptionsString.isEmpty() && text.isEmpty() -> name
             name.isEmpty() && descriptionsString.isEmpty() && text.isNotEmpty() ->
-                "${MyApp.res.getString(R.string.media_undefined)} : $text"
+                "${context.getString(R.string.media_undefined)} : $text"
             name.isEmpty() && descriptionsString.isNotEmpty() && text.isEmpty() ->
-                "${MyApp.res.getString(R.string.media_undefined)} : $descriptionsString"
+                "${context.getString(R.string.media_undefined)} : $descriptionsString"
             name.isNotEmpty() && descriptionsString.isEmpty() && text.isNotEmpty() -> "$name : $text"
             name.isNotEmpty() && descriptionsString.isNotEmpty() && text.isEmpty() -> "$name : $descriptionsString"
             name.isEmpty() && descriptionsString.isNotEmpty() && text.isNotEmpty() ->
-                "${MyApp.res.getString(R.string.media_undefined)} : $descriptionsString , $text"
+                "${context.getString(R.string.media_undefined)} : $descriptionsString , $text"
             name.isNotEmpty() && descriptionsString.isNotEmpty() && text.isNotEmpty() -> "$name : $descriptionsString , $text"
             else -> ""
         }
@@ -166,9 +170,9 @@ private fun processingResult(result: Result, barcode: String): Disc {
 
     myFormat = when {
         formatQuantity > 0 && myFormat.isNotEmpty() ->
-            "$formatQuantity ${MyApp.res.getString(R.string.media)}\n$myFormat"
+            "$formatQuantity ${context.getString(R.string.media)}\n$myFormat"
         formatQuantity > 0 && myFormat.isEmpty() ->
-            "$formatQuantity ${MyApp.res.getString(R.string.media)}"
+            "$formatQuantity ${context.getString(R.string.media)}"
         formatQuantity < 1 && myFormat.isNotEmpty() -> myFormat
         else -> ""
     }

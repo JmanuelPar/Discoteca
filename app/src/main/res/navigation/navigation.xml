@@ -11,11 +11,6 @@
         android:label="@string/catalog"
         tools:layout="@layout/fragment_disc">
 
-        <argument
-            android:name="snackBarMessage"
-            android:defaultValue='noDisplay'
-            app:argType="string" />
-
         <action
             android:id="@+id/action_discFragment_to_discDetailFragment"
             app:destination="@id/discDetailFragment" />
@@ -31,6 +26,13 @@
         <action
             android:id="@+id/action_discFragment_to_updateDiscFragment"
             app:destination="@id/updateDiscFragment" />
+
+        <argument
+            android:name="uiText"
+            app:argType="com.diego.discoteca.util.UIText"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
         <argument
             android:name="idAdded"
             app:argType="long"

@@ -3,25 +3,23 @@ package com.diego.discoteca.ui.discResultScan
 import  android.view.View
 import androidx.lifecycle.*
 import androidx.paging.*
-import com.diego.discoteca.R
-import com.diego.discoteca.activity.MyApp
-import com.diego.discoteca.data.DatabasePagingSourceBarcode
 import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.DiscResultDetail
 import com.diego.discoteca.model.DiscResultScan
-import com.diego.discoteca.network.DiscogsApi
-import com.diego.discoteca.repository.DiscRepository.Companion.DATABASE_PAGE_SIZE
-import com.diego.discoteca.repository.DiscogsRepository
+import com.diego.discoteca.repository.DiscRepository
 import com.diego.discoteca.util.*
 import kotlinx.coroutines.flow.*
 
-class DiscResultScanViewModel(private val discItem: DiscResultScan) : ViewModel() {
+class DiscResultScanViewModel(
+    private val repository: DiscRepository,
+    private val discItem: DiscResultScan
+) : ViewModel() {
 
     val pagingDataFlow: Flow<PagingData<Disc>>
 
-    private val _discScan = MutableLiveData<DiscResultScan>()
-    val discScan: LiveData<DiscResultScan>
-        get() = _discScan
+    private val _discResultScan = MutableLiveData<DiscResultScan>()
+    val discResultScan: LiveData<DiscResultScan>
+        get() = _discResultScan
 
     private val _nBManually = MutableLiveData<Int>()
     val nBManually: LiveData<Int>
@@ -35,9 +33,9 @@ class DiscResultScanViewModel(private val discItem: DiscResultScan) : ViewModel(
     val nBSearch: LiveData<Int>
         get() = _nBSearch
 
-    private val _messageResult = MutableLiveData<String>()
-    val messageResult: LiveData<String>
-        get() = _messageResult
+    private val _totalResult = MutableLiveData<UIText?>()
+    val totalResult: LiveData<UIText?>
+        get() = _totalResult
 
     private val _messageError = MutableLiveData<String>()
     val messageError: LiveData<String>
@@ -65,29 +63,16 @@ class DiscResultScanViewModel(private val discItem: DiscResultScan) : ViewModel(
 
     init {
         pagingDataFlow = scanDisc().cachedIn(viewModelScope)
-        _discScan.value = discItem
+        _discResultScan.value = discItem
         visibilityError(false)
     }
 
     private fun scanDisc(): Flow<PagingData<Disc>> {
         return when (discItem.code) {
-            API -> DiscogsRepository(DiscogsApi.retrofitService).getSearchBarcodeStream(
-                barcode = discItem.barcode
-            )
-            else -> getPagerDatabaseBarcode()
+            API -> repository.getSearchBarcodeStream(barcode = discItem.barcode)
+            else -> repository.getSearchBarcodeDatabase(barcode = discItem.barcode)
         }
     }
-
-    private fun getPagerDatabaseBarcode() =
-        Pager(
-            config = PagingConfig(
-                pageSize = DATABASE_PAGE_SIZE,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = {
-                DatabasePagingSourceBarcode(barcode = discItem.barcode)
-            }
-        ).flow
 
     fun updateNbDisc(list: ItemSnapshotList<Disc>) {
         _nBManually.value = getSize(list)
@@ -110,18 +95,10 @@ class DiscResultScanViewModel(private val discItem: DiscResultScan) : ViewModel(
     }
 
     fun updateTotal(total: Int) {
-        _messageResult.value = when (discItem.code) {
-            API -> MyApp.res.getQuantityString(
-                R.plurals.plural_total_result,
-                total,
-                total
-            )
+        _totalResult.value = when (discItem.code) {
+            API -> UIText.TotalApi(total)
             // DATABASE
-            else -> MyApp.res.getQuantityString(
-                R.plurals.plural_nb_disc_present_search_barcode,
-                total,
-                total
-            )
+            else -> UIText.TotalDatabase(total)
         }
     }
 

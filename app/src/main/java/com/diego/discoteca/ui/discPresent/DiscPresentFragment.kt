@@ -10,7 +10,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.diego.discoteca.R
 import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.MyApp
+import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.adapter.DiscPresentAdapter
 import com.diego.discoteca.adapter.Listener
 import com.diego.discoteca.databinding.FragmentDiscPresentBinding
@@ -23,8 +23,8 @@ class DiscPresentFragment : Fragment() {
     private val mDiscPresentViewModel: DiscPresentViewModel by viewModels {
         val arguments = DiscPresentFragmentArgs.fromBundle(requireArguments())
         DiscPresentViewModelFactory(
-            MyApp.instance.repository,
-            arguments.discPresent
+            repository = (requireContext().applicationContext as DiscotecaApplication).repository,
+            discPresent = arguments.discPresent
         )
     }
 
@@ -73,8 +73,8 @@ class DiscPresentFragment : Fragment() {
                 navigateTo(
                     DiscPresentFragmentDirections
                         .actionDiscPresentFragmentToDiscFragment(
-                            pair.first,
-                            pair.second
+                            uiText = pair.first,
+                            idAdded = pair.second
                         )
                 )
                 mDiscPresentViewModel.onNavigateToDiscDone()

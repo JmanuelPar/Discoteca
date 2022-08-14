@@ -35,7 +35,6 @@
                 android:hint="@string/artist_group_name_hint"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                app:errorEnabled="@{addDiscViewModel.isVisibleEmDiscArt()}"
                 app:errorText="@{addDiscViewModel.errorMessageDiscArtist}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +61,6 @@
                 android:hint="@string/disc_title_hint"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                app:errorEnabled="@{addDiscViewModel.isVisibleEmDiscTitle()}"
                 app:errorText="@{addDiscViewModel.errorMessageDiscTitle}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +88,6 @@
                 android:hint="@string/disc_year_release_hint"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                app:errorEnabled="@{addDiscViewModel.isVisibleEmDiscYear()}"
                 app:errorText="@{addDiscViewModel.errorMessageDiscYear}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +103,6 @@
                     tools:ignore="TextContrastCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_search"

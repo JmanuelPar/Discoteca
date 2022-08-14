@@ -1,23 +1,27 @@
 package com.diego.discoteca.data
 
+import android.content.Context
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.diego.discoteca.BuildConfig
-import com.diego.discoteca.activity.MyApp
+import com.diego.discoteca.database.DiscDatabaseDao
 import com.diego.discoteca.database.asDomainModel
 import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.*
 import com.diego.discoteca.network.DiscogsApiService
-import com.diego.discoteca.repository.DiscogsRepository.Companion.NETWORK_DISCOGS_PAGE_SIZE
+import com.diego.discoteca.repository.DiscRepository.Companion.NETWORK_DISCOGS_PAGE_SIZE
 import com.diego.discoteca.util.*
 import retrofit2.HttpException
+import timber.log.Timber
 import java.io.IOException
 
 private const val DISCOGS_STARTING_PAGE_INDEX = 0
 
 class DiscogsPagingSourceSearchBarcode(
     private val service: DiscogsApiService,
-    private val barcode: String
+    private val dao: DiscDatabaseDao,
+    private val context: Context,
+    private val barcode: String,
 ) : PagingSource<Int, Disc>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Disc> {
         val page = params.key ?: DISCOGS_STARTING_PAGE_INDEX
@@ -46,12 +50,17 @@ class DiscogsPagingSourceSearchBarcode(
 
             /* Get list of disc in database with barcode scanned by the user,
             added by scan (none, one or more) */
-            val repository = MyApp.instance.repository
-            val listDbScan = repository.getListDiscDbScan(barcode)
+            // val repository = DiscotecaApplication.instance.repository
+            val listDbScan = dao.getListDiscDbScan(barcode).asDomainModel()
 
-            val listApi = response.results?.asDomainModel(barcode)?.sortedBy {
+            val listApi = response.results?.asDomainModel(
+                context = context,
+                barcode = barcode
+            )?.sortedBy {
                 it.country.lowercase()
             }
+
+            Timber.e("List Api Discogs : $listApi")
 
             /* Get list of disc in database, added manually by the user
             with name artist/group + title + year in list Discogs API (none, one or more) */
@@ -73,19 +82,21 @@ class DiscogsPagingSourceSearchBarcode(
 
             list?.forEach { discDb ->
                 // Disc added by the user manually
-                val discDbManually = repository.getDiscDbManually(
+                val discDbManually = dao.getDiscDbManually(
                     discDb.name,
                     discDb.title,
                     discDb.year
-                )
+                )?.asDomainModel()
+
                 discDbManually?.let { listDbManually.add(it) }
 
-                val discDbSearch = repository.getDiscDbSearch(
+                val discDbSearch = dao.getDiscDbSearch(
                     discDb.idDisc,
                     discDb.name,
                     discDb.title,
                     discDb.year
-                )
+                )?.asDomainModel()
+
                 discDbSearch?.let { listDbSearch.add(it) }
             }
 
@@ -184,6 +195,7 @@ class DiscogsPagingSourceSearchBarcode(
 
 class DiscogsPagingSourceSearchDisc(
     private val service: DiscogsApiService,
+    private val context: Context,
     private val discPresent: DiscPresent
 ) : PagingSource<Int, Disc>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Disc> {
@@ -212,7 +224,10 @@ class DiscogsPagingSourceSearchDisc(
 
             val listDb = discPresent.list
             val discAdd = discPresent.discAdd
-            val listApi = response.results?.asDomainModel("")?.sortedWith(
+            val listApi = response.results?.asDomainModel(
+                context = context,
+                barcode = ""
+            )?.sortedWith(
                 compareBy({ it.country.lowercase() }, { it.format.lowercase() }
                 ))
 

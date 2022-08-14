@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.LoadState
 import com.diego.discoteca.R
+import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.activity.MainActivity
 import com.diego.discoteca.adapter.DiscResultAdapter
 import com.diego.discoteca.adapter.DiscsLoadStateAdapter
@@ -28,7 +29,10 @@ class DiscResultScanFragment : Fragment() {
 
     private val mDiscResultScanViewModel: DiscResultScanViewModel by viewModels {
         val arguments = DiscResultScanFragmentArgs.fromBundle(requireArguments())
-        DiscResultScanViewModelFactory(arguments.discResultScan)
+        DiscResultScanViewModelFactory(
+            repository = (requireContext().applicationContext as DiscotecaApplication).repository,
+            discResultScan = arguments.discResultScan
+        )
     }
 
     private lateinit var binding: FragmentDiscResultScanBinding
@@ -78,21 +82,27 @@ class DiscResultScanFragment : Fragment() {
 
         mDiscResultScanViewModel.navigateToDiscResultDetail.observe(viewLifecycleOwner) {
             it?.let { pair ->
-                goToDiscResultDetailFragment(pair.first, pair.second)
+                goToDiscResultDetailFragment(
+                    view = pair.first,
+                    discResultDetail = pair.second
+                )
                 mDiscResultScanViewModel.onDiscResultDetailClickedDone()
             }
         }
 
         mDiscResultScanViewModel.navigateToDiscDetail.observe(viewLifecycleOwner) { it ->
             it?.let { pair ->
-                goToDiscDetailFragment(pair.first, pair.second)
+                goToDiscDetailFragment(
+                    view = pair.first,
+                    id = pair.second
+                )
                 mDiscResultScanViewModel.onDiscDetailClickedDone()
             }
         }
 
         mDiscResultScanViewModel.navigateTo.observe(viewLifecycleOwner) {
-            it?.let { code ->
-                when (code) {
+            it?.let { discItemCode ->
+                when (discItemCode) {
                     API -> goToDiscFragment()
                     DATABASE -> goToInformationFragment()
                 }
@@ -179,7 +189,7 @@ class DiscResultScanFragment : Fragment() {
         (activity as MainActivity).navigateTo(
             DiscResultScanFragmentDirections
                 .actionDiscResultScanFragmentToDiscFragment(
-                    snackBarMessage = NO_DISPLAY,
+                    uiText = UIText.NoDisplay,
                     idAdded = -1L
                 )
         )

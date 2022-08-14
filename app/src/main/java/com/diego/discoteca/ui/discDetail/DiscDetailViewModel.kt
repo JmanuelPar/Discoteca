@@ -6,10 +6,10 @@ import com.diego.discoteca.repository.DiscRepository
 
 class DiscDetailViewModel(
     val repository: DiscRepository,
-    discKey: Long = 0L
+    discId: Long = 0L
 ) : ViewModel() {
 
-    private val disc: LiveData<Disc> = repository.getDiscWithId(discKey)
+    private val disc: LiveData<Disc> = repository.getDiscWithId(discId)
     fun getDisc() = disc
 
     private val _buttonOk = MutableLiveData<Boolean>()

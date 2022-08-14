@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.LoadState
 import com.diego.discoteca.R
+import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.activity.MainActivity
 import com.diego.discoteca.adapter.DiscResultAdapter
 import com.diego.discoteca.adapter.DiscsLoadStateAdapter
@@ -30,7 +31,10 @@ class DiscResultSearchFragment : Fragment() {
 
     private val mDiscResultSearchViewModel: DiscResultSearchViewModel by viewModels {
         val arguments = DiscResultSearchFragmentArgs.fromBundle(requireArguments())
-        DiscResultSearchViewModelFactory(arguments.discPresent)
+        DiscResultSearchViewModelFactory(
+            repository = (requireContext().applicationContext as DiscotecaApplication).repository,
+            discPresent = arguments.discPresent
+        )
     }
 
     private lateinit var binding: FragmentDiscResultSearchBinding
@@ -55,7 +59,8 @@ class DiscResultSearchFragment : Fragment() {
 
         adapterDiscResult = DiscResultAdapter(Listener { view, disc ->
             goToDiscResultDetailFragment(
-                view, DiscResultDetail(disc, SEARCH)
+                view = view,
+                discResultDetail = DiscResultDetail(disc, SEARCH)
             )
         })
 
