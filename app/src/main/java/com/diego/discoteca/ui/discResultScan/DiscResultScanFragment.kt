@@ -100,13 +100,15 @@ class DiscResultScanFragment : Fragment() {
             }
         }
 
-        mDiscResultScanViewModel.navigateTo.observe(viewLifecycleOwner) {
-            it?.let { discItemCode ->
-                when (discItemCode) {
-                    API -> goToDiscFragment()
-                    DATABASE -> goToInformationFragment()
+        mDiscResultScanViewModel.buttonBack.observe(viewLifecycleOwner) { destination ->
+            if (destination != Destination.NONE) {
+                when (destination) {
+                    Destination.API -> goToDiscFragment()
+                    Destination.DATABASE -> goToInformationFragment()
+                    else -> goToDiscFragment()
                 }
-                mDiscResultScanViewModel.onNavigateToDone()
+
+                mDiscResultScanViewModel.onButtonBackClickedDone()
             }
         }
 
@@ -165,23 +167,21 @@ class DiscResultScanFragment : Fragment() {
 
     private fun goToDiscResultDetailFragment(view: View, discResultDetail: DiscResultDetail) {
         materialElevationScaleExitReenterTransition()
-        val discDetailCardTransitionName =
-            getString(R.string.disc_detail_card_transition_name)
+        val discDetailCardTransitionName = getString(R.string.disc_detail_card_transition_name)
         (activity as MainActivity).navigateToWithExtras(
-            DiscResultScanFragmentDirections
+            directions = DiscResultScanFragmentDirections
                 .actionDiscResultScanFragmentToDiscResultDetailFragment(discResultDetail),
-            FragmentNavigatorExtras(view to discDetailCardTransitionName)
+            extras = FragmentNavigatorExtras(view to discDetailCardTransitionName)
         )
     }
 
     private fun goToDiscDetailFragment(view: View, id: Long) {
         materialElevationScaleExitReenterTransition()
-        val discDetailCardTransitionName =
-            getString(R.string.disc_detail_card_transition_name)
+        val discDetailCardTransitionName = getString(R.string.disc_detail_card_transition_name)
         (activity as MainActivity).navigateToWithExtras(
-            DiscResultScanFragmentDirections
+            directions = DiscResultScanFragmentDirections
                 .actionDiscResultScanFragmentToDiscDetailFragment(id),
-            FragmentNavigatorExtras(view to discDetailCardTransitionName)
+            extras = FragmentNavigatorExtras(view to discDetailCardTransitionName)
         )
     }
 

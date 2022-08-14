@@ -186,7 +186,10 @@ class AddDiscViewModel(private val repository: DiscRepository) : ViewModel() {
     fun searchDisc(discAdd: DiscAdd) {
         viewModelScope.launch {
             val listDb = getListDiscDbPresent(discAdd)
-            val discPresent = DiscPresent(list = listDb, discAdd = discAdd)
+            val discPresent = DiscPresent(
+                list = listDb,
+                discAdd = discAdd
+            )
             when {
                 listDb.isEmpty() -> onNavigateToDiscResultSearch(discPresent)
                 else -> onNavigateToDiscPresent(discPresent)

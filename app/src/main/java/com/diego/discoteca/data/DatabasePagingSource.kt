@@ -35,10 +35,10 @@ class DatabasePagingSourceBarcode(
             for list of disc in database with a barcode */
             val list = listBarcode.map { disc ->
                 DiscDb(
-                    0,
-                    disc.name.stringNormalizeDatabase(),
-                    disc.title.stringNormalizeDatabase(),
-                    disc.year
+                    idDisc = 0,
+                    name = disc.name.stringNormalizeDatabase(),
+                    title = disc.title.stringNormalizeDatabase(),
+                    year = disc.year
                 )
             }.toSet()
 
@@ -48,9 +48,9 @@ class DatabasePagingSourceBarcode(
             if (list.isNotEmpty()) {
                 list.forEach { discDb ->
                     val listDB = dao.getListDiscDbManuallySearch(
-                        discDb.name,
-                        discDb.title,
-                        discDb.year
+                        name = discDb.name,
+                        title = discDb.title,
+                        year = discDb.year
                     ).asDomainModel()
 
                     listDbManuallySearch += listDB

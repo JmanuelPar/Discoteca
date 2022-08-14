@@ -113,7 +113,10 @@ class AddDiscFragment : Fragment() {
     }
 
     private fun showDialogTitle(title: String, message: String) {
-        requireContext().showDialogTitle(title = title, message = message)
+        requireContext().showDialogTitle(
+            title = title,
+            message = message
+        )
     }
 
     private fun goToDiscFragment(navDirections: NavDirections) {

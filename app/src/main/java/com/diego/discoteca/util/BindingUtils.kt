@@ -515,10 +515,11 @@ fun MaterialButton.setButtonNoResultDetail(item: DiscResultDetail?) {
 
 @BindingAdapter("messageNoResultRecommendation")
 fun TextView.setMessageNoResultRecommendation(item: DiscResultScan?) {
-    item?.let { discScan ->
-        text = when (discScan.code) {
-            API -> context.getString(R.string.disc_recommendation_api)
-            else -> context.getString(R.string.disc_recommendation_database)
+    item?.let { discResultScan ->
+        text = when (discResultScan.destination) {
+            Destination.API -> context.getString(R.string.disc_recommendation_api)
+            Destination.DATABASE -> context.getString(R.string.disc_recommendation_database)
+            else -> context.getString(R.string.undefined)
         }
     }
 }
@@ -623,7 +624,7 @@ fun TextView.setDiscBarcodeDetail(item: DiscResultDetail?) {
 }
 
 @BindingAdapter("getUIText")
-fun TextView.getUIText(uiText: UIText?){
+fun TextView.getUIText(uiText: UIText?) {
     uiText?.let {
         text = context.getMyUIText(it)
     }

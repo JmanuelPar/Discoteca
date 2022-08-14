@@ -20,7 +20,15 @@ data class Disc(
     var isPresentByScan: Boolean? = false,
     var isPresentBySearch: Boolean? = false,
     var addBy: Int,
-    var discLight: DiscLight? = DiscLight(0L, "", "", "", "", "", "")
+    var discLight: DiscLight? = DiscLight(
+        id = 0L,
+        name = "",
+        title = "",
+        year = "",
+        country = "",
+        format = "",
+        formatMedia = ""
+    )
 ) : Parcelable {
 
     constructor(

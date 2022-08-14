@@ -210,22 +210,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun hideToolBar() {
-        mTransitionDelayed(sceneRoot = toolbar, mDuration = 84L)
+        mTransitionDelayed(
+            sceneRoot = toolbar,
+            mDuration = 84L
+        )
         supportActionBar?.hide()
     }
 
     private fun showToolBar() {
-        mTransitionDelayed(sceneRoot = toolbar, mDuration = 150L)
+        mTransitionDelayed(
+            sceneRoot = toolbar,
+            mDuration = 150L
+        )
         supportActionBar?.show()
     }
 
     private fun hideNoInternet() {
-        mTransitionDelayed(sceneRoot = layoutNoInternet, mDuration = 84L)
+        mTransitionDelayed(
+            sceneRoot = layoutNoInternet,
+            mDuration = 84L
+        )
         layoutNoInternet.visibility = View.GONE
     }
 
     private fun showNoInternet() {
-        mTransitionDelayed(sceneRoot = layoutNoInternet, mDuration = 150L)
+        mTransitionDelayed(
+            sceneRoot = layoutNoInternet,
+            mDuration = 150L
+        )
         layoutNoInternet.visibility = View.VISIBLE
     }
 
@@ -294,7 +306,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         expandedButton = true
-        mTransitionDelayed(sceneRoot = binding.menuCardView, mDuration = 150L)
+        mTransitionDelayed(
+            sceneRoot = binding.menuCardView,
+            mDuration = 150L
+        )
         binding.menuCardView.visibility = View.VISIBLE
     }
 
@@ -303,7 +318,10 @@ class MainActivity : AppCompatActivity() {
         showBottomBar()
         binding.menuCardScrim.visibility = View.GONE
         expandedButton = false
-        mTransitionDelayed(sceneRoot = binding.menuCardView, mDuration = 54L)
+        mTransitionDelayed(
+            sceneRoot = binding.menuCardView,
+            mDuration = 54L
+        )
         binding.menuCardView.visibility = View.INVISIBLE
         fabButton.show()
     }
@@ -323,8 +341,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun showAlertDialogRationale() {
         this.showDialogMessageOneButton(
-            this.getString(R.string.permission_camera_rationale_body),
-            this.getString(R.string.ok)
+            message = this.getString(R.string.permission_camera_rationale_body),
+            positiveButton = this.getString(R.string.ok)
         ) {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION_CAMERA)
         }
@@ -332,7 +350,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun goToScanBarcodeFragment() {
         navigate(
-            DiscFragmentDirections.actionDiscFragmentToScanBarcodeFragment(API)
+            DiscFragmentDirections.actionDiscFragmentToScanBarcodeFragment(Destination.API)
         )
     }
 
@@ -374,8 +392,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun mTransitionDelayed(sceneRoot: ViewGroup, mDuration: Long) {
         delayedTransition(
-            sceneRoot,
-            MaterialFade().apply { duration = mDuration }
+            sceneRoot = sceneRoot,
+            transition = MaterialFade().apply { duration = mDuration }
         )
     }
 
@@ -407,7 +425,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showSnackBarNoAnchor(uiText: UIText) {
-        binding.root.showSnackBarNoAnchor(message = this.getMyUIText(uiText))
+        binding.root.showSnackBarNoAnchor(this.getMyUIText(uiText))
     }
 
     fun showScrimLayout(display: Boolean) {

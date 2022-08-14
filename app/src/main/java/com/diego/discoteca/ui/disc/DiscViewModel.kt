@@ -26,7 +26,10 @@ class DiscViewModel(
         sortOrderPreferencesFlow,
         ::Pair
     ).flatMapLatest { (searchQuery, sortOrderPreferences) ->
-        repository.getAllDiscs(searchQuery, sortOrderPreferences.sortOrder)
+        repository.getAllDiscs(
+            searchQuery = searchQuery,
+            sortOrder = sortOrderPreferences.sortOrder
+        )
     }
 
     val listDiscs = listDiscsFlow.asLiveData()
@@ -172,7 +175,9 @@ class DiscViewModel(
                 id.value != -1L -> {
                     var position = -1
                     list.forEach {
-                        if (it.id == idAdded) { position = list.indexOf(it) }
+                        if (it.id == idAdded) {
+                            position = list.indexOf(it)
+                        }
                     }
 
                     when (position) {

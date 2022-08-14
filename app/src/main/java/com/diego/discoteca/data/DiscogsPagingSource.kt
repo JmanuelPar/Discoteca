@@ -73,28 +73,28 @@ class DiscogsPagingSourceSearchBarcode(
             // Create a list of disc with idDisc + artist/group + title + year from list Discogs Api
             val list = listApi?.map { discApi ->
                 DiscDb(
-                    discApi.idDisc,
-                    discApi.name,
-                    discApi.title,
-                    discApi.year
+                    idDisc = discApi.idDisc,
+                    name = discApi.name,
+                    title = discApi.title,
+                    year = discApi.year
                 )
             }
 
             list?.forEach { discDb ->
                 // Disc added by the user manually
                 val discDbManually = dao.getDiscDbManually(
-                    discDb.name,
-                    discDb.title,
-                    discDb.year
+                    name = discDb.name,
+                    title = discDb.title,
+                    year = discDb.year
                 )?.asDomainModel()
 
                 discDbManually?.let { listDbManually.add(it) }
 
                 val discDbSearch = dao.getDiscDbSearch(
-                    discDb.idDisc,
-                    discDb.name,
-                    discDb.title,
-                    discDb.year
+                    idDisc = discDb.idDisc,
+                    name = discDb.name,
+                    title = discDb.title,
+                    year = discDb.year
                 )?.asDomainModel()
 
                 discDbSearch?.let { listDbSearch.add(it) }

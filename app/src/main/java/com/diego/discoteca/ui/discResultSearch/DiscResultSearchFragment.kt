@@ -60,7 +60,10 @@ class DiscResultSearchFragment : Fragment() {
         adapterDiscResult = DiscResultAdapter(Listener { view, disc ->
             goToDiscResultDetailFragment(
                 view = view,
-                discResultDetail = DiscResultDetail(disc, SEARCH)
+                discResultDetail = DiscResultDetail(
+                    disc = disc,
+                    code = SEARCH
+                )
             )
         })
 
@@ -148,9 +151,9 @@ class DiscResultSearchFragment : Fragment() {
         materialElevationScaleExitReenterTransition()
         val discDetailCardTransitionName = getString(R.string.disc_detail_card_transition_name)
         (activity as MainActivity).navigateToWithExtras(
-            DiscResultSearchFragmentDirections
+            directions = DiscResultSearchFragmentDirections
                 .actionDiscResultSearchFragmentToDiscResultDetailFragment(discResultDetail),
-            FragmentNavigatorExtras(view to discDetailCardTransitionName)
+            extras = FragmentNavigatorExtras(view to discDetailCardTransitionName)
         )
     }
 }

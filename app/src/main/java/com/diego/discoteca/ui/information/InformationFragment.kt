@@ -10,7 +10,7 @@ import com.diego.discoteca.activity.MainActivity
 import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.adapter.CountFormatMediaAdapter
 import com.diego.discoteca.databinding.FragmentInformationBinding
-import com.diego.discoteca.util.DATABASE
+import com.diego.discoteca.util.Destination
 import com.google.android.material.transition.MaterialFadeThrough
 
 class InformationFragment : Fragment() {
@@ -70,7 +70,7 @@ class InformationFragment : Fragment() {
 
     private fun goToScanBarcodeFragment() {
         (activity as MainActivity).navigate(
-            InformationFragmentDirections.actionInfoFragmentToScanBarcodeFragment(DATABASE)
+            InformationFragmentDirections.actionInfoFragmentToScanBarcodeFragment(Destination.DATABASE)
         )
     }
 }
