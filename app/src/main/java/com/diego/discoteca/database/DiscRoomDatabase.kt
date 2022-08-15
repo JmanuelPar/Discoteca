@@ -8,8 +8,7 @@ import com.diego.discoteca.util.DATABASE_NAME
 
 @Database(
     entities = [DatabaseDisc::class],
-    version = 1,
-    exportSchema = false
+    version = 1
 )
 abstract class DiscRoomDatabase : RoomDatabase() {
 
