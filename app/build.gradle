@@ -21,6 +21,13 @@ android {
 
         buildConfigField("String", "API_KEY", api_discogs_key)
         buildConfigField("String", "API_SECRET", api_discogs_secret)
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation":
+                                      "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     buildTypes {
