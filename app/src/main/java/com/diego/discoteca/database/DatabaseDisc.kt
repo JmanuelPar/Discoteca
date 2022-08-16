@@ -9,11 +9,6 @@ import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.Result
 import com.diego.discoteca.util.*
 
-/* addBy: Int ->
-   1 : add by manually
-   2 : add by scan
-   3 : add by search */
-
 @Entity(tableName = "disc_table")
 data class DatabaseDisc(
     @PrimaryKey(autoGenerate = true)
@@ -48,7 +43,7 @@ data class DatabaseDisc(
     val idDisc: Int,
 
     @ColumnInfo(name = "addBy")
-    val addBy: Int,
+    val addBy: AddBy,
 
     @ColumnInfo(name = "nameNormalize")
     val nameNormalize: String,
@@ -192,7 +187,6 @@ private fun processingResult(result: Result, barcode: String, context: Context):
         coverImage = result.coverImage ?: "",
         barcode = barcodeDiscogs,
         idDisc = result.id!!,
-        addBy = -1
+        addBy = AddBy.NONE
     )
 }
-

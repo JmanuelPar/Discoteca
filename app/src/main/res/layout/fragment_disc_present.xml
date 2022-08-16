@@ -28,8 +28,8 @@
                 android:id="@+id/tv_nb_disc_present_discoteca"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:gravity="center_horizontal"
                 android:textAppearance="@style/TextAppearance.Discoteca.Headline6"
@@ -44,8 +44,8 @@
                 android:id="@+id/tv_choose_disc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:gravity="center_horizontal"
                 android:text="@string/choose_disc"
@@ -87,13 +87,13 @@
                     android:id="@+id/tv_answer_still"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:gravity="center_horizontal"
                     android:textAppearance="@style/TextAppearance.Discoteca.Body1"
-                    app:textPresent="@{discPresentViewModel.discPresent.discAdd.addBy}"
-                    tools:text="@string/a_answer"/>
+                    app:answerPresent="@{discPresentViewModel.discPresent}"
+                    tools:text="@string/a_answer" />
 
                 <TextView
                     android:id="@+id/tv_disc_add_name"
@@ -102,8 +102,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:gravity="center_horizontal"
-                    android:text="@{discPresentViewModel.discPresent.discAdd.name}"
                     android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
+                    app:discAddName="@{discPresentViewModel.discPresent}"
                     tools:text="@string/disc_name" />
 
                 <TextView
@@ -113,8 +113,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:gravity="center_horizontal"
-                    android:text="@{discPresentViewModel.discPresent.discAdd.title}"
                     android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
+                    app:discAddTitle="@{discPresentViewModel.discPresent}"
                     tools:text="@string/disc_title" />
 
                 <TextView
@@ -124,8 +124,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:gravity="center_horizontal"
-                    android:text="@{discPresentViewModel.discPresent.discAdd.year}"
                     android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
+                    app:discAddYear="@{discPresentViewModel.discPresent}"
                     tools:text="@string/disc_year_example" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -138,12 +138,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:onClick="@{() -> discPresentViewModel.onButtonAddClicked()}"
-                        app:buttonAddPresent="@{discPresentViewModel.discPresent.discAdd.addBy}"
-                        tools:text="@string/add"
+                        app:buttonAddPresent="@{discPresentViewModel.discPresent}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/button_cancel" />
+                        app:layout_constraintStart_toEndOf="@+id/button_cancel"
+                        tools:text="@string/add" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/button_cancel"

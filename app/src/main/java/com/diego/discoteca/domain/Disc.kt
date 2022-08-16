@@ -2,6 +2,7 @@ package com.diego.discoteca.domain
 
 import android.os.Parcelable
 import com.diego.discoteca.model.DiscLight
+import com.diego.discoteca.util.AddBy
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -19,7 +20,7 @@ data class Disc(
     var isPresentByManually: Boolean? = false,
     var isPresentByScan: Boolean? = false,
     var isPresentBySearch: Boolean? = false,
-    var addBy: Int,
+    var addBy: AddBy,
     var discLight: DiscLight? = DiscLight(
         id = 0L,
         name = "",
@@ -41,7 +42,7 @@ data class Disc(
         formatMedia: String,
         coverImage: String,
         barcode: String,
-        addBy: Int
+        addBy: AddBy
     ) :
             this(
                 id = id,
@@ -67,7 +68,7 @@ data class Disc(
         coverImage: String,
         barcode: String,
         idDisc: Int,
-        addBy: Int
+        addBy: AddBy
     ) :
             this(
                 id = 0L,
@@ -91,7 +92,7 @@ data class Disc(
         barcode: String,
         coverImage: String,
         idDisc: Int,
-        addBy: Int
+        addBy: AddBy
     ) :
             this(
                 id = 0L,
@@ -111,7 +112,7 @@ data class Disc(
         name: String,
         title: String,
         year: String,
-        addBy: Int
+        addBy: AddBy
     ) :
             this(
                 id = 0L,
@@ -137,15 +138,10 @@ data class Disc(
                 "\n format : $format" +
                 "\n formatMedia : $formatMedia" +
                 "\n barcode : $barcode" +
-                "\n addBy : $addBy" +
+                "\n addBy : ${addBy.name}" +
                 "\n isPresentManually : $isPresentByManually " +
                 "\n isPresentScan : $isPresentByScan " +
                 "\n idPresentSearch : $isPresentBySearch " +
                 "\n discLight : $discLight"
     }
 }
-
-
-
-
-

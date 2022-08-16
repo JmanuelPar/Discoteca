@@ -5,6 +5,11 @@ import androidx.room.*
 import com.diego.discoteca.model.CountFormatMedia
 import kotlinx.coroutines.flow.Flow
 
+/* addBy: Int ->
+   1 : AddBy.MANUALLY
+   2 : AddBy.SCAN
+   3 : AddBy.SEARCh */
+
 @Dao
 interface DiscDatabaseDao {
 
@@ -69,12 +74,13 @@ interface DiscDatabaseDao {
         "SELECT * FROM disc_table " +
                 "WHERE (nameNormalize LIKE '%' || :name || '%' OR titleNormalize LIKE '%' || :title || '%') " +
                 "AND year = :year " +
-                "AND addBy = 1 "
+                "AND addBy = :addBy "
     )
     suspend fun getDiscDbManually(
         name: String,
         title: String,
-        year: String
+        year: String,
+        addBy: Int
     ): DatabaseDisc?
 
     @Query(
@@ -83,13 +89,14 @@ interface DiscDatabaseDao {
                 "AND title = :title " +
                 "AND year = :year " +
                 "AND idDisc = :idDisc " +
-                "AND addBy = 3 "
+                "AND addBy = :addBy "
     )
     suspend fun getDiscDbSearch(
         idDisc: Int,
         name: String,
         title: String,
-        year: String
+        year: String,
+        addBy: Int
     ): DatabaseDisc?
 
     @Query(
@@ -108,12 +115,14 @@ interface DiscDatabaseDao {
         "SELECT * FROM disc_table " +
                 "WHERE (nameNormalize LIKE '%' || :name || '%' OR titleNormalize LIKE '%' || :title || '%') " +
                 "AND year = :year " +
-                "AND (addBy = 1 OR addBy = 3) " +
+                "AND (addBy = :addByManual OR addBy = :addBySearch) " +
                 "ORDER BY nameNormalize ASC"
     )
     suspend fun getListDiscDbManuallySearch(
         name: String,
         title: String,
-        year: String
+        year: String,
+        addByManual: Int,
+        addBySearch: Int
     ): List<DatabaseDisc>
 }

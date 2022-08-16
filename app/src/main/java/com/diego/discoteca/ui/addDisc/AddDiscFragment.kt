@@ -58,10 +58,7 @@ class AddDiscFragment : Fragment() {
                     title = discAdd.title,
                     year = discAdd.year
                 ) {
-                    when (discAdd.addBy) {
-                        MANUALLY -> mAddDiscViewModel.addDisc(discAdd)
-                        else -> mAddDiscViewModel.searchDisc(discAdd)
-                    }
+                    mAddDiscViewModel.processingDisc(discAdd)
                 }
                 mAddDiscViewModel.onShowBottomSheetDone()
             }

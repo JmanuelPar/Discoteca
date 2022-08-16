@@ -85,7 +85,8 @@ class DiscogsPagingSourceSearchBarcode(
                 val discDbManually = dao.getDiscDbManually(
                     name = discDb.name,
                     title = discDb.title,
-                    year = discDb.year
+                    year = discDb.year,
+                    addBy = AddBy.MANUALLY.code
                 )?.asDomainModel()
 
                 discDbManually?.let { listDbManually.add(it) }
@@ -94,7 +95,8 @@ class DiscogsPagingSourceSearchBarcode(
                     idDisc = discDb.idDisc,
                     name = discDb.name,
                     title = discDb.title,
-                    year = discDb.year
+                    year = discDb.year,
+                    addBy = AddBy.SEARCH.code
                 )?.asDomainModel()
 
                 discDbSearch?.let { listDbSearch.add(it) }
@@ -106,9 +108,9 @@ class DiscogsPagingSourceSearchBarcode(
                     map { discApi ->
                         listDb.map { discDb ->
                             when {
-                                discApi.idDisc == discDb.idDisc && discDb.addBy == SCAN ->
+                                discApi.idDisc == discDb.idDisc && discDb.addBy == AddBy.SCAN ->
                                     discApi.isPresentByScan = true
-                                discApi.idDisc == discDb.idDisc && discDb.addBy == SEARCH -> {
+                                discApi.idDisc == discDb.idDisc && discDb.addBy == AddBy.SEARCH -> {
                                     discApi.isPresentBySearch = true
                                     discApi.discLight = DiscLight(
                                         id = discDb.id,
@@ -128,7 +130,7 @@ class DiscogsPagingSourceSearchBarcode(
                         listDb.map { discDb ->
                             if (discApi.isPresentByScan == false
                                 && discApi.isPresentBySearch == false
-                                && discDb.addBy == MANUALLY
+                                && discDb.addBy == AddBy.MANUALLY
                             ) {
                                 val discApiName = discApi.name.stringNormalizeDatabase()
                                 val discApiTitle = discApi.title.stringNormalizeDatabase()
@@ -236,9 +238,9 @@ class DiscogsPagingSourceSearchDisc(
                     map { discApi ->
                         listDb.map { discDb ->
                             when {
-                                discApi.idDisc == discDb.idDisc && discDb.addBy == SCAN ->
+                                discApi.idDisc == discDb.idDisc && discDb.addBy == AddBy.SCAN ->
                                     discApi.isPresentByScan = true
-                                discApi.idDisc == discDb.idDisc && discDb.addBy == SEARCH ->
+                                discApi.idDisc == discDb.idDisc && discDb.addBy == AddBy.SEARCH ->
                                     discApi.isPresentBySearch = true
                             }
                         }
@@ -247,7 +249,7 @@ class DiscogsPagingSourceSearchDisc(
                     map { discApi ->
                         if (discApi.isPresentByScan == false
                             && discApi.isPresentBySearch == false
-                            && discAdd.addBy == MANUALLY
+                            && discAdd.addBy == AddBy.MANUALLY
                         ) {
                             discApi.isPresentByManually = true
                             discApi.discLight = DiscLight(

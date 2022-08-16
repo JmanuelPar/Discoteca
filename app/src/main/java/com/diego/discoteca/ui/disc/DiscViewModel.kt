@@ -194,5 +194,3 @@ class DiscViewModel(
         _isSearch.value = isSearch
     }
 }
-
-

@@ -18,7 +18,7 @@ import com.diego.discoteca.adapter.DiscsLoadStateAdapter
 import com.diego.discoteca.adapter.Listener
 import com.diego.discoteca.databinding.FragmentDiscResultSearchBinding
 import com.diego.discoteca.model.DiscResultDetail
-import com.diego.discoteca.util.SEARCH
+import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.materialElevationScaleExitReenterTransition
 import com.diego.discoteca.util.materialSharedAxisEnterReturnTransition
 import com.google.android.material.transition.MaterialSharedAxis
@@ -62,7 +62,7 @@ class DiscResultSearchFragment : Fragment() {
                 view = view,
                 discResultDetail = DiscResultDetail(
                     disc = disc,
-                    code = SEARCH
+                    addBy = AddBy.SEARCH
                 )
             )
         })

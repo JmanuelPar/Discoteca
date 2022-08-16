@@ -117,8 +117,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="@{discResultSearchViewModel.discPresent.discAdd.name}"
                     android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
+                    app:discAddName="@{discResultSearchViewModel.discPresent}"
                     tools:text="@string/disc_name" />
 
                 <TextView
@@ -126,8 +126,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="@{discResultSearchViewModel.discPresent.discAdd.title}"
                     android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
+                    app:discAddTitle="@{discResultSearchViewModel.discPresent}"
                     tools:text="@string/disc_title" />
 
                 <TextView
@@ -136,8 +136,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:paddingBottom="16dp"
-                    android:text="@{discResultSearchViewModel.discPresent.discAdd.year}"
                     android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
+                    app:discAddYear="@{discResultSearchViewModel.discPresent}"
                     tools:text="@string/disc_year_example" />
 
             </LinearLayout>

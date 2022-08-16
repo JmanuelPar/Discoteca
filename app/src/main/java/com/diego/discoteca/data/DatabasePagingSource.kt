@@ -6,10 +6,7 @@ import com.diego.discoteca.database.DiscDatabaseDao
 import com.diego.discoteca.database.asDomainModel
 import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.DiscDb
-import com.diego.discoteca.util.MANUALLY
-import com.diego.discoteca.util.SCAN
-import com.diego.discoteca.util.SEARCH
-import com.diego.discoteca.util.stringNormalizeDatabase
+import com.diego.discoteca.util.*
 
 private const val DATABASE_STARTING_PAGE_INDEX = 0
 
@@ -50,7 +47,9 @@ class DatabasePagingSourceBarcode(
                     val listDB = dao.getListDiscDbManuallySearch(
                         name = discDb.name,
                         title = discDb.title,
-                        year = discDb.year
+                        year = discDb.year,
+                        addByManual = AddBy.MANUALLY.code,
+                        addBySearch = AddBy.SEARCH.code
                     ).asDomainModel()
 
                     listDbManuallySearch += listDB
@@ -70,9 +69,9 @@ class DatabasePagingSourceBarcode(
 
             LoadResult.Page(
                 data = listDiscDb.sortedWith(
-                    compareBy<Disc> { it.addBy == SCAN }
-                        .thenBy { it.addBy == SEARCH }
-                        .thenBy { it.addBy == MANUALLY }
+                    compareBy<Disc> { it.addBy == AddBy.SCAN }
+                        .thenBy { it.addBy == AddBy.SEARCH }
+                        .thenBy { it.addBy == AddBy.MANUALLY }
                         .reversed()
                 ),
                 prevKey = prevKey,

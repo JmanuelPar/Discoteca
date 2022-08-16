@@ -1,15 +1,16 @@
 package com.diego.discoteca.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
+import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.DATABASE_NAME
 
 @Database(
     entities = [DatabaseDisc::class],
-    version = 1
+    version = 2,
+    autoMigrations = [AutoMigration(from = 1, to = 2)]
 )
+@TypeConverters(AddByConverters::class)
 abstract class DiscRoomDatabase : RoomDatabase() {
 
     abstract val discDatabaseDao: DiscDatabaseDao
@@ -31,5 +32,18 @@ abstract class DiscRoomDatabase : RoomDatabase() {
                 instance
             }
         }
+    }
+}
+
+class AddByConverters {
+
+    @TypeConverter
+    fun fromAddBy(addBy: AddBy): Int {
+        return addBy.code
+    }
+
+    @TypeConverter
+    fun toAddBy(value: Int): AddBy {
+        return AddBy.getByCode(value)
     }
 }

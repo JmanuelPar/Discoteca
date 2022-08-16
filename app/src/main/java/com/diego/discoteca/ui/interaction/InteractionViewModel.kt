@@ -79,7 +79,7 @@ class InteractionViewModel(val repository: DiscRepository) : ViewModel() {
             account != null -> {
                 // Log in in Drive
                 displayAccount(
-                    text = UIText.AccountLogIn("${account.displayName}\n${account.email}"),
+                    uiText = UIText.AccountLogIn("${account.displayName}\n${account.email}"),
                     visibility = true
                 )
                 updateIconGDriveUpload(true)
@@ -87,7 +87,7 @@ class InteractionViewModel(val repository: DiscRepository) : ViewModel() {
             else -> {
                 // Not log in in Drive
                 displayAccount(
-                    text = UIText.AccountNotLogIn,
+                    uiText = UIText.AccountNotLogIn,
                     visibility = false
                 )
                 updateIconGDriveAndTime()
@@ -95,8 +95,8 @@ class InteractionViewModel(val repository: DiscRepository) : ViewModel() {
         }
     }
 
-    private fun displayAccount(text: UIText, visibility: Boolean) {
-        _googleAccount.value = text
+    private fun displayAccount(uiText: UIText, visibility: Boolean) {
+        _googleAccount.value = uiText
         _visibilitySignInButton.value = !visibility
         _visibilityDriveLogOutButton.value = visibility
         _visibilityDriveDisconnectButton.value = visibility
