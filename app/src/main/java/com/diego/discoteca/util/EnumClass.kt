@@ -6,9 +6,9 @@ enum class Destination {
     NONE
 }
 
-enum class AddBy {
-    MANUALLY,
-    SCAN,
-    SEARCH,
-    NONE
+enum class AddBy(val code: Int) {
+    MANUALLY(1),
+    SCAN(2),
+    SEARCH(3),
+    NONE(-1)
 }
