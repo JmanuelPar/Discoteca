@@ -407,11 +407,12 @@ fun TextView.setDiscLightFormat(item: Disc?) {
 @BindingAdapter("discLightVisibility")
 fun LinearLayout.setDiscLightVisibility(item: DiscResultDetail?) {
     item?.let { discResultDetail ->
-        visibility = when (discResultDetail.code) {
-            SCAN ->
+        visibility = when (discResultDetail.addBy) {
+            AddBy.SCAN ->
                 if (discResultDetail.disc.isPresentByManually == true
                     || discResultDetail.disc.isPresentBySearch == true
                 ) View.VISIBLE else View.GONE
+            // AddBy.SEARCH
             else ->
                 if (discResultDetail.disc.isPresentByManually == true) View.VISIBLE
                 else View.GONE
@@ -422,8 +423,8 @@ fun LinearLayout.setDiscLightVisibility(item: DiscResultDetail?) {
 @BindingAdapter("discResultDetailAnswer")
 fun TextView.setDiscResultDetailAnswer(item: DiscResultDetail?) {
     item?.let { discResultDetail ->
-        when (discResultDetail.code) {
-            SCAN -> {
+        when (discResultDetail.addBy) {
+            AddBy.SCAN -> {
                 when {
                     discResultDetail.disc.isPresentByScan == true -> {
                         visibility = View.GONE
@@ -439,7 +440,8 @@ fun TextView.setDiscResultDetailAnswer(item: DiscResultDetail?) {
                     }
                 }
             }
-            SEARCH -> {
+            // AddBy.SEARCH
+            else -> {
                 when {
                     discResultDetail.disc.isPresentByScan == true
                             || discResultDetail.disc.isPresentBySearch == true -> {
@@ -462,8 +464,8 @@ fun TextView.setDiscResultDetailAnswer(item: DiscResultDetail?) {
 @BindingAdapter("buttonYesResultDetail")
 fun MaterialButton.setButtonYesResultDetail(item: DiscResultDetail?) {
     item?.let { discResultDetail ->
-        text = when (discResultDetail.code) {
-            SCAN -> {
+        text = when (discResultDetail.addBy) {
+            AddBy.SCAN -> {
                 when {
                     discResultDetail.disc.isPresentByScan == true -> context.getString(R.string.ok)
                     discResultDetail.disc.isPresentByManually == true
@@ -472,7 +474,7 @@ fun MaterialButton.setButtonYesResultDetail(item: DiscResultDetail?) {
                     else -> context.getString(R.string.add)
                 }
             }
-            // SEARCH
+            // AddBy.SEARCH
             else -> {
                 when {
                     discResultDetail.disc.isPresentByScan == true
@@ -490,8 +492,8 @@ fun MaterialButton.setButtonYesResultDetail(item: DiscResultDetail?) {
 @BindingAdapter("buttonNoResultDetail")
 fun MaterialButton.setButtonNoResultDetail(item: DiscResultDetail?) {
     item?.let { discResultDetail ->
-        when (discResultDetail.code) {
-            SCAN -> {
+        when (discResultDetail.addBy) {
+            AddBy.SCAN -> {
                 if (discResultDetail.disc.isPresentByScan == true) {
                     visibility = View.GONE
                 } else {
@@ -499,6 +501,7 @@ fun MaterialButton.setButtonNoResultDetail(item: DiscResultDetail?) {
                     visibility = View.VISIBLE
                 }
             }
+            // AddBy.SEARCH
             else -> {
                 if (discResultDetail.disc.isPresentByScan == true
                     || discResultDetail.disc.isPresentBySearch == true
@@ -525,10 +528,11 @@ fun TextView.setMessageNoResultRecommendation(item: DiscResultScan?) {
 }
 
 @BindingAdapter("discAddText")
-fun TextView.setDiscAddText(code: Int) {
-    text = when (code) {
-        MANUALLY -> context.getString(R.string.disc_add_manually)
-        SEARCH -> context.getString(R.string.disc_add_search)
+fun TextView.setDiscAddText(addBy: AddBy) {
+    text = when (addBy) {
+        AddBy.MANUALLY -> context.getString(R.string.disc_add_manually)
+        AddBy.SEARCH -> context.getString(R.string.disc_add_search)
+        // AddBy.SCAN
         else -> context.getString(R.string.disc_add_scan)
     }
 }
@@ -564,17 +568,19 @@ fun MaterialButton.setButtonCancelOk(isVisible: Boolean) {
 }
 
 @BindingAdapter("textPresent")
-fun TextView.setTextPresent(code: Int) {
-    text = when (code) {
-        MANUALLY -> context.getString(R.string.answer_add_still)
+fun TextView.setTextPresent(addBy: AddBy) {
+    text = when (addBy) {
+        AddBy.MANUALLY -> context.getString(R.string.answer_add_still)
+        // AddBy.SEARCH
         else -> context.getString(R.string.answer_search_still)
     }
 }
 
 @BindingAdapter("buttonAddPresent")
-fun MaterialButton.setButtonAddPresent(addBy: Int) {
+fun MaterialButton.setButtonAddPresent(addBy: AddBy) {
     text = when (addBy) {
-        MANUALLY -> context.getString(R.string.add)
+        AddBy.MANUALLY -> context.getString(R.string.add)
+        // AddBy.SEARCH
         else -> context.getString(R.string.search)
     }
 }
@@ -595,7 +601,7 @@ fun TextView.setCountDiscs(count: Int) {
 fun TextView.setTvBarcode(item: DiscResultDetail?) {
     item?.let { discResultDetail ->
         when {
-            discResultDetail.code == SEARCH
+            discResultDetail.addBy == AddBy.SEARCH
                     && (discResultDetail.disc.isPresentBySearch == true
                     || discResultDetail.disc.barcode.isEmpty()) ->
                 visibility = View.GONE
@@ -611,7 +617,7 @@ fun TextView.setTvBarcode(item: DiscResultDetail?) {
 fun TextView.setDiscBarcodeDetail(item: DiscResultDetail?) {
     item?.let { discResultDetail ->
         when {
-            discResultDetail.code == SEARCH
+            discResultDetail.addBy == AddBy.SEARCH
                     && (discResultDetail.disc.isPresentBySearch == true
                     || discResultDetail.disc.barcode.isEmpty()) ->
                 visibility = View.GONE
@@ -629,5 +635,3 @@ fun TextView.getUIText(uiText: UIText?) {
         text = context.getMyUIText(it)
     }
 }
-
-

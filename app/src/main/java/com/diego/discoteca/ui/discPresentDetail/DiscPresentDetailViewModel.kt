@@ -4,8 +4,7 @@ import androidx.lifecycle.*
 import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.*
 import com.diego.discoteca.repository.DiscRepository
-import com.diego.discoteca.util.MANUALLY
-import com.diego.discoteca.util.SEARCH
+import com.diego.discoteca.util.AddBy
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
@@ -17,15 +16,15 @@ class DiscPresentDetailViewModel(
     private val discDatabase: LiveData<Disc> = repository.getDiscWithId(discPresent.discAdd.id)
     fun getDisc() = discDatabase
 
-    private val _discAddBy = MutableLiveData<Int>()
-    private val discAddBy: LiveData<Int>
+    private val _discAddBy = MutableLiveData<AddBy>()
+    private val discAddBy: LiveData<AddBy>
         get() = _discAddBy
 
     val isVisible = Transformations.map(discDatabase) { disc ->
-        disc.addBy == MANUALLY
+        disc.addBy == AddBy.MANUALLY
     }.asFlow()
         .combine(Transformations.map(discAddBy) { addBy ->
-            addBy == SEARCH
+            addBy == AddBy.SEARCH
         }.asFlow()) { isManually, isSearch ->
             isManually == true && isSearch == true
         }.asLiveData()
@@ -64,7 +63,7 @@ class DiscPresentDetailViewModel(
     }
 
     private fun onNavigateToDiscResultSearch() {
-        discPresent.discAdd.addBy = MANUALLY
+        discPresent.discAdd.addBy = AddBy.MANUALLY
         _navigateToDiscResultSearch.value = discPresent
     }
 

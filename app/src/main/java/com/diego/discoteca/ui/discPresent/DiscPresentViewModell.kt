@@ -21,8 +21,8 @@ class DiscPresentViewModel(
     val listDisc: LiveData<List<Disc>>
         get() = _listDisc
 
-    private val _addBy = MutableLiveData<Int>()
-    private val addBy: LiveData<Int>
+    private val _addBy = MutableLiveData<AddBy>()
+    private val addBy: LiveData<AddBy>
         get() = _addBy
 
     val nBTotal = Transformations.map(listDisc) { list -> list.size }
@@ -32,7 +32,8 @@ class DiscPresentViewModel(
     }.asFlow()
         .combine(addBy.asFlow()) { nB, addBy ->
             when (addBy) {
-                MANUALLY -> true
+                AddBy.MANUALLY -> true
+                // AddBy.SEARCH
                 else -> nB == 0
             }
         }.asLiveData()
@@ -51,28 +52,34 @@ class DiscPresentViewModel(
 
     private fun configure() {
         _discPresent.value = discItem
+        /*discItem.list = list of Disc from Room Database
+          see getListDiscDbPresent in AddDiscViewModel*/
         _listDisc.value = discItem.list.onEach { disc ->
             when (disc.addBy) {
-                MANUALLY -> disc.isPresentByManually = true
-                SCAN -> disc.isPresentByScan = true
-                SEARCH -> disc.isPresentBySearch = true
+                AddBy.MANUALLY -> disc.isPresentByManually = true
+                AddBy.SCAN -> disc.isPresentByScan = true
+                // AddBy.SEARCH
+                else -> disc.isPresentBySearch = true
             }
         }.sortedByDescending { disc ->
             disc.isPresentByManually == true
         }
+        /*discItem.discAdd.addBy = AddBy.MANUALLY or AddBy.SEARCH
+        see onButtonAddClicked, onButtonSearchClicked in AddDiscViewModel*/
         _addBy.value = discItem.discAdd.addBy
     }
 
     fun onButtonAddClicked() {
         viewModelScope.launch {
             when (discItem.discAdd.addBy) {
-                MANUALLY -> {
+                AddBy.MANUALLY -> {
                     val id = addDiscDatabase()
                     onNavigateToDisc(
                         uiText = UIText.DiscAdded,
                         id = id
                     )
                 }
+                // AddBy.SEARCH
                 else -> onNavigateToDiscResultSearch()
             }
         }
@@ -107,7 +114,7 @@ class DiscPresentViewModel(
     }
 
     private fun onNavigateToDiscResultSearch() {
-        discItem.discAdd.addBy = SEARCH
+        discItem.discAdd.addBy = AddBy.SEARCH
         _navigateToDiscResultSearch.value = discItem
     }
 
@@ -121,7 +128,7 @@ class DiscPresentViewModel(
                 name = discItem.discAdd.name,
                 title = discItem.discAdd.title,
                 year = discItem.discAdd.year,
-                addBy = MANUALLY
+                addBy = AddBy.MANUALLY
             )
         )
 }

@@ -54,4 +54,3 @@ class CountFormatMediaAdapter : ListAdapter<CountFormatMedia, CountFormatMediaAd
         }
     }
 }
-

@@ -52,7 +52,10 @@ class DiscPresentFragment : Fragment() {
             discPresent.discAdd.name = disc.name
             discPresent.discAdd.title = disc.title
             discPresent.discAdd.year = disc.year
-            goToDiscPresentDetailFragment(view, discPresent)
+            goToDiscPresentDetailFragment(
+                view = view,
+                discPresent = discPresent
+            )
         })
 
         binding.apply {

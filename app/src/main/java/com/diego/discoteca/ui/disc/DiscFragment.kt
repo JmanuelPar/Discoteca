@@ -91,7 +91,10 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         // List / Grid mode recyclerview
         mDiscViewModel.gridMode.observe(viewLifecycleOwner) { gridMode ->
             myLayoutManager.spanCount = if (gridMode) 2 else 1
-            delayedTransition(sceneRoot = mRvListDiscs, transition = MaterialFadeThrough())
+            delayedTransition(
+                sceneRoot = mRvListDiscs,
+                transition = MaterialFadeThrough()
+            )
             mRvListDiscs.adapter = discAdapter
             setBottomBarFab()
         }
@@ -172,7 +175,10 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
     }
 
     override fun onDiscClicked(view: View, disc: Disc) {
-        goToDiscDetailFragment(view = view, disc = disc)
+        goToDiscDetailFragment(
+            view = view,
+            disc = disc
+        )
     }
 
     override fun onDiscDeleteClicked(disc: Disc) {
@@ -416,6 +422,3 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         (activity as MainActivity).hideBottomBarHideFab()
     }
 }
-
-
-

@@ -142,7 +142,7 @@ class AddDiscViewModel(private val repository: DiscRepository) : ViewModel() {
                     name = discNameArtist.value!!.stringProcess(),
                     title = discTitle.value!!.stringProcess(),
                     year = discYear.value!!.trim(),
-                    addBy = MANUALLY
+                    addBy = AddBy.MANUALLY
                 )
             )
         }
@@ -155,50 +155,55 @@ class AddDiscViewModel(private val repository: DiscRepository) : ViewModel() {
                     name = discNameArtist.value!!.stringProcess(),
                     title = discTitle.value!!.stringProcess(),
                     year = discYear.value!!.trim(),
-                    addBy = SEARCH
+                    addBy = AddBy.SEARCH
                 )
             )
         }
     }
 
-    fun addDisc(discAdd: DiscAdd) {
+    fun processingDisc(discAdd: DiscAdd) {
         viewModelScope.launch {
-            val listDb = getListDiscDbPresent(discAdd)
-            when {
-                listDb.isEmpty() -> {
-                    // Add disc in database manually
-                    val id = addDiscDatabase(
-                        Disc(
-                            name = discAdd.name,
-                            title = discAdd.title,
-                            year = discAdd.year,
-                            addBy = discAdd.addBy
-                        )
+            when (discAdd.addBy) {
+                AddBy.MANUALLY -> addDisc(discAdd)
+                // AddBy.SEARCH
+                else -> searchDisc(discAdd)
+            }
+        }
+    }
+
+    suspend fun addDisc(discAdd: DiscAdd) {
+        val listDb = getListDiscDbPresent(discAdd)
+        when {
+            listDb.isEmpty() -> {
+                // Add disc in database manually
+                val id = addDiscDatabase(
+                    Disc(
+                        name = discAdd.name,
+                        title = discAdd.title,
+                        year = discAdd.year,
+                        addBy = discAdd.addBy
                     )
+                )
 
-                    onNavigateToDisc(id)
-                }
-                else -> onNavigateToDiscPresent(DiscPresent(listDb, discAdd))
+                onNavigateToDisc(id)
             }
+            else -> onNavigateToDiscPresent(DiscPresent(listDb, discAdd))
         }
     }
 
-    fun searchDisc(discAdd: DiscAdd) {
-        viewModelScope.launch {
-            val listDb = getListDiscDbPresent(discAdd)
-            val discPresent = DiscPresent(
-                list = listDb,
-                discAdd = discAdd
-            )
-            when {
-                listDb.isEmpty() -> onNavigateToDiscResultSearch(discPresent)
-                else -> onNavigateToDiscPresent(discPresent)
-            }
+    suspend fun searchDisc(discAdd: DiscAdd) {
+        val listDb = getListDiscDbPresent(discAdd)
+        val discPresent = DiscPresent(
+            list = listDb,
+            discAdd = discAdd
+        )
+        when {
+            listDb.isEmpty() -> onNavigateToDiscResultSearch(discPresent)
+            else -> onNavigateToDiscPresent(discPresent)
         }
     }
 
-    private suspend fun addDiscDatabase(disc: Disc) =
-        repository.insertLong(disc)
+    private suspend fun addDiscDatabase(disc: Disc) = repository.insertLong(disc)
 
     /* Get list of disc in database added by manually/scan/search
     with artist/group name + title + year filled by the user */

@@ -36,8 +36,5 @@ fun Fragment.materialElevationScaleExitReenterTransition() {
 }
 
 fun delayedTransition(sceneRoot: ViewGroup, transition: Transition) {
-    TransitionManager.beginDelayedTransition(
-        sceneRoot,
-        transition
-    )
+    TransitionManager.beginDelayedTransition(sceneRoot, transition)
 }

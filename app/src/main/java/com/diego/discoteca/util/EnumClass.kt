@@ -5,3 +5,10 @@ enum class Destination {
     DATABASE,
     NONE
 }
+
+enum class AddBy {
+    MANUALLY,
+    SCAN,
+    SEARCH,
+    NONE
+}

@@ -1,6 +1,7 @@
 package com.diego.discoteca.model
 
 import android.os.Parcelable
+import com.diego.discoteca.util.AddBy
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -9,5 +10,5 @@ data class DiscAdd(
     var name: String,
     var title: String,
     var year: String,
-    var addBy: Int
+    var addBy: AddBy
 ) : Parcelable

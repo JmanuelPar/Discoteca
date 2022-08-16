@@ -5,7 +5,7 @@ import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.DiscLight
 import com.diego.discoteca.model.DiscResultDetail
 import com.diego.discoteca.repository.DiscRepository
-import com.diego.discoteca.util.SCAN
+import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.UIText
 import kotlinx.coroutines.launch
 
@@ -34,8 +34,8 @@ class DiscResultDetailViewModel(
 
     fun onButtonYesClicked() {
         viewModelScope.launch {
-            when (discItem.code) {
-                SCAN -> {
+            when (discItem.addBy) {
+                AddBy.SCAN -> {
                     when {
                         // Button update -> update this disc
                         discChosen.isPresentByManually == true
@@ -58,7 +58,7 @@ class DiscResultDetailViewModel(
                         }
                     }
                 }
-                // SEARCH
+                // AddBy.SEARCH
                 else -> {
                     when {
                         // Button update -> update this disc
@@ -107,7 +107,7 @@ class DiscResultDetailViewModel(
     }
 
     private suspend fun addDiscDatabase(empty: Boolean): Long {
-        discChosen.addBy = discItem.code
+        discChosen.addBy = discItem.addBy
         if (empty) discChosen.barcode = ""
         return repository.insertLong(discChosen)
     }
@@ -124,7 +124,7 @@ class DiscResultDetailViewModel(
             coverImage = discChosen.coverImage,
             barcode = if (search) "" else discChosen.barcode,
             idDisc = discChosen.idDisc,
-            addBy = discItem.code,
+            addBy = discItem.addBy,
             discLight = DiscLight(
                 id = 0L,
                 name = "",

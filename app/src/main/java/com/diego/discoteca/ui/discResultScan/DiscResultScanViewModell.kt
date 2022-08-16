@@ -70,7 +70,7 @@ class DiscResultScanViewModel(
     private fun scanDisc(): Flow<PagingData<Disc>> {
         return when (discItem.destination) {
             Destination.API -> repository.getSearchBarcodeStream(barcode = discItem.barcode)
-            // DATABASE
+            // Destination.DATABASE
             else -> repository.getSearchBarcodeDatabase(barcode = discItem.barcode)
         }
     }
@@ -98,7 +98,7 @@ class DiscResultScanViewModel(
     fun updateTotal(total: Int) {
         _totalResult.value = when (discItem.destination) {
             Destination.API -> UIText.TotalApi(total)
-            // DATABASE
+            // Destination.DATABASE
             else -> UIText.TotalDatabase(total)
         }
     }
@@ -128,11 +128,11 @@ class DiscResultScanViewModel(
                     view,
                     DiscResultDetail(
                         disc = disc,
-                        code = SCAN
+                        addBy = AddBy.SCAN
                     )
                 )
             )
-            // DATABASE
+            // Destination.DATABASE
             else -> onDiscDetailClicked(Pair(view, disc.id))
         }
     }
