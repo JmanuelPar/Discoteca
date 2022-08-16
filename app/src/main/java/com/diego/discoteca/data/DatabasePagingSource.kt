@@ -47,7 +47,9 @@ class DatabasePagingSourceBarcode(
                     val listDB = dao.getListDiscDbManuallySearch(
                         name = discDb.name,
                         title = discDb.title,
-                        year = discDb.year
+                        year = discDb.year,
+                        addByManual = AddBy.MANUALLY.code,
+                        addBySearch = AddBy.SEARCH.code
                     ).asDomainModel()
 
                     listDbManuallySearch += listDB

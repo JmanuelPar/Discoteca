@@ -85,7 +85,8 @@ class DiscogsPagingSourceSearchBarcode(
                 val discDbManually = dao.getDiscDbManually(
                     name = discDb.name,
                     title = discDb.title,
-                    year = discDb.year
+                    year = discDb.year,
+                    addBy = AddBy.MANUALLY.code
                 )?.asDomainModel()
 
                 discDbManually?.let { listDbManually.add(it) }
@@ -94,7 +95,8 @@ class DiscogsPagingSourceSearchBarcode(
                     idDisc = discDb.idDisc,
                     name = discDb.name,
                     title = discDb.title,
-                    year = discDb.year
+                    year = discDb.year,
+                    addBy = AddBy.SEARCH.code
                 )?.asDomainModel()
 
                 discDbSearch?.let { listDbSearch.add(it) }

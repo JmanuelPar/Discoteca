@@ -13,6 +13,7 @@ import com.diego.discoteca.R
 import com.diego.discoteca.R.color
 import com.diego.discoteca.domain.Disc
 import com.diego.discoteca.model.DiscLight
+import com.diego.discoteca.model.DiscPresent
 import com.diego.discoteca.model.DiscResultDetail
 import com.diego.discoteca.model.DiscResultScan
 import com.google.android.material.button.MaterialButton
@@ -528,12 +529,14 @@ fun TextView.setMessageNoResultRecommendation(item: DiscResultScan?) {
 }
 
 @BindingAdapter("discAddText")
-fun TextView.setDiscAddText(addBy: AddBy) {
-    text = when (addBy) {
-        AddBy.MANUALLY -> context.getString(R.string.disc_add_manually)
-        AddBy.SEARCH -> context.getString(R.string.disc_add_search)
-        // AddBy.SCAN
-        else -> context.getString(R.string.disc_add_scan)
+fun TextView.setDiscAddText(item: Disc?) {
+    item?.let { disc ->
+        text = when (disc.addBy) {
+            AddBy.MANUALLY -> context.getString(R.string.disc_add_manually)
+            AddBy.SEARCH -> context.getString(R.string.disc_add_search)
+            // AddBy.SCAN
+            else -> context.getString(R.string.disc_add_scan)
+        }
     }
 }
 
@@ -567,21 +570,46 @@ fun MaterialButton.setButtonCancelOk(isVisible: Boolean) {
     }
 }
 
-@BindingAdapter("textPresent")
-fun TextView.setTextPresent(addBy: AddBy) {
-    text = when (addBy) {
-        AddBy.MANUALLY -> context.getString(R.string.answer_add_still)
-        // AddBy.SEARCH
-        else -> context.getString(R.string.answer_search_still)
+@BindingAdapter("answerPresent")
+fun TextView.setAnswerPresent(item: DiscPresent?) {
+    item?.let { discPresent ->
+        text = when (discPresent.discAdd.addBy) {
+            AddBy.MANUALLY -> context.getString(R.string.answer_add_still)
+            // AddBy.SEARCH
+            else -> context.getString(R.string.answer_search_still)
+        }
     }
 }
 
 @BindingAdapter("buttonAddPresent")
-fun MaterialButton.setButtonAddPresent(addBy: AddBy) {
-    text = when (addBy) {
-        AddBy.MANUALLY -> context.getString(R.string.add)
-        // AddBy.SEARCH
-        else -> context.getString(R.string.search)
+fun MaterialButton.setButtonAddPresent(item: DiscPresent?) {
+    item?.let { discPresent ->
+        text = when (discPresent.discAdd.addBy) {
+            AddBy.MANUALLY -> context.getString(R.string.add)
+            // AddBy.SEARCH
+            else -> context.getString(R.string.search)
+        }
+    }
+}
+
+@BindingAdapter("discAddName")
+fun TextView.setDiscAddName(item: DiscPresent?) {
+    item?.let { discPresent ->
+        text = discPresent.discAdd.name
+    }
+}
+
+@BindingAdapter("discAddTitle")
+fun TextView.setDiscAddTitle(item: DiscPresent?) {
+    item?.let { discPresent ->
+        text = discPresent.discAdd.title
+    }
+}
+
+@BindingAdapter("discAddYear")
+fun TextView.setDiscAddYear(item: DiscPresent?) {
+    item?.let { discPresent ->
+        text = discPresent.discAdd.year
     }
 }
 

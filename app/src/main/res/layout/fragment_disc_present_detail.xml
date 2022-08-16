@@ -37,7 +37,7 @@
                 android:paddingBottom="16dp"
                 android:textAppearance="@style/TextAppearance.Discoteca.Body1"
                 android:textColor="@color/color_on_surface_emphasis_medium"
-                app:discAddText="@{discPresentDetailViewModel.disc.addBy}"
+                app:discAddText="@{discPresentDetailViewModel.disc}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

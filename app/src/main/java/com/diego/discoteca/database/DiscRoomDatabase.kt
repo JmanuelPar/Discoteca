@@ -10,7 +10,7 @@ import com.diego.discoteca.util.DATABASE_NAME
     version = 2,
     autoMigrations = [AutoMigration(from = 1, to = 2)]
 )
-@TypeConverters(Converters::class)
+@TypeConverters(AddByConverters::class)
 abstract class DiscRoomDatabase : RoomDatabase() {
 
     abstract val discDatabaseDao: DiscDatabaseDao
@@ -35,21 +35,15 @@ abstract class DiscRoomDatabase : RoomDatabase() {
     }
 }
 
-class Converters {
+class AddByConverters {
+
     @TypeConverter
     fun fromAddBy(addBy: AddBy): Int {
         return addBy.code
-
-       /* return when(addBy){
-            AddBy.MANUALLY -> AddBy.MANUALLY.code
-            AddBy.SCAN -> AddBy.SCAN.code
-            AddBy.SEARCH -> AddBy.SEARCH.code
-            else -> AddBy.NONE.code
-        }*/
     }
 
     @TypeConverter
     fun toAddBy(value: Int): AddBy {
-        return enumValues<AddBy>()[value]
+        return AddBy.getByCode(value)
     }
 }
