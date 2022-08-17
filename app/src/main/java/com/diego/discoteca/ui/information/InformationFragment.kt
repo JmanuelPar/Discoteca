@@ -12,6 +12,7 @@ import com.diego.discoteca.adapter.CountFormatMediaAdapter
 import com.diego.discoteca.databinding.FragmentInformationBinding
 import com.diego.discoteca.util.Destination
 import com.google.android.material.transition.MaterialFadeThrough
+import timber.log.Timber
 
 class InformationFragment : Fragment() {
 

@@ -33,6 +33,9 @@
     <string name="catalog">Discoteca</string>
     <string name="choose_disc">Choisissez votre disque</string>
     <string name="dark">Mode sombre</string>
+    <string name="database_back_up">Sauvegardé !</string>
+    <string name="database_not_restored">Non restauré !</string>
+    <string name="database_restored">Restauré !</string>
     <string name="delete">Supprimer</string>
     <string name="delete_caps">SUPPRIMER</string>
     <string name="detail">Détails</string>
@@ -128,6 +131,7 @@
     <string name="modify_caps">MODIFIER</string>
     <string name="nb_disc_discoteca_example">1 disque</string>
     <string name="no">Non</string>
+    <string name="noDisplay">noDisplay</string>
     <string name="no_back_up_in_drive">Pas de sauvegarde dans votre Drive</string>
     <string name="no_connected">Vous êtes hors-connexion</string>
     <string name="no_connect_message">Il semblerait que vous êtes hors-connexion\n\nVeuillez vérifier votre accès à Internet</string>
@@ -140,10 +144,7 @@
     <string name="no_search_result_recommendation">Vous pouvez ajouter le disque manuellement\n\nFaire une nouvelle recherche</string>
     <string name="no_valid_year">Année non valide</string>
     <string name="not_specified">Non renseigné</string>
-    <string name="database_not_restored">Non restauré !</string>
     <string name="ok">OK</string>
-    <string name="database_back_up">Sauvegardé !</string>
-    <string name="database_restored">Restauré !</string>
     <string name="permission_camera_denied_message">L\'application a besoin de l\'autorisation pour l\'appareil photo
         afin d\'utiliser le lecteur de code barre</string>
     <string name="permission_camera_rationale_body">Il n\'est pas possible d\'utiliser le lecteur
@@ -202,6 +203,4 @@
     <string name="undefined">Non défini</string>
     <string name="update">Actualiser</string>
     <string name="yes">Oui</string>
-    <string name="bonjour">BOnjour</string>
-    <string name="noDisplay">noDisplay</string>
 </resources>

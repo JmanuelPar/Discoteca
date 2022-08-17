@@ -6,14 +6,16 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.diego.discoteca.R
 import com.diego.discoteca.database.DiscRoomDatabase
-import com.diego.discoteca.database.getOrAwaitValue
+import com.diego.discoteca.database.asDatabaseModel
+import com.diego.discoteca.domain.Disc
+import com.diego.discoteca.getOrAwaitValue
 import com.diego.discoteca.model.DiscAdd
+import com.diego.discoteca.network.DiscogsApi
 import com.diego.discoteca.repository.DiscRepository
-import com.diego.discoteca.util.MANUALLY
-import com.diego.discoteca.util.SEARCH
+import com.diego.discoteca.util.AddBy
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -37,7 +39,11 @@ class AddDiscViewModelTest {
             context,
             DiscRoomDatabase::class.java
         ).allowMainThreadQueries().build()
-        val repository = DiscRepository(db.discDatabaseDao)
+        val repository = DiscRepository(
+            dao = db.discDatabaseDao,
+            service = DiscogsApi.retrofitService,
+            context = context
+        )
         viewModel = AddDiscViewModel(repository)
     }
 
@@ -49,50 +55,64 @@ class AddDiscViewModelTest {
 
     @Test
     fun testNavigateToDisc() {
-        viewModel.addDisc(
+        viewModel.processingDisc(
             DiscAdd(
                 name = "Disc title test",
                 title = "Disc name test",
                 year = "2002",
-                addBy = MANUALLY
+                addBy = AddBy.MANUALLY
             )
         )
 
         val result = viewModel.navigateToDisc.getOrAwaitValue()
-        val snackBarMessage =
-            ApplicationProvider.getApplicationContext<Context>().getString(R.string.disc_added)
         val id = 1L
 
-        assertThat(result).isEqualTo(Pair(snackBarMessage, id))
+        assertThat(result).isEqualTo(id)
     }
 
     @Test
-    fun testNavigateToDiscPresent_listNotEmpty() {
+    fun testNavigateToDiscPresent_listNotEmpty() = runBlocking {
         val discAdd = DiscAdd(
             name = "Disc title test",
             title = "Disc name test",
             year = "2002",
-            addBy = MANUALLY
+            addBy = AddBy.MANUALLY
         )
 
-        viewModel.addDisc(discAdd)
-        viewModel.addDisc(discAdd)
+        db.discDatabaseDao.insertLong(
+            Disc(
+                name = discAdd.name,
+                title = discAdd.title,
+                year = discAdd.year,
+                addBy = discAdd.addBy
+            ).asDatabaseModel()
+        )
+
+        viewModel.processingDisc(discAdd)
         val result = viewModel.navigateToDiscPresent.getOrAwaitValue()
 
         assertThat(result?.component1()?.isNotEmpty()).isTrue()
     }
 
     @Test
-    fun testNavigateToDiscPresent_discAdd() {
+    fun testNavigateToDiscPresent_discAdd() = runBlocking {
         val discAdd = DiscAdd(
             name = "Disc title test",
             title = "Disc name test",
             year = "2002",
-            addBy = MANUALLY
+            addBy = AddBy.MANUALLY
         )
 
-        viewModel.addDisc(discAdd)
-        viewModel.addDisc(discAdd)
+        db.discDatabaseDao.insertLong(
+            Disc(
+                name = discAdd.name,
+                title = discAdd.title,
+                year = discAdd.year,
+                addBy = discAdd.addBy
+            ).asDatabaseModel()
+        )
+
+        viewModel.processingDisc(discAdd)
         val result = viewModel.navigateToDiscPresent.getOrAwaitValue()
 
         assertThat(result?.component2()).isEqualTo(discAdd)
@@ -104,10 +124,10 @@ class AddDiscViewModelTest {
             name = "Disc title test",
             title = "Disc name test",
             year = "2002",
-            addBy = SEARCH
+            addBy = AddBy.SEARCH
         )
 
-        viewModel.searchDisc(discAdd)
+        viewModel.processingDisc(discAdd)
         val result = viewModel.navigateToDiscResultSearch.getOrAwaitValue()
         val list = result?.component1()?.isEmpty()
         val disc = result?.component2()?.equals(discAdd)
@@ -133,7 +153,7 @@ class AddDiscViewModelTest {
                 name = title.toString(),
                 title = name.toString(),
                 year = year.toString(),
-                addBy = MANUALLY
+                addBy = AddBy.MANUALLY
             )
         )
     }
@@ -156,7 +176,7 @@ class AddDiscViewModelTest {
                 name = title.toString(),
                 title = name.toString(),
                 year = year.toString(),
-                addBy = SEARCH
+                addBy = AddBy.SEARCH
             )
         )
     }

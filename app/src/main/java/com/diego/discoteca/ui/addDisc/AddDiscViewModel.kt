@@ -171,7 +171,7 @@ class AddDiscViewModel(private val repository: DiscRepository) : ViewModel() {
         }
     }
 
-    suspend fun addDisc(discAdd: DiscAdd) {
+    private suspend fun addDisc(discAdd: DiscAdd) {
         val listDb = getListDiscDbPresent(discAdd)
         when {
             listDb.isEmpty() -> {
@@ -191,7 +191,7 @@ class AddDiscViewModel(private val repository: DiscRepository) : ViewModel() {
         }
     }
 
-    suspend fun searchDisc(discAdd: DiscAdd) {
+    private suspend fun searchDisc(discAdd: DiscAdd) {
         val listDb = getListDiscDbPresent(discAdd)
         val discPresent = DiscPresent(
             list = listDb,
