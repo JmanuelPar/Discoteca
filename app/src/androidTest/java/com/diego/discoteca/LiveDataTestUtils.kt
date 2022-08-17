@@ -1,4 +1,4 @@
-package com.diego.discoteca.database
+package com.diego.discoteca
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
