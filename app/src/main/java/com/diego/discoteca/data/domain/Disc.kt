@@ -1,7 +1,7 @@
-package com.diego.discoteca.domain
+package com.diego.discoteca.data.domain
 
 import android.os.Parcelable
-import com.diego.discoteca.model.DiscLight
+import com.diego.discoteca.data.model.DiscLight
 import com.diego.discoteca.util.AddBy
 import kotlinx.parcelize.Parcelize
 

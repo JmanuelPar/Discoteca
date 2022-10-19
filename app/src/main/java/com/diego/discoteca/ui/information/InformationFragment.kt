@@ -5,19 +5,20 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
-import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.adapter.CountFormatMediaAdapter
 import com.diego.discoteca.databinding.FragmentInformationBinding
+import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.Destination
 import com.google.android.material.transition.MaterialFadeThrough
-import timber.log.Timber
 
 class InformationFragment : Fragment() {
 
     private val mInformationViewModel: InformationViewModel by viewModels {
-        InformationViewModelFactory((requireContext().applicationContext as DiscotecaApplication).repository)
+        InformationViewModelFactory(
+            (requireContext().applicationContext as DiscotecaApplication).discsRepository
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

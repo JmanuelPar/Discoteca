@@ -1,11 +1,14 @@
 package com.diego.discoteca.ui.interaction
 
-import androidx.lifecycle.*
-import com.diego.discoteca.repository.DiscRepository
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import com.diego.discoteca.repository.DiscsRepository
 import com.diego.discoteca.util.UIText
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
-class InteractionViewModel(val repository: DiscRepository) : ViewModel() {
+class InteractionViewModel(val repository: DiscsRepository) : ViewModel() {
 
     val numberDiscs = repository.countAllDiscs.asLiveData()
 

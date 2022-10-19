@@ -1,7 +1,7 @@
 package com.diego.discoteca.network
 
-import com.diego.discoteca.model.NetworkDiscDiscogs
-import com.diego.discoteca.util.API_DISCOGS_URL
+import com.diego.discoteca.data.model.NetworkDiscDiscogs
+import com.diego.discoteca.util.Constants.API_DISCOGS_URL
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient

@@ -1,4 +1,4 @@
-package com.diego.discoteca.activity
+package com.diego.discoteca.ui.activity
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData

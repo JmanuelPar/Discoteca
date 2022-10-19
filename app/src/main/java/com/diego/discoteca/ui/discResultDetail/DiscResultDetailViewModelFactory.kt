@@ -2,11 +2,11 @@ package com.diego.discoteca.ui.discResultDetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.diego.discoteca.model.DiscResultDetail
-import com.diego.discoteca.repository.DiscRepository
+import com.diego.discoteca.data.model.DiscResultDetail
+import com.diego.discoteca.repository.DiscsRepository
 
 class DiscResultDetailViewModelFactory(
-    private val repository: DiscRepository,
+    private val repository: DiscsRepository,
     private val discResultDetail: DiscResultDetail
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")

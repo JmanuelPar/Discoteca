@@ -8,11 +8,11 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.diego.discoteca.database.DiscRoomDatabase
 import com.diego.discoteca.database.asDatabaseModel
-import com.diego.discoteca.domain.Disc
+import com.diego.discoteca.data.domain.Disc
 import com.diego.discoteca.getOrAwaitValue
-import com.diego.discoteca.model.DiscAdd
+import com.diego.discoteca.data.model.DiscAdd
 import com.diego.discoteca.network.DiscogsApi
-import com.diego.discoteca.repository.DiscRepository
+import com.diego.discoteca.repository.DefaultDiscsRepository
 import com.diego.discoteca.util.AddBy
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
@@ -24,7 +24,7 @@ import org.junit.runner.RunWith
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
-class AddDiscViewModelTest {
+class  AddDiscViewModelTest {
 
     private lateinit var viewModel: AddDiscViewModel
     private lateinit var db: DiscRoomDatabase
@@ -39,7 +39,7 @@ class AddDiscViewModelTest {
             context,
             DiscRoomDatabase::class.java
         ).allowMainThreadQueries().build()
-        val repository = DiscRepository(
+        val repository = DefaultDiscsRepository(
             dao = db.discDatabaseDao,
             service = DiscogsApi.retrofitService,
             context = context

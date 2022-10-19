@@ -1,4 +1,4 @@
-package com.diego.discoteca.activity
+package com.diego.discoteca.ui.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.databinding.DataBindingUtil
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -33,6 +32,7 @@ import com.diego.discoteca.data.PreferencesManager
 import com.diego.discoteca.databinding.ActivityMainBinding
 import com.diego.discoteca.ui.disc.DiscFragmentDirections
 import com.diego.discoteca.util.*
+import com.diego.discoteca.util.Constants.USER_PREFERENCES_NAME
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -88,7 +88,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setNoInternetAndToolBar()
         setBottomBarNavigationAndFab()
         setInternetStatus()
@@ -199,7 +200,7 @@ class MainActivity : AppCompatActivity() {
         fabButton.setOnClickListener { expandButton() }
 
         scrimLayout.setOnClickListener {
-            // We do nothing }
+            // We do nothing } }
         }
     }
 

@@ -1,17 +1,20 @@
 package com.diego.discoteca.ui.disc
 
 import androidx.lifecycle.*
-import com.diego.discoteca.data.*
-import com.diego.discoteca.domain.Disc
-import com.diego.discoteca.repository.DiscRepository
+import com.diego.discoteca.data.PreferencesManager
+import com.diego.discoteca.data.SortOrder
+import com.diego.discoteca.data.domain.Disc
+import com.diego.discoteca.repository.DiscsRepository
 import com.diego.discoteca.util.UIText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class DiscViewModel(
-    private val repository: DiscRepository,
+    private val repository: DiscsRepository,
     private val preferencesManager: PreferencesManager,
     uiText: UIText?,
     private val idAdded: Long

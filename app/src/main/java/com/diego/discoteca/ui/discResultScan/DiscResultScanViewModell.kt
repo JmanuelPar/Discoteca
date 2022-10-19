@@ -1,17 +1,24 @@
 package com.diego.discoteca.ui.discResultScan
 
-import  android.view.View
-import androidx.lifecycle.*
-import androidx.paging.*
-import com.diego.discoteca.domain.Disc
-import com.diego.discoteca.model.DiscResultDetail
-import com.diego.discoteca.model.DiscResultScan
-import com.diego.discoteca.repository.DiscRepository
-import com.diego.discoteca.util.*
-import kotlinx.coroutines.flow.*
+import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.ItemSnapshotList
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.diego.discoteca.data.domain.Disc
+import com.diego.discoteca.data.model.DiscResultDetail
+import com.diego.discoteca.data.model.DiscResultScan
+import com.diego.discoteca.repository.DiscsRepository
+import com.diego.discoteca.util.AddBy
+import com.diego.discoteca.util.Destination
+import com.diego.discoteca.util.UIText
+import kotlinx.coroutines.flow.Flow
 
 class DiscResultScanViewModel(
-    private val repository: DiscRepository,
+    private val repository: DiscsRepository,
     private val discItem: DiscResultScan
 ) : ViewModel() {
 

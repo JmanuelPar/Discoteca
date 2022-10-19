@@ -5,7 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.diego.discoteca.domain.Disc
+import com.diego.discoteca.data.domain.Disc
 import com.diego.discoteca.getOrAwaitValue
 import com.diego.discoteca.util.AddBy
 import junit.framework.TestCase

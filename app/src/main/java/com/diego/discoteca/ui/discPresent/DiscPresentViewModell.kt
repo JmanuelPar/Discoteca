@@ -1,15 +1,16 @@
 package com.diego.discoteca.ui.discPresent
 
 import androidx.lifecycle.*
-import com.diego.discoteca.domain.Disc
-import com.diego.discoteca.model.DiscPresent
-import com.diego.discoteca.repository.DiscRepository
-import com.diego.discoteca.util.*
+import com.diego.discoteca.data.domain.Disc
+import com.diego.discoteca.data.model.DiscPresent
+import com.diego.discoteca.repository.DiscsRepository
+import com.diego.discoteca.util.AddBy
+import com.diego.discoteca.util.UIText
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class DiscPresentViewModel(
-    private val repository: DiscRepository,
+    private val repository: DiscsRepository,
     val discItem: DiscPresent
 ) : ViewModel() {
 

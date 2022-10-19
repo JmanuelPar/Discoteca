@@ -2,7 +2,7 @@ package com.diego.discoteca.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.diego.discoteca.model.CountFormatMedia
+import com.diego.discoteca.data.model.CountFormatMedia
 import kotlinx.coroutines.flow.Flow
 
 /* addBy: Int ->

@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.diego.discoteca.data.domain.Disc
 import com.diego.discoteca.databinding.ItemDiscResultListBinding
-import com.diego.discoteca.domain.Disc
 
 class DiscResultAdapter(private val clickListener: Listener) :
     PagingDataAdapter<Disc, DiscResultAdapter.ViewHolder>(DISC_RESULT_DIFF_CALLBACK) {

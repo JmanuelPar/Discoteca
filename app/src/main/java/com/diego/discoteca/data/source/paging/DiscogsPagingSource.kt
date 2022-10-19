@@ -1,16 +1,19 @@
-package com.diego.discoteca.data
+package com.diego.discoteca.data.source.paging
 
 import android.content.Context
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.diego.discoteca.BuildConfig
+import com.diego.discoteca.data.domain.Disc
+import com.diego.discoteca.data.model.DiscDb
+import com.diego.discoteca.data.model.DiscLight
+import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.database.DiscDatabaseDao
 import com.diego.discoteca.database.asDomainModel
-import com.diego.discoteca.domain.Disc
-import com.diego.discoteca.model.*
 import com.diego.discoteca.network.DiscogsApiService
-import com.diego.discoteca.repository.DiscRepository.Companion.NETWORK_DISCOGS_PAGE_SIZE
-import com.diego.discoteca.util.*
+import com.diego.discoteca.util.AddBy
+import com.diego.discoteca.util.Constants.NETWORK_DISCOGS_PAGE_SIZE
+import com.diego.discoteca.util.stringNormalizeDatabase
 import retrofit2.HttpException
 import timber.log.Timber
 import java.io.IOException

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="countFormatMedia"
-            type="com.diego.discoteca.model.CountFormatMedia" />
+            type="com.diego.discoteca.data.model.CountFormatMedia" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

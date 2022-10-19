@@ -2,18 +2,18 @@ package com.diego.discoteca.ui.scan
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import com.diego.discoteca.R
-import com.diego.discoteca.activity.MainActivity
 import com.diego.discoteca.databinding.FragmentScanBarcodeBinding
+import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.materialSharedAxisEnterReturnTransition
 import com.diego.discoteca.util.materialSharedAxisExitReenterTransition
 import com.google.android.material.transition.MaterialSharedAxis

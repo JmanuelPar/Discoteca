@@ -1,4 +1,4 @@
-package com.diego.discoteca.model
+package com.diego.discoteca.data.model
 
 data class CountFormatMedia(
     val id: Long,

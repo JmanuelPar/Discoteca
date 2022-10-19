@@ -5,9 +5,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.diego.discoteca.R
-import com.diego.discoteca.domain.Disc
-import com.diego.discoteca.model.Result
-import com.diego.discoteca.util.*
+import com.diego.discoteca.data.domain.Disc
+import com.diego.discoteca.data.model.Result
+import com.diego.discoteca.util.AddBy
+import com.diego.discoteca.util.noSimpleQuoteWhiteSpace
+import com.diego.discoteca.util.removeParenthesesDigit
+import com.diego.discoteca.util.stringNormalizeDatabase
 
 @Entity(tableName = "disc_table")
 data class DatabaseDisc(

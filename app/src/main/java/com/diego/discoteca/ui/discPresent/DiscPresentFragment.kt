@@ -8,14 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
-import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.adapter.DiscPresentAdapter
 import com.diego.discoteca.adapter.Listener
+import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.databinding.FragmentDiscPresentBinding
-import com.diego.discoteca.model.DiscPresent
-import com.diego.discoteca.util.*
+import com.diego.discoteca.ui.activity.MainActivity
+import com.diego.discoteca.util.materialElevationScaleExitReenterTransition
+import com.diego.discoteca.util.materialSharedAxisEnterReturnTransition
+import com.diego.discoteca.util.materialSharedAxisExitReenterTransition
 import com.google.android.material.transition.MaterialSharedAxis
 
 class DiscPresentFragment : Fragment() {
@@ -23,7 +25,7 @@ class DiscPresentFragment : Fragment() {
     private val mDiscPresentViewModel: DiscPresentViewModel by viewModels {
         val arguments = DiscPresentFragmentArgs.fromBundle(requireArguments())
         DiscPresentViewModelFactory(
-            repository = (requireContext().applicationContext as DiscotecaApplication).repository,
+            repository = (requireContext().applicationContext as DiscotecaApplication).discsRepository,
             discPresent = arguments.discPresent
         )
     }

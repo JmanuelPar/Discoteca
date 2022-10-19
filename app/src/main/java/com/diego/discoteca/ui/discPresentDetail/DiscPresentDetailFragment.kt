@@ -6,12 +6,13 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
-import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.DiscotecaApplication
+import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.databinding.FragmentDiscPresentDetailBinding
-import com.diego.discoteca.model.DiscPresent
-import com.diego.discoteca.util.*
+import com.diego.discoteca.ui.activity.MainActivity
+import com.diego.discoteca.util.materialSharedAxisExitReenterTransition
+import com.diego.discoteca.util.themeColor
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialSharedAxis
 
@@ -20,7 +21,7 @@ class DiscPresentDetailFragment : Fragment() {
     private val mDiscPresentDetailViewModel: DiscPresentDetailViewModel by viewModels {
         val arguments = DiscPresentDetailFragmentArgs.fromBundle(requireArguments())
         DiscPresentDetailViewModelFactory(
-            repository = (requireContext().applicationContext as DiscotecaApplication).repository,
+            repository = (requireContext().applicationContext as DiscotecaApplication).discsRepository,
             discPresent = arguments.discPresent
         )
     }
