@@ -20,6 +20,8 @@ import com.diego.discoteca.util.materialSharedAxisEnterReturnTransition
 import com.diego.discoteca.util.materialSharedAxisExitReenterTransition
 import com.google.android.material.transition.MaterialSharedAxis
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 class DiscPresentFragment : Fragment() {
 
     private val mDiscPresentViewModel: DiscPresentViewModel by viewModels {
@@ -107,6 +109,7 @@ class DiscPresentFragment : Fragment() {
         view.doOnPreDraw { startPostponedEnterTransition() }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()

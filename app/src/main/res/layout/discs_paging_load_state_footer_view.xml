@@ -17,7 +17,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.Discoteca.Caption"
+            android:textAppearance="?attr/textAppearanceCaption"
             tools:text="Timeout" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator

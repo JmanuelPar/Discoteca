@@ -20,8 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/colorBackground"
-                android:visibility="gone"
-                tools:visibility="visible">
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/img_no_internet"
@@ -30,14 +29,14 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:contentDescription="@string/img_no_connect"
                     android:src="@drawable/ic_no_internet"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/text_no_connect"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorError"
-                    android:contentDescription="@string/img_no_connect">
+                    app:tint="?attr/colorError">
 
                 </ImageView>
 
@@ -104,7 +103,7 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/add_disc"
+            android:contentDescription="@string/add_disc_img"
             app:layout_anchor="@id/bottom_app_bar"
             app:srcCompat="@drawable/ic_plus"
             tools:ignore="ImageContrastCheck" />
@@ -124,7 +123,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:cardCornerRadius="20dp"
             app:cardElevation="6dp">
 

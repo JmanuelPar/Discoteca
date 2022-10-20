@@ -33,6 +33,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 @ExperimentalCoroutinesApi
 class DiscFragment : Fragment(), DiscAdapter.DiscListener {
 
@@ -221,6 +223,7 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         popupMenu.show()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.fragment_disc_menu, menu)
@@ -236,14 +239,14 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         searchView.queryHint = getString(R.string.search_hint)
 
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
                 mDiscViewModel.updateIsSearch(true)
                 settingsThemeItem.isVisible = false
                 hideBottomBarHideFab()
                 return true
             }
 
-            override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
                 mDiscViewModel.updateIsSearch(false)
                 mDiscViewModel.updatePendingQueryDone()
                 delayedTransition(
@@ -286,6 +289,7 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.sort_by_name -> {

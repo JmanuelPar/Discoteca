@@ -27,6 +27,8 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 class DiscResultSearchFragment : Fragment() {
 
     private val mDiscResultSearchViewModel: DiscResultSearchViewModel by viewModels {
@@ -142,6 +144,7 @@ class DiscResultSearchFragment : Fragment() {
         view.doOnPreDraw { startPostponedEnterTransition() }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()

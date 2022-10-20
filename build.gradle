@@ -1,11 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
-        kotlinVersion = '1.6.21'
-        navigationVersion = '2.4.2'
+        kotlinVersion = '1.7.20'
+        navigationVersion = '2.5.2'
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.1'
+        classpath 'com.android.tools.build:gradle:7.3.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
 
@@ -23,32 +23,32 @@ task clean(type: Delete) {
 }
 
 ext {
-    activityVersion = '1.4.0'
-    appCompatVersion = '1.4.2'
-    cameraxVersion = '1.0.2'
+    activityVersion = '1.6.0'
+    appCompatVersion = '1.5.1'
+    cameraxVersion = '1.1.0'
     constraintLayoutVersion = '2.1.4'
-    coroutinesVersion = '1.6.1-native-mt'
+    coroutinesVersion = '1.6.4'
     dataStoreVersion = '1.0.0'
     fragmentVersion = '1.4.1'
     glideVersion = '4.13.2'
     googleApiClientVersion = '1.34.1'
     googleApiServicesDriveVersion = 'v3-rev20220508-1.32.1'
-    ktxVersion = '1.8.0'
+    ktxVersion = '1.9.0'
     lifecycleExtensionsVersion = '2.2.0'
-    lifecycleVersion = '2.4.1'
+    lifecycleVersion = '2.5.1'
     materialVersion = '1.6.1'
     mlkitVersion = '17.0.2'
     moshiVersion = '1.13.0'
     moshiConverterVersion = '2.9.0'
     okhttpLoggingInterceptorVersion = '4.9.3'
     pagingVersion = '3.1.1'
-    playServiceVersion = '20.2.0'
+    playServiceVersion = '20.3.0'
     preferencesVersion = '1.2.0'
     recyclerViewVersion = '1.2.1'
-    reflectVersion = '1.6.21'
+    reflectVersion = '1.7.20'
     retrofitVersion = '2.9.0'
-    roomVersion = '2.4.2'
-    splashscreenVersion = '1.0.0-rc01'
+    roomVersion = '2.4.3'
+    splashscreenVersion = '1.0.0'
     timberVersion = '5.0.1'
     zoneDateTimeVersion = '1.1.5'
 }

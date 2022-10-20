@@ -23,10 +23,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
 
+//TODO : make test
 @RunWith(AndroidJUnit4::class)
 class  AddDiscViewModelTest {
 
-    private lateinit var viewModel: AddDiscViewModel
+   /* private lateinit var viewModel: AddDiscViewModel
     private lateinit var db: DiscRoomDatabase
 
     @get:Rule
@@ -179,5 +180,5 @@ class  AddDiscViewModelTest {
                 addBy = AddBy.SEARCH
             )
         )
-    }
+    }*/
 }

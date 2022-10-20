@@ -13,6 +13,8 @@ import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.themeColor
 import com.google.android.material.transition.MaterialContainerTransform
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 class DiscDetailFragment : Fragment() {
 
     private val mDiscDetailViewModel: DiscDetailViewModel by viewModels {
@@ -59,6 +61,7 @@ class DiscDetailFragment : Fragment() {
         return binding.root
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()

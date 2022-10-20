@@ -28,6 +28,8 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 class DiscResultScanFragment : Fragment() {
 
     private val mDiscResultScanViewModel: DiscResultScanViewModel by viewModels {
@@ -93,7 +95,7 @@ class DiscResultScanFragment : Fragment() {
             }
         }
 
-        mDiscResultScanViewModel.navigateToDiscDetail.observe(viewLifecycleOwner) { it ->
+        mDiscResultScanViewModel.navigateToDiscDetail.observe(viewLifecycleOwner) {
             it?.let { pair ->
                 goToDiscDetailFragment(
                     view = pair.first,
@@ -163,6 +165,7 @@ class DiscResultScanFragment : Fragment() {
         view.doOnPreDraw { startPostponedEnterTransition() }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()

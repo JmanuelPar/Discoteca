@@ -13,6 +13,8 @@ import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.*
 import com.google.android.material.transition.MaterialSharedAxis
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 class AddDiscFragment : Fragment() {
 
     private val mAddDiscViewModel: AddDiscViewModel by viewModels {
@@ -105,6 +107,7 @@ class AddDiscFragment : Fragment() {
         return binding.root
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()

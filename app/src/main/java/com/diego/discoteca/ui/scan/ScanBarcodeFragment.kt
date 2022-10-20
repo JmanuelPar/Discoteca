@@ -24,6 +24,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 typealias BarcodeListener = (barcode: String) -> Unit
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 class ScanBarcodeFragment : Fragment() {
 
     private val mScanBarcodeViewModel: ScanBarcodeViewModel by viewModels {
@@ -70,6 +72,7 @@ class ScanBarcodeFragment : Fragment() {
         return binding.root
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()

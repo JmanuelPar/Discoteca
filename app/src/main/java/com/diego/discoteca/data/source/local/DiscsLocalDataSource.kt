@@ -1,6 +1,5 @@
 package com.diego.discoteca.data.source.local
 
-import androidx.paging.Pager
 import androidx.paging.PagingData
 import com.diego.discoteca.data.SortOrder
 import com.diego.discoteca.data.domain.Disc

@@ -15,7 +15,6 @@ import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.Constants.NETWORK_DISCOGS_PAGE_SIZE
 import com.diego.discoteca.util.stringNormalizeDatabase
 import retrofit2.HttpException
-import timber.log.Timber
 import java.io.IOException
 
 private const val DISCOGS_STARTING_PAGE_INDEX = 0
@@ -62,8 +61,6 @@ class DiscogsPagingSourceSearchBarcode(
             )?.sortedBy {
                 it.country.lowercase()
             }
-
-            Timber.e("List Api Discogs : $listApi")
 
             /* Get list of disc in database, added manually by the user
             with name artist/group + title + year in list Discogs API (none, one or more) */

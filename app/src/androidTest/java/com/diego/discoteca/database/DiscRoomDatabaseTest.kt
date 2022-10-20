@@ -35,7 +35,7 @@ class DiscRoomDatabaseTest : TestCase() {
             context,
             DiscRoomDatabase::class.java
         ).allowMainThreadQueries().build()
-        discDao = db.discDatabaseDao
+        discDao = db.discDatabaseDao()
     }
 
     @After

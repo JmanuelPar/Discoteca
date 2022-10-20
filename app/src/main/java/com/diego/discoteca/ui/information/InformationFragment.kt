@@ -13,6 +13,8 @@ import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.Destination
 import com.google.android.material.transition.MaterialFadeThrough
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 class InformationFragment : Fragment() {
 
     private val mInformationViewModel: InformationViewModel by viewModels {
@@ -65,6 +67,7 @@ class InformationFragment : Fragment() {
         return binding.root
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()

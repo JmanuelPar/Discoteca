@@ -50,7 +50,7 @@ import java.util.*
  * https://developers.google.com/drive/api/v3/reference
  */
 
-// TODO : use this
+//TODO : use this
 enum class InteractionCode {
     EXISTS_BACK_UP,
     NOT_EXISTS_BACK_UP,
@@ -61,6 +61,8 @@ enum class InteractionCode {
     RESTORATION
 }
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
 
     // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...)
@@ -184,6 +186,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
         return binding.root
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()

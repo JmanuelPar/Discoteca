@@ -46,6 +46,8 @@ import kotlinx.coroutines.launch
 
 val Context.dataStore by preferencesDataStore(USER_PREFERENCES_NAME)
 
+// TODO : Update deprecation
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     private val requestPermissionLauncher =
@@ -132,6 +134,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (expandedButton) collapseButton()
         else super.onBackPressed()
@@ -272,14 +275,14 @@ class MainActivity : AppCompatActivity() {
             performHide()
             animate().setListener(object : AnimatorListenerAdapter() {
                 var isCanceled = false
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     if (isCanceled) return
 
                     bottomAppBar.visibility = View.GONE
                     fabButton.visibility = View.INVISIBLE
                 }
 
-                override fun onAnimationCancel(animation: Animator?) {
+                override fun onAnimationCancel(animation: Animator) {
                     isCanceled = true
                 }
             })
