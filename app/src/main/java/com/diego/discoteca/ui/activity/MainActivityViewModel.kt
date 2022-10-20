@@ -11,7 +11,7 @@ class MainActivityViewModel(private val preferencesManager: PreferencesManager) 
     val nightModeFlow = preferencesManager.nightModeFlow
     val nightMode = nightModeFlow.asLiveData()
 
-    fun onNightModeSelected(mode: Int){
+    fun onNightModeSelected(mode: Int) {
         viewModelScope.launch {
             preferencesManager.updateNightMode(mode)
         }

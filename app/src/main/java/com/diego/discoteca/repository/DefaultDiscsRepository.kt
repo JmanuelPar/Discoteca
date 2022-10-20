@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
-class  DefaultDiscsRepository(
+class DefaultDiscsRepository(
     private val discsLocalDataSource: DiscsDataSource,
     private val discsPagingDataSource: DiscsDataSource,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO

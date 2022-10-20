@@ -8,7 +8,8 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingBottom="78dp"
+        android:scrollbars="vertical"
         android:transitionGroup="true"
-        tools:listitem="@layout/item_disc_card"/>
+        tools:listitem="@layout/item_disc_card" />
 
 </layout>

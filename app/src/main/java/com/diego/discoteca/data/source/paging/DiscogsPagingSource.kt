@@ -12,12 +12,11 @@ import com.diego.discoteca.database.DiscDatabaseDao
 import com.diego.discoteca.database.asDomainModel
 import com.diego.discoteca.network.DiscogsApiService
 import com.diego.discoteca.util.AddBy
+import com.diego.discoteca.util.Constants.DISCOGS_STARTING_PAGE_INDEX
 import com.diego.discoteca.util.Constants.NETWORK_DISCOGS_PAGE_SIZE
 import com.diego.discoteca.util.stringNormalizeDatabase
 import retrofit2.HttpException
 import java.io.IOException
-
-private const val DISCOGS_STARTING_PAGE_INDEX = 0
 
 class DiscogsPagingSourceSearchBarcode(
     private val service: DiscogsApiService,

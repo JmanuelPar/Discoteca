@@ -36,4 +36,5 @@
             android:text="@string/retry" />
 
     </LinearLayout>
+
 </layout>

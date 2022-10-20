@@ -52,10 +52,12 @@ class DiscPresentFragment : Fragment() {
         val adapterDiscPresent = DiscPresentAdapter(Listener { view, disc ->
             val discPresent = mDiscPresentViewModel.discItem
             // Here, we do a search with the disk chosen by the user
-            discPresent.discAdd.id = disc.id
-            discPresent.discAdd.name = disc.name
-            discPresent.discAdd.title = disc.title
-            discPresent.discAdd.year = disc.year
+            discPresent.discAdd.apply {
+                id = disc.id
+                name = disc.name
+                title = disc.title
+                year = disc.year
+            }
             goToDiscPresentDetailFragment(
                 view = view,
                 discPresent = discPresent

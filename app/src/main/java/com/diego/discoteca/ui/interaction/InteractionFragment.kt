@@ -799,6 +799,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
             NOT_EXISTS_RESTORATION -> getMyString(R.string.no_restore_done)
             NOT_EXISTS_RESTORATION_ERROR -> getMyString(R.string.error_no_back_up_in_drive_unable_to_restore)
             else -> {
+                //TODO : try catch please
                 val zonedDateTime = Instant.parse(time).atZone(ZoneId.systemDefault())
                 val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm:ss")
                 dateTimeFormatter.format(zonedDateTime)

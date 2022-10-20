@@ -5,24 +5,57 @@ import android.os.Parcelable
 import com.diego.discoteca.R
 import kotlinx.parcelize.Parcelize
 
-sealed class UIText : Parcelable{
-    @Parcelize object DiscArtistNameIndicate : UIText()
-    @Parcelize object DiscTitleIndicate : UIText()
-    @Parcelize object DiscYearIndicate : UIText()
-    @Parcelize object NoValidDiscYear : UIText()
-    @Parcelize object DiscAdded : UIText()
-    @Parcelize object DiscDeleted : UIText()
-    @Parcelize object DiscUpdated : UIText()
-    @Parcelize object DiscAlreadyPresentOne : UIText()
-    @Parcelize object DiscAlreadyPresentMore : UIText()
-    @Parcelize object DatabaseBackUp : UIText()
-    @Parcelize object DatabaseRestored : UIText()
-    @Parcelize object DatabaseNotRestored : UIText()
-    @Parcelize object AccountNotLogIn : UIText()
-    @Parcelize object NoDisplay : UIText()
-    @Parcelize data class TotalApi(val total: Int) : UIText()
-    @Parcelize data class TotalDatabase(val total: Int) : UIText()
-    @Parcelize data class AccountLogIn(val account: String) : UIText()
+sealed class UIText : Parcelable {
+    @Parcelize
+    object DiscArtistNameIndicate : UIText()
+
+    @Parcelize
+    object DiscTitleIndicate : UIText()
+
+    @Parcelize
+    object DiscYearIndicate : UIText()
+
+    @Parcelize
+    object NoValidDiscYear : UIText()
+
+    @Parcelize
+    object DiscAdded : UIText()
+
+    @Parcelize
+    object DiscDeleted : UIText()
+
+    @Parcelize
+    object DiscUpdated : UIText()
+
+    @Parcelize
+    object DiscAlreadyPresentOne : UIText()
+
+    @Parcelize
+    object DiscAlreadyPresentMore : UIText()
+
+    @Parcelize
+    object DatabaseBackUp : UIText()
+
+    @Parcelize
+    object DatabaseRestored : UIText()
+
+    @Parcelize
+    object DatabaseNotRestored : UIText()
+
+    @Parcelize
+    object AccountNotLogIn : UIText()
+
+    @Parcelize
+    object NoDisplay : UIText()
+
+    @Parcelize
+    data class TotalApi(val total: Int) : UIText()
+
+    @Parcelize
+    data class TotalDatabase(val total: Int) : UIText()
+
+    @Parcelize
+    data class AccountLogIn(val account: String) : UIText()
 }
 
 fun Context.getMyUIText(uiText: UIText): String {

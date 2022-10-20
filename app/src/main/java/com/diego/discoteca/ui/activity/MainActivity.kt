@@ -32,6 +32,7 @@ import com.diego.discoteca.data.PreferencesManager
 import com.diego.discoteca.databinding.ActivityMainBinding
 import com.diego.discoteca.ui.disc.DiscFragmentDirections
 import com.diego.discoteca.util.*
+import com.diego.discoteca.util.Constants.REQUIRED_PERMISSION_CAMERA
 import com.diego.discoteca.util.Constants.USER_PREFERENCES_NAME
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -61,10 +62,6 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
-
-    companion object {
-        private const val REQUIRED_PERMISSION_CAMERA = android.Manifest.permission.CAMERA
-    }
 
     private val mMainActivityViewModel: MainActivityViewModel by viewModels {
         MainActivityViewModelFactory(PreferencesManager(this.dataStore))

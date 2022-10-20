@@ -5,7 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.diego.discoteca.data.PreferencesManager
 
 class MainActivityViewModelFactory(
-    private val preferencesManager: PreferencesManager) : ViewModelProvider.Factory {
+    private val preferencesManager: PreferencesManager
+) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainActivityViewModel::class.java)) {
