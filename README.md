@@ -23,7 +23,6 @@ Retrofit2<br/>
 Room<br/>
 Splashscreen<br/>
 Timber<br/>
-View binding<br/>
 
 *******************
 

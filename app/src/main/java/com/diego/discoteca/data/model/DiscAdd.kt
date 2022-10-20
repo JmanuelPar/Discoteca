@@ -1,4 +1,4 @@
-package com.diego.discoteca.model
+package com.diego.discoteca.data.model
 
 import android.os.Parcelable
 import com.diego.discoteca.util.AddBy

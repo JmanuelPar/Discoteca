@@ -78,6 +78,7 @@ class ConnectivityStatus(context: Context) :
                 }
             }
         }
+
         /* If the callback was registered with registerNetworkCallback() it will be called for each network which no longer satisfies the criteria of the callback.
            Source: https://developer.android.com/reference/android/net/ConnectivityManager.NetworkCallback#onLost(android.net.Network) */
         override fun onLost(network: Network) {
@@ -100,7 +101,7 @@ object DoesNetworkHaveInternet {
             val socket = socketFactory.createSocket() ?: throw IOException("Socket is null")
             socket.connect(InetSocketAddress("8.8.8.8", 53), 1500)
             socket.close()
-            Timber.d("PING Google Sucess !")
+            Timber.d("PING Google Success !")
             true
         } catch (e: IOException) {
             Timber.e("PING Google Fail ! $e")

@@ -14,29 +14,34 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.diego.discoteca.activity.DiscotecaApplication
+import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
-import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.dataStore
 import com.diego.discoteca.adapter.DiscAdapter
 import com.diego.discoteca.data.PreferencesManager
 import com.diego.discoteca.data.SortOrder
+import com.diego.discoteca.data.domain.Disc
 import com.diego.discoteca.databinding.FragmentDiscBinding
-import com.diego.discoteca.domain.Disc
-import com.diego.discoteca.util.*
-import com.google.android.material.transition.MaterialFadeThrough
+import com.diego.discoteca.ui.activity.MainActivity
+import com.diego.discoteca.ui.activity.dataStore
+import com.diego.discoteca.util.UIText
+import com.diego.discoteca.util.delayedTransition
+import com.diego.discoteca.util.materialElevationScaleExitReenterTransition
+import com.diego.discoteca.util.showDialogMessageAction
 import com.google.android.material.transition.MaterialFade
+import com.google.android.material.transition.MaterialFadeThrough
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 @ExperimentalCoroutinesApi
 class DiscFragment : Fragment(), DiscAdapter.DiscListener {
 
     private val mDiscViewModel: DiscViewModel by viewModels {
         val arguments = DiscFragmentArgs.fromBundle(requireArguments())
         DiscViewModelFactory(
-            repository = (requireContext().applicationContext as DiscotecaApplication).repository,
+            repository = (requireContext().applicationContext as DiscotecaApplication).discsRepository,
             preferencesManager = PreferencesManager(requireContext().dataStore),
             uiText = arguments.uiText,
             idAdded = arguments.idAdded
@@ -218,6 +223,7 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         popupMenu.show()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.fragment_disc_menu, menu)
@@ -233,14 +239,14 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         searchView.queryHint = getString(R.string.search_hint)
 
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
                 mDiscViewModel.updateIsSearch(true)
                 settingsThemeItem.isVisible = false
                 hideBottomBarHideFab()
                 return true
             }
 
-            override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
                 mDiscViewModel.updateIsSearch(false)
                 mDiscViewModel.updatePendingQueryDone()
                 delayedTransition(
@@ -283,6 +289,7 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.sort_by_name -> {

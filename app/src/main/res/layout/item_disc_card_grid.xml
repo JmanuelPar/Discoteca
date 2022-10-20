@@ -7,7 +7,7 @@
 
         <variable
             name="disc"
-            type="com.diego.discoteca.domain.Disc" />
+            type="com.diego.discoteca.data.domain.Disc" />
 
         <variable
             name="listener"

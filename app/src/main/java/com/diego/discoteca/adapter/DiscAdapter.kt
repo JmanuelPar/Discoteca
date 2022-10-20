@@ -8,17 +8,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.diego.discoteca.R
+import com.diego.discoteca.data.domain.Disc
 import com.diego.discoteca.databinding.ItemDiscCardBinding
 import com.diego.discoteca.databinding.ItemDiscCardGridBinding
-import com.diego.discoteca.domain.Disc
+import com.diego.discoteca.util.Constants.ITEM_VIEW_TYPE_ITEM
+import com.diego.discoteca.util.Constants.ITEM_VIEW_TYPE_MESSAGE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.ClassCastException
-
-private val ITEM_VIEW_TYPE_MESSAGE = 0
-private val ITEM_VIEW_TYPE_ITEM = 1
 
 class DiscAdapter(
     private val listener: DiscListener,

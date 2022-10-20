@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.diego.discoteca.data.domain.Disc
 import com.diego.discoteca.databinding.ItemDiscPresentListBinding
-import com.diego.discoteca.domain.Disc
 
 class DiscPresentAdapter(private val clickListener: Listener) :
     ListAdapter<Disc, DiscPresentAdapter.ViewHolder>(DISC_PRESENT_DIFF_CALLBACK) {

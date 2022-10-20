@@ -1,15 +1,18 @@
 package com.diego.discoteca.ui.updateDisc
 
 import android.text.Editable
-import androidx.lifecycle.*
-import com.diego.discoteca.domain.Disc
-import com.diego.discoteca.repository.DiscRepository
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.diego.discoteca.data.domain.Disc
+import com.diego.discoteca.repository.DiscsRepository
 import com.diego.discoteca.util.UIText
 import com.diego.discoteca.util.stringProcess
 import kotlinx.coroutines.launch
 
 class UpdateDiscViewModel(
-    private val repository: DiscRepository,
+    private val repository: DiscsRepository,
     discId: Long
 ) : ViewModel() {
 

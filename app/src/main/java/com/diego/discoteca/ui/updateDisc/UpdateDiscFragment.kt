@@ -6,22 +6,24 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
+import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
-import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.databinding.FragmentUpdateDiscBinding
+import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.UIText
 import com.diego.discoteca.util.materialSharedAxisEnterReturnTransition
-import com.diego.discoteca.util.showDialogTitle
 import com.diego.discoteca.util.showBottomSheetModal
+import com.diego.discoteca.util.showDialogTitle
 import com.google.android.material.transition.MaterialSharedAxis
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 class UpdateDiscFragment : Fragment() {
 
     private val mUpdateDiscViewModel: UpdateDiscViewModel by viewModels {
         val arguments = UpdateDiscFragmentArgs.fromBundle(requireArguments())
         UpdateDiscViewModelFactory(
-            repository = (requireContext().applicationContext as DiscotecaApplication).repository,
+            repository = (requireContext().applicationContext as DiscotecaApplication).discsRepository,
             discId = arguments.discId
         )
     }
@@ -88,6 +90,7 @@ class UpdateDiscFragment : Fragment() {
         return binding.root
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()

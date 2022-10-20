@@ -1,14 +1,14 @@
-package com.diego.discoteca.data
+package com.diego.discoteca.data.source.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.diego.discoteca.data.domain.Disc
+import com.diego.discoteca.data.model.DiscDb
 import com.diego.discoteca.database.DiscDatabaseDao
 import com.diego.discoteca.database.asDomainModel
-import com.diego.discoteca.domain.Disc
-import com.diego.discoteca.model.DiscDb
-import com.diego.discoteca.util.*
-
-private const val DATABASE_STARTING_PAGE_INDEX = 0
+import com.diego.discoteca.util.AddBy
+import com.diego.discoteca.util.Constants.DATABASE_STARTING_PAGE_INDEX
+import com.diego.discoteca.util.stringNormalizeDatabase
 
 class DatabasePagingSourceBarcode(
     private val dao: DiscDatabaseDao,

@@ -2,10 +2,10 @@ package com.diego.discoteca.ui.updateDisc
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.diego.discoteca.repository.DiscRepository
+import com.diego.discoteca.repository.DiscsRepository
 
 class UpdateDiscViewModelFactory(
-    private val repository: DiscRepository,
+    private val repository: DiscsRepository,
     private val discId: Long
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")

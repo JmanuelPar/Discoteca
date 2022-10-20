@@ -10,27 +10,32 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.LoadState
+import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
-import com.diego.discoteca.activity.DiscotecaApplication
-import com.diego.discoteca.activity.MainActivity
 import com.diego.discoteca.adapter.DiscResultAdapter
 import com.diego.discoteca.adapter.DiscsLoadStateAdapter
 import com.diego.discoteca.adapter.Listener
+import com.diego.discoteca.data.model.DiscResultDetail
 import com.diego.discoteca.databinding.FragmentDiscResultScanBinding
-import com.diego.discoteca.model.DiscResultDetail
-import com.diego.discoteca.util.*
+import com.diego.discoteca.ui.activity.MainActivity
+import com.diego.discoteca.util.Destination
+import com.diego.discoteca.util.UIText
+import com.diego.discoteca.util.materialElevationScaleExitReenterTransition
+import com.diego.discoteca.util.materialSharedAxisEnterReturnTransition
 import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 class DiscResultScanFragment : Fragment() {
 
     private val mDiscResultScanViewModel: DiscResultScanViewModel by viewModels {
         val arguments = DiscResultScanFragmentArgs.fromBundle(requireArguments())
         DiscResultScanViewModelFactory(
-            repository = (requireContext().applicationContext as DiscotecaApplication).repository,
+            repository = (requireContext().applicationContext as DiscotecaApplication).discsRepository,
             discResultScan = arguments.discResultScan
         )
     }
@@ -90,7 +95,7 @@ class DiscResultScanFragment : Fragment() {
             }
         }
 
-        mDiscResultScanViewModel.navigateToDiscDetail.observe(viewLifecycleOwner) { it ->
+        mDiscResultScanViewModel.navigateToDiscDetail.observe(viewLifecycleOwner) {
             it?.let { pair ->
                 goToDiscDetailFragment(
                     view = pair.first,
@@ -160,6 +165,7 @@ class DiscResultScanFragment : Fragment() {
         view.doOnPreDraw { startPostponedEnterTransition() }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()

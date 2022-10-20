@@ -3,19 +3,22 @@ package com.diego.discoteca.ui.addDisc
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.*
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
+import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
-import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.databinding.FragmentAddDiscBinding
+import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.*
 import com.google.android.material.transition.MaterialSharedAxis
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 class AddDiscFragment : Fragment() {
 
     private val mAddDiscViewModel: AddDiscViewModel by viewModels {
-        AddDiscViewModelFactory((requireContext().applicationContext as DiscotecaApplication).repository)
+        AddDiscViewModelFactory((requireContext().applicationContext as DiscotecaApplication).discsRepository)
     }
 
     private lateinit var binding: FragmentAddDiscBinding
@@ -104,6 +107,7 @@ class AddDiscFragment : Fragment() {
         return binding.root
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()

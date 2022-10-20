@@ -1,16 +1,19 @@
 package com.diego.discoteca.ui.discResultDetail
 
-import androidx.lifecycle.*
-import com.diego.discoteca.domain.Disc
-import com.diego.discoteca.model.DiscLight
-import com.diego.discoteca.model.DiscResultDetail
-import com.diego.discoteca.repository.DiscRepository
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.diego.discoteca.data.domain.Disc
+import com.diego.discoteca.data.model.DiscLight
+import com.diego.discoteca.data.model.DiscResultDetail
+import com.diego.discoteca.repository.DiscsRepository
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.UIText
 import kotlinx.coroutines.launch
 
 class DiscResultDetailViewModel(
-    val repository: DiscRepository,
+    val repository: DiscsRepository,
     private val discItem: DiscResultDetail,
 ) : ViewModel() {
 

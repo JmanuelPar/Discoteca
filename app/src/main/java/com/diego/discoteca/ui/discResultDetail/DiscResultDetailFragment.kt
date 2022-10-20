@@ -6,20 +6,22 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
-import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.databinding.FragmentDiscResultDetailBinding
+import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.UIText
 import com.diego.discoteca.util.themeColor
 import com.google.android.material.transition.MaterialContainerTransform
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 class DiscResultDetailFragment : Fragment() {
 
     private val mDiscResultDetailViewModel: DiscResultDetailViewModel by viewModels {
         val arguments = DiscResultDetailFragmentArgs.fromBundle(requireArguments())
         DiscResultDetailViewModelFactory(
-            repository = (requireContext().applicationContext as DiscotecaApplication).repository,
+            repository = (requireContext().applicationContext as DiscotecaApplication).discsRepository,
             discResultDetail = arguments.discResultDetail
         )
     }
@@ -71,6 +73,7 @@ class DiscResultDetailFragment : Fragment() {
         return binding.root
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()

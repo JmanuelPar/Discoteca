@@ -3,13 +3,13 @@ package com.diego.discoteca.ui.disc
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.diego.discoteca.data.PreferencesManager
-import com.diego.discoteca.repository.DiscRepository
+import com.diego.discoteca.repository.DiscsRepository
 import com.diego.discoteca.util.UIText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 class DiscViewModelFactory(
-    private val repository: DiscRepository,
+    private val repository: DiscsRepository,
     private val preferencesManager: PreferencesManager,
     private val uiText: UIText?,
     private val idAdded: Long

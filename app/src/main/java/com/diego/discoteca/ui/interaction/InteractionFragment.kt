@@ -9,11 +9,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
-import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.databinding.FragmentInteractionBinding
+import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.*
+import com.diego.discoteca.util.Constants.DATABASE_NAME
+import com.diego.discoteca.util.Constants.G_DRIVE_FOLDER_NAME
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -36,7 +38,8 @@ import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.net.UnknownHostException
-import java.time.*
+import java.time.Instant
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -47,7 +50,7 @@ import java.util.*
  * https://developers.google.com/drive/api/v3/reference
  */
 
-// TODO : use this
+//TODO : use this
 enum class InteractionCode {
     EXISTS_BACK_UP,
     NOT_EXISTS_BACK_UP,
@@ -58,6 +61,8 @@ enum class InteractionCode {
     RESTORATION
 }
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
 
     // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...)
@@ -74,7 +79,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
     private lateinit var binding: FragmentInteractionBinding
 
     private val mInteractionViewModel: InteractionViewModel by viewModels {
-        InteractionViewModelFactory((requireContext().applicationContext as DiscotecaApplication).repository)
+        InteractionViewModelFactory((requireContext().applicationContext as DiscotecaApplication).discsRepository)
     }
 
     private val callbackOnBackPressed = object : OnBackPressedCallback(false) {
@@ -181,6 +186,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
         return binding.root
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
@@ -793,6 +799,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
             NOT_EXISTS_RESTORATION -> getMyString(R.string.no_restore_done)
             NOT_EXISTS_RESTORATION_ERROR -> getMyString(R.string.error_no_back_up_in_drive_unable_to_restore)
             else -> {
+                //TODO : try catch please
                 val zonedDateTime = Instant.parse(time).atZone(ZoneId.systemDefault())
                 val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm:ss")
                 dateTimeFormatter.format(zonedDateTime)

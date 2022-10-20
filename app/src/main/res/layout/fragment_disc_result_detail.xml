@@ -141,8 +141,6 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:scrollbarSize="1.5dp"
-                android:scrollbarThumbVertical="@color/color_on_surface_emphasis_disabled"
                 android:scrollbars="vertical"
                 app:layout_constraintBottom_toTopOf="@+id/button_no"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -249,10 +247,10 @@
                         android:layout_marginEnd="8dp"
                         android:gravity="center_horizontal"
                         android:textAppearance="@style/TextAppearance.Discoteca.Subtitle1"
-                        app:tvBarcode="@{discResultDetailViewModel.discResultDetail}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_disc_result_format" />
+                        app:layout_constraintTop_toBottomOf="@+id/tv_disc_result_format"
+                        app:tvBarcode="@{discResultDetailViewModel.discResultDetail}" />
 
                     <TextView
                         android:id="@+id/tv_disc_result_barcode"

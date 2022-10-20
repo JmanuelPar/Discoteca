@@ -149,7 +149,7 @@
 
         <argument
             android:name="discResultScan"
-            app:argType="com.diego.discoteca.model.DiscResultScan" />
+            app:argType="com.diego.discoteca.data.model.DiscResultScan" />
 
         <action
             android:id="@+id/action_discResultScanFragment_to_discResultDetailFragment"
@@ -180,7 +180,7 @@
 
         <argument
             android:name="discResultDetail"
-            app:argType="com.diego.discoteca.model.DiscResultDetail" />
+            app:argType="com.diego.discoteca.data.model.DiscResultDetail" />
 
         <action
             android:id="@+id/action_discResultDetailFragment_to_discFragment"
@@ -198,7 +198,7 @@
 
         <argument
             android:name="discPresent"
-            app:argType="com.diego.discoteca.model.DiscPresent" />
+            app:argType="com.diego.discoteca.data.model.DiscPresent" />
 
         <action
             android:id="@+id/action_discResultSearchFragment_to_discResultDetailFragment"
@@ -214,7 +214,7 @@
 
         <argument
             android:name="discPresent"
-            app:argType="com.diego.discoteca.model.DiscPresent" />
+            app:argType="com.diego.discoteca.data.model.DiscPresent" />
 
         <action
             android:id="@+id/action_discPresentFragment_to_discFragment"
@@ -246,7 +246,7 @@
 
         <argument
             android:name="discPresent"
-            app:argType="com.diego.discoteca.model.DiscPresent" />
+            app:argType="com.diego.discoteca.data.model.DiscPresent" />
 
         <action
             android:id="@+id/action_discPresentDetailFragment_to_discResultSearchFragment"

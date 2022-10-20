@@ -1,15 +1,20 @@
 package com.diego.discoteca.ui.addDisc
 
 import android.text.Editable
-import androidx.lifecycle.*
-import com.diego.discoteca.domain.Disc
-import com.diego.discoteca.model.DiscAdd
-import com.diego.discoteca.model.DiscPresent
-import com.diego.discoteca.repository.DiscRepository
-import com.diego.discoteca.util.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.diego.discoteca.data.domain.Disc
+import com.diego.discoteca.data.model.DiscAdd
+import com.diego.discoteca.data.model.DiscPresent
+import com.diego.discoteca.repository.DiscsRepository
+import com.diego.discoteca.util.AddBy
+import com.diego.discoteca.util.UIText
+import com.diego.discoteca.util.stringProcess
 import kotlinx.coroutines.launch
 
-class AddDiscViewModel(private val repository: DiscRepository) : ViewModel() {
+class AddDiscViewModel(private val repository: DiscsRepository) : ViewModel() {
 
     private val _discNameArtist = MutableLiveData<String>()
     private val discNameArtist: LiveData<String>

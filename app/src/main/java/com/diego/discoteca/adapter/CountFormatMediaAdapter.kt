@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.diego.discoteca.data.model.CountFormatMedia
 import com.diego.discoteca.databinding.ItemCountFormatMediaBinding
-import com.diego.discoteca.model.CountFormatMedia
 
 class CountFormatMediaAdapter : ListAdapter<CountFormatMedia, CountFormatMediaAdapter.ViewHolder>(
     COUNT_FORMAT_MEDIA_DIFF_CALLBACK

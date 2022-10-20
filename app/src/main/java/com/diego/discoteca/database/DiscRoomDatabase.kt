@@ -1,9 +1,7 @@
 package com.diego.discoteca.database
 
-import android.content.Context
 import androidx.room.*
 import com.diego.discoteca.util.AddBy
-import com.diego.discoteca.util.DATABASE_NAME
 
 @Database(
     entities = [DatabaseDisc::class],
@@ -13,26 +11,7 @@ import com.diego.discoteca.util.DATABASE_NAME
 @TypeConverters(AddByConverters::class)
 abstract class DiscRoomDatabase : RoomDatabase() {
 
-    abstract val discDatabaseDao: DiscDatabaseDao
-
-    companion object {
-        @Volatile
-        private var INSTANCE: DiscRoomDatabase? = null
-
-        fun getInstance(context: Context): DiscRoomDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    DiscRoomDatabase::class.java,
-                    DATABASE_NAME
-                )
-                    .setJournalMode(JournalMode.TRUNCATE)
-                    .build()
-                INSTANCE = instance
-                instance
-            }
-        }
-    }
+    abstract fun discDatabaseDao(): DiscDatabaseDao
 }
 
 class AddByConverters {

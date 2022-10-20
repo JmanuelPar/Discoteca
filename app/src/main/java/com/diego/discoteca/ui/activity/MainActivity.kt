@@ -1,4 +1,4 @@
-package com.diego.discoteca.activity
+package com.diego.discoteca.ui.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.databinding.DataBindingUtil
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -33,6 +32,8 @@ import com.diego.discoteca.data.PreferencesManager
 import com.diego.discoteca.databinding.ActivityMainBinding
 import com.diego.discoteca.ui.disc.DiscFragmentDirections
 import com.diego.discoteca.util.*
+import com.diego.discoteca.util.Constants.REQUIRED_PERMISSION_CAMERA
+import com.diego.discoteca.util.Constants.USER_PREFERENCES_NAME
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -46,6 +47,8 @@ import kotlinx.coroutines.launch
 
 val Context.dataStore by preferencesDataStore(USER_PREFERENCES_NAME)
 
+// TODO : Update deprecation
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     private val requestPermissionLauncher =
@@ -59,10 +62,6 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
-
-    companion object {
-        private const val REQUIRED_PERMISSION_CAMERA = android.Manifest.permission.CAMERA
-    }
 
     private val mMainActivityViewModel: MainActivityViewModel by viewModels {
         MainActivityViewModelFactory(PreferencesManager(this.dataStore))
@@ -88,7 +87,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setNoInternetAndToolBar()
         setBottomBarNavigationAndFab()
         setInternetStatus()
@@ -131,6 +131,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (expandedButton) collapseButton()
         else super.onBackPressed()
@@ -199,7 +200,7 @@ class MainActivity : AppCompatActivity() {
         fabButton.setOnClickListener { expandButton() }
 
         scrimLayout.setOnClickListener {
-            // We do nothing }
+            // We do nothing } }
         }
     }
 
@@ -271,14 +272,14 @@ class MainActivity : AppCompatActivity() {
             performHide()
             animate().setListener(object : AnimatorListenerAdapter() {
                 var isCanceled = false
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     if (isCanceled) return
 
                     bottomAppBar.visibility = View.GONE
                     fabButton.visibility = View.INVISIBLE
                 }
 
-                override fun onAnimationCancel(animation: Animator?) {
+                override fun onAnimationCancel(animation: Animator) {
                     isCanceled = true
                 }
             })

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.diego.discoteca.model.*
+import com.diego.discoteca.data.model.DiscResultScan
 import com.diego.discoteca.util.Destination
 import kotlinx.coroutines.launch
 

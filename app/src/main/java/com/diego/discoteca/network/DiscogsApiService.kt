@@ -1,7 +1,7 @@
 package com.diego.discoteca.network
 
-import com.diego.discoteca.model.NetworkDiscDiscogs
-import com.diego.discoteca.util.API_DISCOGS_URL
+import com.diego.discoteca.data.model.NetworkDiscDiscogs
+import com.diego.discoteca.util.Constants.API_DISCOGS_URL
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -12,6 +12,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
+
+// Get your key and secret here : www.discogs.com/developers
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())

@@ -11,11 +11,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.diego.discoteca.R
 import com.diego.discoteca.R.color
-import com.diego.discoteca.domain.Disc
-import com.diego.discoteca.model.DiscLight
-import com.diego.discoteca.model.DiscPresent
-import com.diego.discoteca.model.DiscResultDetail
-import com.diego.discoteca.model.DiscResultScan
+import com.diego.discoteca.data.domain.Disc
+import com.diego.discoteca.data.model.DiscLight
+import com.diego.discoteca.data.model.DiscPresent
+import com.diego.discoteca.data.model.DiscResultDetail
+import com.diego.discoteca.data.model.DiscResultScan
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.color.MaterialColors

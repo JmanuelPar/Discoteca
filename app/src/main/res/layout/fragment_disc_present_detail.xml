@@ -63,8 +63,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginBottom="8dp"
-                android:scrollbarSize="1.5dp"
-                android:scrollbarThumbVertical="@color/color_on_surface_emphasis_disabled"
                 android:scrollbars="vertical"
                 app:layout_constraintBottom_toTopOf="@+id/button_search"
                 app:layout_constraintEnd_toEndOf="parent"

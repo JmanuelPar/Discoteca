@@ -8,22 +8,26 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
-import com.diego.discoteca.activity.MainActivity
-import com.diego.discoteca.activity.DiscotecaApplication
 import com.diego.discoteca.adapter.DiscPresentAdapter
 import com.diego.discoteca.adapter.Listener
+import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.databinding.FragmentDiscPresentBinding
-import com.diego.discoteca.model.DiscPresent
-import com.diego.discoteca.util.*
+import com.diego.discoteca.ui.activity.MainActivity
+import com.diego.discoteca.util.materialElevationScaleExitReenterTransition
+import com.diego.discoteca.util.materialSharedAxisEnterReturnTransition
+import com.diego.discoteca.util.materialSharedAxisExitReenterTransition
 import com.google.android.material.transition.MaterialSharedAxis
 
+//TODO : update deprecation
+@Suppress("DEPRECATION")
 class DiscPresentFragment : Fragment() {
 
     private val mDiscPresentViewModel: DiscPresentViewModel by viewModels {
         val arguments = DiscPresentFragmentArgs.fromBundle(requireArguments())
         DiscPresentViewModelFactory(
-            repository = (requireContext().applicationContext as DiscotecaApplication).repository,
+            repository = (requireContext().applicationContext as DiscotecaApplication).discsRepository,
             discPresent = arguments.discPresent
         )
     }
@@ -48,10 +52,12 @@ class DiscPresentFragment : Fragment() {
         val adapterDiscPresent = DiscPresentAdapter(Listener { view, disc ->
             val discPresent = mDiscPresentViewModel.discItem
             // Here, we do a search with the disk chosen by the user
-            discPresent.discAdd.id = disc.id
-            discPresent.discAdd.name = disc.name
-            discPresent.discAdd.title = disc.title
-            discPresent.discAdd.year = disc.year
+            discPresent.discAdd.apply {
+                id = disc.id
+                name = disc.name
+                title = disc.title
+                year = disc.year
+            }
             goToDiscPresentDetailFragment(
                 view = view,
                 discPresent = discPresent
@@ -105,6 +111,7 @@ class DiscPresentFragment : Fragment() {
         view.doOnPreDraw { startPostponedEnterTransition() }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()

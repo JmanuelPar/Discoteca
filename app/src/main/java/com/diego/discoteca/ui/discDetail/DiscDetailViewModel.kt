@@ -1,11 +1,13 @@
 package com.diego.discoteca.ui.discDetail
 
-import androidx.lifecycle.*
-import com.diego.discoteca.domain.Disc
-import com.diego.discoteca.repository.DiscRepository
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.diego.discoteca.data.domain.Disc
+import com.diego.discoteca.repository.DiscsRepository
 
 class DiscDetailViewModel(
-    val repository: DiscRepository,
+    val repository: DiscsRepository,
     discId: Long = 0L
 ) : ViewModel() {
 

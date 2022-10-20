@@ -2,9 +2,9 @@ package com.diego.discoteca.ui.information
 
 import androidx.lifecycle.*
 import com.diego.discoteca.BuildConfig
-import com.diego.discoteca.repository.DiscRepository
+import com.diego.discoteca.repository.DiscsRepository
 
-class InformationViewModel(val repository: DiscRepository) : ViewModel() {
+class InformationViewModel(val repository: DiscsRepository) : ViewModel() {
 
     val countDiscs = repository.countAllDiscs.asLiveData()
     val countFormatMediaList = repository.countFormatMediaList.asLiveData()
