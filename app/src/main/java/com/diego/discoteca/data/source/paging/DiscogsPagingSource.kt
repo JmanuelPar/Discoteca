@@ -9,11 +9,11 @@ import com.diego.discoteca.data.model.DiscDb
 import com.diego.discoteca.data.model.DiscLight
 import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.database.DiscDatabaseDao
-import com.diego.discoteca.database.asDomainModel
 import com.diego.discoteca.network.DiscogsApiService
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.Constants.DISCOGS_STARTING_PAGE_INDEX
 import com.diego.discoteca.util.Constants.NETWORK_DISCOGS_PAGE_SIZE
+import com.diego.discoteca.util.asDomainModel
 import com.diego.discoteca.util.stringNormalizeDatabase
 import retrofit2.HttpException
 import java.io.IOException
@@ -51,13 +51,12 @@ class DiscogsPagingSourceSearchBarcode(
 
             /* Get list of disc in database with barcode scanned by the user,
             added by scan (none, one or more) */
-            // val repository = DiscotecaApplication.instance.repository
             val listDbScan = dao.getListDiscDbScan(barcode).asDomainModel()
 
-            val listApi = response.results?.asDomainModel(
+            val listApi = response.asDomainModel(
                 context = context,
                 barcode = barcode
-            )?.sortedBy {
+            ).sortedBy {
                 it.country.lowercase()
             }
 
@@ -70,7 +69,7 @@ class DiscogsPagingSourceSearchBarcode(
             val listDbSearch = mutableListOf<Disc>()
 
             // Create a list of disc with idDisc + artist/group + title + year from list Discogs Api
-            val list = listApi?.map { discApi ->
+            val list = listApi.map { discApi ->
                 DiscDb(
                     idDisc = discApi.idDisc,
                     name = discApi.name,
@@ -79,7 +78,7 @@ class DiscogsPagingSourceSearchBarcode(
                 )
             }
 
-            list?.forEach { discDb ->
+            list.forEach { discDb ->
                 // Disc added by the user manually
                 val discDbManually = dao.getDiscDbManually(
                     name = discDb.name,
@@ -102,7 +101,7 @@ class DiscogsPagingSourceSearchBarcode(
             }
 
             val listDb = listDbManually.toSet() + listDbScan + listDbSearch
-            if (listDb.isNotEmpty() && listApi?.isNotEmpty() == true) {
+            if (listDb.isNotEmpty() && listApi.isNotEmpty()) {
                 listApi.apply {
                     map { discApi ->
                         listDb.map { discDb ->
@@ -167,7 +166,7 @@ class DiscogsPagingSourceSearchBarcode(
             }
 
             LoadResult.Page(
-                data = listApi!!.sortedWith(
+                data = listApi.sortedWith(
                     compareBy<Disc> { it.isPresentBySearch == true }
                         .thenBy { it.isPresentByScan == true }
                         .reversed()
@@ -225,14 +224,15 @@ class DiscogsPagingSourceSearchDisc(
 
             val listDb = discPresent.list
             val discAdd = discPresent.discAdd
-            val listApi = response.results?.asDomainModel(
+
+            val listApi = response.asDomainModel(
                 context = context,
                 barcode = ""
-            )?.sortedWith(
+            ).sortedWith(
                 compareBy({ it.country.lowercase() }, { it.format.lowercase() }
                 ))
 
-            if (listDb.isNotEmpty() && listApi?.isNotEmpty() == true) {
+            if (listDb.isNotEmpty() && listApi.isNotEmpty()) {
                 listApi.apply {
                     map { discApi ->
                         listDb.map { discDb ->
@@ -277,7 +277,7 @@ class DiscogsPagingSourceSearchDisc(
             }
 
             LoadResult.Page(
-                data = listApi!!.sortedWith(
+                data = listApi.sortedWith(
                     compareBy<Disc> { it.isPresentBySearch == true }
                         .thenBy { it.isPresentByScan == true }
                         .reversed()

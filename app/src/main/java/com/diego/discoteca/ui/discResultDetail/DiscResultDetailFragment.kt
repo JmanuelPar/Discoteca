@@ -2,10 +2,15 @@ package com.diego.discoteca.ui.discResultDetail
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.*
-import androidx.databinding.DataBindingUtil
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.navArgs
 import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
 import com.diego.discoteca.databinding.FragmentDiscResultDetailBinding
@@ -14,15 +19,13 @@ import com.diego.discoteca.util.UIText
 import com.diego.discoteca.util.themeColor
 import com.google.android.material.transition.MaterialContainerTransform
 
-//TODO : update deprecation
-@Suppress("DEPRECATION")
-class DiscResultDetailFragment : Fragment() {
+class DiscResultDetailFragment : Fragment(R.layout.fragment_disc_result_detail), MenuProvider {
 
+    private val args: DiscResultDetailFragmentArgs by navArgs()
     private val mDiscResultDetailViewModel: DiscResultDetailViewModel by viewModels {
-        val arguments = DiscResultDetailFragmentArgs.fromBundle(requireArguments())
         DiscResultDetailViewModelFactory(
             repository = (requireContext().applicationContext as DiscotecaApplication).discsRepository,
-            discResultDetail = arguments.discResultDetail
+            discResultDetail = args.discResultDetail
         )
     }
 
@@ -36,17 +39,9 @@ class DiscResultDetailFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        val binding: FragmentDiscResultDetailBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_disc_result_detail,
-            container,
-            false
-        )
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val binding = FragmentDiscResultDetailBinding.bind(view)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             discResultDetailViewModel = mDiscResultDetailViewModel
@@ -69,14 +64,24 @@ class DiscResultDetailFragment : Fragment() {
             }
         }
 
-        setHasOptionsMenu(true)
-        return binding.root
+        setupMenu()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menu.clear()
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return false
+    }
+
+    private fun setupMenu() {
+        val menuHost = requireActivity()
+        menuHost.addMenuProvider(
+            this,
+            viewLifecycleOwner,
+            Lifecycle.State.STARTED
+        )
     }
 
     private fun goToDiscFragment(uiText: UIText, id: Long) {

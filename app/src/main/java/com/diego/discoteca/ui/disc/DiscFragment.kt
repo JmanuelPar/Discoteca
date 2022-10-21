@@ -5,13 +5,16 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.doOnPreDraw
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.diego.discoteca.DiscotecaApplication
@@ -33,18 +36,16 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-//TODO : update deprecation
-@Suppress("DEPRECATION")
 @ExperimentalCoroutinesApi
-class DiscFragment : Fragment(), DiscAdapter.DiscListener {
+class DiscFragment : Fragment(R.layout.fragment_disc), MenuProvider, DiscAdapter.DiscListener {
 
+    private val args: DiscFragmentArgs by navArgs()
     private val mDiscViewModel: DiscViewModel by viewModels {
-        val arguments = DiscFragmentArgs.fromBundle(requireArguments())
         DiscViewModelFactory(
             repository = (requireContext().applicationContext as DiscotecaApplication).discsRepository,
             preferencesManager = PreferencesManager(requireContext().dataStore),
-            uiText = arguments.uiText,
-            idAdded = arguments.idAdded
+            uiText = args.uiText,
+            idAdded = args.idAdded
         )
     }
 
@@ -52,6 +53,7 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
     private lateinit var mRvListDiscs: RecyclerView
     private lateinit var myLayoutManager: GridLayoutManager
     private lateinit var discAdapter: DiscAdapter
+    private lateinit var menuHost: MenuHost
     private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,18 +63,9 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_disc,
-            container,
-            false
-        )
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentDiscBinding.bind(view)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
         }
@@ -151,8 +144,10 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
             }
         }
 
-        setHasOptionsMenu(true)
-        return binding.root
+        setupMenu()
+
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
     }
 
     override fun onPause() {
@@ -173,10 +168,96 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         searchView.setOnQueryTextListener(null)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.fragment_disc_menu, menu)
+
+        val searchItem = menu.findItem(R.id.search)
+        val sortItem = menu.findItem(R.id.sort)
+        val gridItem = menu.findItem(R.id.grid)
+        val settingsThemeItem = menu.findItem(R.id.theme_settings)
+        setItemSortMode(menu)
+        setItemGridMode(gridItem)
+
+        searchView = searchItem.actionView as SearchView
+        searchView.queryHint = getString(R.string.search_hint)
+
+        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                mDiscViewModel.updateIsSearch(true)
+                settingsThemeItem.isVisible = false
+                hideBottomBarHideFab()
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                mDiscViewModel.updateIsSearch(false)
+                mDiscViewModel.updatePendingQueryDone()
+                delayedTransition(
+                    (activity as MainActivity).binding.toolbar,
+                    MaterialFade().apply { duration = 150L }
+                )
+                menuHost.invalidateMenu()
+                showBottomBarShowFab()
+                return true
+            }
+        })
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    mDiscViewModel.updateSearch(newText)
+                }
+                return true
+            }
+        })
+
+        // Show / hide menu item
+        mDiscViewModel.isDisplayItem.observe(viewLifecycleOwner) { isDisplayItem ->
+            searchItem.isVisible = isDisplayItem
+            sortItem.isVisible = isDisplayItem
+            gridItem.isVisible = isDisplayItem
+        }
+
+        // Search text
+        mDiscViewModel.pendingQuery.observe(viewLifecycleOwner) { query ->
+            if (query.isNotEmpty() && (isVisible && isAdded)) {
+                searchItem.expandActionView()
+                searchView.clearFocus()
+                searchView.setQuery(query, false)
+            }
+        }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.sort_by_name -> {
+                menuItem.isChecked = !menuItem.isChecked
+                mDiscViewModel.onSortOrderSelected((SortOrder.BY_NAME))
+                true
+            }
+            R.id.sort_by_title -> {
+                menuItem.isChecked = !menuItem.isChecked
+                mDiscViewModel.onSortOrderSelected((SortOrder.BY_TITLE))
+                true
+            }
+            R.id.sort_by_year -> {
+                menuItem.isChecked = !menuItem.isChecked
+                mDiscViewModel.onSortOrderSelected((SortOrder.BY_YEAR))
+                true
+            }
+            R.id.grid -> {
+                menuItem.isChecked = !menuItem.isChecked
+                mDiscViewModel.onGridModeSelected(menuItem.isChecked)
+                setItemGridModeOptionsSelected(menuItem)
+                true
+            }
+
+            else -> false
+        }
     }
 
     override fun onDiscClicked(view: View, disc: Disc) {
@@ -223,101 +304,6 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
         popupMenu.show()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.fragment_disc_menu, menu)
-
-        val searchItem = menu.findItem(R.id.search)
-        val sortItem = menu.findItem(R.id.sort)
-        val gridItem = menu.findItem(R.id.grid)
-        val settingsThemeItem = menu.findItem(R.id.theme_settings)
-        setItemSortMode(menu)
-        setItemGridMode(gridItem)
-
-        searchView = searchItem.actionView as SearchView
-        searchView.queryHint = getString(R.string.search_hint)
-
-        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-                mDiscViewModel.updateIsSearch(true)
-                settingsThemeItem.isVisible = false
-                hideBottomBarHideFab()
-                return true
-            }
-
-            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                mDiscViewModel.updateIsSearch(false)
-                mDiscViewModel.updatePendingQueryDone()
-                delayedTransition(
-                    (activity as MainActivity).binding.toolbar,
-                    MaterialFade().apply { duration = 150L }
-                )
-                requireActivity().invalidateOptionsMenu()
-                showBottomBarShowFab()
-                return true
-            }
-        })
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText != null) {
-                    mDiscViewModel.updateSearch(newText)
-                }
-                return true
-            }
-        })
-
-        // Show / hide menu item
-        mDiscViewModel.isDisplayItem.observe(viewLifecycleOwner) { isDisplayItem ->
-            searchItem.isVisible = isDisplayItem
-            sortItem.isVisible = isDisplayItem
-            gridItem.isVisible = isDisplayItem
-        }
-
-        // Search text
-        mDiscViewModel.pendingQuery.observe(viewLifecycleOwner) { query ->
-            if (query.isNotEmpty() && (isVisible && isAdded)) {
-                searchItem.expandActionView()
-                searchView.clearFocus()
-                searchView.setQuery(query, false)
-            }
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.sort_by_name -> {
-                item.isChecked = !item.isChecked
-                mDiscViewModel.onSortOrderSelected((SortOrder.BY_NAME))
-                true
-            }
-            R.id.sort_by_title -> {
-                item.isChecked = !item.isChecked
-                mDiscViewModel.onSortOrderSelected((SortOrder.BY_TITLE))
-                true
-            }
-            R.id.sort_by_year -> {
-                item.isChecked = !item.isChecked
-                mDiscViewModel.onSortOrderSelected((SortOrder.BY_YEAR))
-                true
-            }
-            R.id.grid -> {
-                item.isChecked = !item.isChecked
-                mDiscViewModel.onGridModeSelected(item.isChecked)
-                setItemGridModeOptionsSelected(item)
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     private fun setRecyclerView() {
         mRvListDiscs = binding.rvListDiscs
         myLayoutManager = GridLayoutManager(mRvListDiscs.context, 1)
@@ -332,6 +318,15 @@ class DiscFragment : Fragment(), DiscAdapter.DiscListener {
             layoutManager = myLayoutManager
             setHasFixedSize(true)
         }
+    }
+
+    private fun setupMenu() {
+        menuHost = requireActivity()
+        menuHost.addMenuProvider(
+            this,
+            viewLifecycleOwner,
+            Lifecycle.State.STARTED
+        )
     }
 
     private fun setItemGridMode(gridItem: MenuItem) {

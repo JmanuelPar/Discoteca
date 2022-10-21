@@ -1,13 +1,18 @@
 package com.diego.discoteca.ui.discPresent
 
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import androidx.core.view.MenuProvider
 import androidx.core.view.doOnPreDraw
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.navArgs
 import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
 import com.diego.discoteca.adapter.DiscPresentAdapter
@@ -20,15 +25,13 @@ import com.diego.discoteca.util.materialSharedAxisEnterReturnTransition
 import com.diego.discoteca.util.materialSharedAxisExitReenterTransition
 import com.google.android.material.transition.MaterialSharedAxis
 
-//TODO : update deprecation
-@Suppress("DEPRECATION")
-class DiscPresentFragment : Fragment() {
+class DiscPresentFragment : Fragment(R.layout.fragment_disc_present), MenuProvider {
 
+    private val args: DiscPresentFragmentArgs by navArgs()
     private val mDiscPresentViewModel: DiscPresentViewModel by viewModels {
-        val arguments = DiscPresentFragmentArgs.fromBundle(requireArguments())
         DiscPresentViewModelFactory(
             repository = (requireContext().applicationContext as DiscotecaApplication).discsRepository,
-            discPresent = arguments.discPresent
+            discPresent = args.discPresent
         )
     }
 
@@ -37,19 +40,10 @@ class DiscPresentFragment : Fragment() {
         materialSharedAxisEnterReturnTransition(MaterialSharedAxis.Z)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val binding: FragmentDiscPresentBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_disc_present,
-            container,
-            false
-        )
-
-        val adapterDiscPresent = DiscPresentAdapter(Listener { view, disc ->
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val binding = FragmentDiscPresentBinding.bind(view)
+        val adapterDiscPresent = DiscPresentAdapter(Listener { v, disc ->
             val discPresent = mDiscPresentViewModel.discItem
             // Here, we do a search with the disk chosen by the user
             discPresent.discAdd.apply {
@@ -59,7 +53,7 @@ class DiscPresentFragment : Fragment() {
                 year = disc.year
             }
             goToDiscPresentDetailFragment(
-                view = view,
+                view = v,
                 discPresent = discPresent
             )
         })
@@ -101,20 +95,27 @@ class DiscPresentFragment : Fragment() {
             }
         }
 
-        setHasOptionsMenu(true)
-        return binding.root
-    }
+        setupMenu()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menu.clear()
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return false
+    }
+
+    private fun setupMenu() {
+        val menuHost = requireActivity()
+        menuHost.addMenuProvider(
+            this,
+            viewLifecycleOwner,
+            Lifecycle.State.STARTED
+        )
     }
 
     private fun goToDiscPresentDetailFragment(
