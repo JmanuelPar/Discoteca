@@ -2,12 +2,16 @@ package com.diego.discoteca.ui.interaction
 
 import android.app.Activity
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.databinding.DataBindingUtil
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
@@ -50,7 +54,7 @@ import java.util.*
  * https://developers.google.com/drive/api/v3/reference
  */
 
-//TODO : use this
+//TODO: use this
 enum class InteractionCode {
     EXISTS_BACK_UP,
     NOT_EXISTS_BACK_UP,
@@ -61,9 +65,8 @@ enum class InteractionCode {
     RESTORATION
 }
 
-//TODO : update deprecation
-@Suppress("DEPRECATION")
-class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
+class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineScope by MainScope(),
+    MenuProvider {
 
     // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...)
     private val requestSignInLauncher =
@@ -75,8 +78,8 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
             }
         }
 
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var binding: FragmentInteractionBinding
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
 
     private val mInteractionViewModel: InteractionViewModel by viewModels {
         InteractionViewModelFactory((requireContext().applicationContext as DiscotecaApplication).discsRepository)
@@ -106,17 +109,9 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
         requireActivity().onBackPressedDispatcher.addCallback(this, callbackOnBackPressed)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_interaction,
-            container,
-            false
-        )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentInteractionBinding.bind(view)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             interactionViewModel = mInteractionViewModel
@@ -182,14 +177,7 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
             }
         }
 
-        setHasOptionsMenu(true)
-        return binding.root
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
+        setupMenu()
     }
 
     override fun onStart() {
@@ -204,6 +192,23 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
             else -> updateUI(null)
         }
         setUploadDownloadTime()
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menu.clear()
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return false
+    }
+
+    private fun setupMenu() {
+        val menuHost = requireActivity()
+        menuHost.addMenuProvider(
+            this,
+            viewLifecycleOwner,
+            Lifecycle.State.STARTED
+        )
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
@@ -799,10 +804,13 @@ class InteractionFragment : Fragment(), CoroutineScope by MainScope() {
             NOT_EXISTS_RESTORATION -> getMyString(R.string.no_restore_done)
             NOT_EXISTS_RESTORATION_ERROR -> getMyString(R.string.error_no_back_up_in_drive_unable_to_restore)
             else -> {
-                //TODO : try catch please
-                val zonedDateTime = Instant.parse(time).atZone(ZoneId.systemDefault())
-                val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm:ss")
-                dateTimeFormatter.format(zonedDateTime)
+                try {
+                    val zonedDateTime = Instant.parse(time).atZone(ZoneId.systemDefault())
+                    val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm:ss")
+                    dateTimeFormatter.format(zonedDateTime)
+                } catch (exception: Exception) {
+                    getString(R.string.not_specified)
+                }
             }
         }
     }

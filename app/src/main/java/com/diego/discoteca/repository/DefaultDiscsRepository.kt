@@ -6,8 +6,8 @@ import com.diego.discoteca.data.SortOrder
 import com.diego.discoteca.data.domain.Disc
 import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.data.source.DiscsDataSource
-import com.diego.discoteca.database.asDatabaseModel
-import com.diego.discoteca.database.asDomainModel
+import com.diego.discoteca.util.asDatabaseModel
+import com.diego.discoteca.util.asDomainModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

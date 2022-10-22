@@ -1,14 +1,19 @@
 package com.diego.discoteca.ui.discResultScan
 
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import androidx.core.view.MenuProvider
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
@@ -28,15 +33,13 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-//TODO : update deprecation
-@Suppress("DEPRECATION")
-class DiscResultScanFragment : Fragment() {
+class DiscResultScanFragment : Fragment(R.layout.fragment_disc_result_scan), MenuProvider {
 
+    private val args: DiscResultScanFragmentArgs by navArgs()
     private val mDiscResultScanViewModel: DiscResultScanViewModel by viewModels {
-        val arguments = DiscResultScanFragmentArgs.fromBundle(requireArguments())
         DiscResultScanViewModelFactory(
             repository = (requireContext().applicationContext as DiscotecaApplication).discsRepository,
-            discResultScan = arguments.discResultScan
+            discResultScan = args.discResultScan
         )
     }
 
@@ -48,20 +51,11 @@ class DiscResultScanFragment : Fragment() {
         materialSharedAxisEnterReturnTransition(MaterialSharedAxis.Z)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_disc_result_scan,
-            container,
-            false
-        )
-
-        adapterDiscResult = DiscResultAdapter(Listener { view, disc ->
-            mDiscResultScanViewModel.onDiscResultClicked(view, disc)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentDiscResultScanBinding.bind(view)
+        adapterDiscResult = DiscResultAdapter(Listener { v, disc ->
+            mDiscResultScanViewModel.onDiscResultClicked(v, disc)
         })
 
         binding.apply {
@@ -117,8 +111,18 @@ class DiscResultScanFragment : Fragment() {
             }
         }
 
-        setHasOptionsMenu(true)
-        return binding.root
+        setupMenu()
+
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menu.clear()
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return false
     }
 
     private fun configure() {
@@ -159,16 +163,13 @@ class DiscResultScanFragment : Fragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
+    private fun setupMenu() {
+        val menuHost = requireActivity()
+        menuHost.addMenuProvider(
+            this,
+            viewLifecycleOwner,
+            Lifecycle.State.STARTED
+        )
     }
 
     private fun goToDiscResultDetailFragment(view: View, discResultDetail: DiscResultDetail) {

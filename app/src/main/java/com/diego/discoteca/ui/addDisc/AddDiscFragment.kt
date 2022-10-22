@@ -1,10 +1,15 @@
 package com.diego.discoteca.ui.addDisc
 
 import android.os.Bundle
-import android.view.*
-import androidx.databinding.DataBindingUtil
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavDirections
 import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
@@ -13,29 +18,22 @@ import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.*
 import com.google.android.material.transition.MaterialSharedAxis
 
-//TODO : update deprecation
-@Suppress("DEPRECATION")
-class AddDiscFragment : Fragment() {
+class AddDiscFragment : Fragment(R.layout.fragment_add_disc), MenuProvider {
 
     private val mAddDiscViewModel: AddDiscViewModel by viewModels {
-        AddDiscViewModelFactory((requireContext().applicationContext as DiscotecaApplication).discsRepository)
+        AddDiscViewModelFactory(
+            (requireContext().applicationContext as DiscotecaApplication).discsRepository
+        )
     }
-
-    private lateinit var binding: FragmentAddDiscBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         materialSharedAxisEnterReturnTransition(MaterialSharedAxis.X)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_add_disc, container, false
-        )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val binding = FragmentAddDiscBinding.bind(view)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             addDiscViewModel = mAddDiscViewModel
@@ -103,14 +101,24 @@ class AddDiscFragment : Fragment() {
             }
         }
 
-        setHasOptionsMenu(true)
-        return binding.root
+        setupMenu()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menu.clear()
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return false
+    }
+
+    private fun setupMenu() {
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(
+            this,
+            viewLifecycleOwner,
+            Lifecycle.State.STARTED
+        )
     }
 
     private fun showDialogTitle(title: String, message: String) {

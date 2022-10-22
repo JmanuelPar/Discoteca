@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +31,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.diego.discoteca.R
 import com.diego.discoteca.data.PreferencesManager
 import com.diego.discoteca.databinding.ActivityMainBinding
+import com.diego.discoteca.ui.disc.DiscFragment
 import com.diego.discoteca.ui.disc.DiscFragmentDirections
 import com.diego.discoteca.util.*
 import com.diego.discoteca.util.Constants.REQUIRED_PERMISSION_CAMERA
@@ -41,14 +43,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.transition.MaterialFade
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 val Context.dataStore by preferencesDataStore(USER_PREFERENCES_NAME)
 
-// TODO : Update deprecation
-@Suppress("DEPRECATION")
+@OptIn(ExperimentalCoroutinesApi::class)
 class MainActivity : AppCompatActivity() {
 
     private val requestPermissionLauncher =
@@ -93,6 +95,24 @@ class MainActivity : AppCompatActivity() {
         setBottomBarNavigationAndFab()
         setInternetStatus()
 
+        // OnBackPressed
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    when {
+                        expandedButton -> collapseButton()
+                        else -> {
+                            when (currentNavigationFragment) {
+                                is DiscFragment -> finish()
+                                else -> navigatePopStack()
+                            }
+                        }
+                    }
+                }
+            }
+        )
+
         // Light / Night mode
         mMainActivityViewModel.nightMode.observe(this) { nightMode ->
             AppCompatDelegate.setDefaultNightMode(nightMode)
@@ -131,12 +151,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        if (expandedButton) collapseButton()
-        else super.onBackPressed()
-    }
-
     private fun setItemNightMode(menu: Menu) {
         lifecycleScope.launch {
             when (mMainActivityViewModel.nightModeFlow.first()) {
@@ -155,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         toolbar = binding.toolbar
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
+            navigatePopStack()
         }
     }
 

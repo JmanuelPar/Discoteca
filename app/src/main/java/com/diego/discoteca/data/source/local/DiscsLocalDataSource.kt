@@ -43,14 +43,14 @@ class DiscsLocalDataSource internal constructor(
         )
 
     override fun getSearchBarcodeStream(barcode: String): Flow<PagingData<Disc>> {
-        TODO("Not yet implemented")
+        TODO("Not required for the local data source")
     }
 
     override fun getSearchDiscStream(discPresent: DiscPresent): Flow<PagingData<Disc>> {
-        TODO("Not yet implemented")
+        TODO("Not required for the local data source")
     }
 
     override fun getSearchBarcodeDatabase(barcode: String): Flow<PagingData<Disc>> {
-        TODO("Not yet implemented")
+        TODO("Not required for the local data source")
     }
 }

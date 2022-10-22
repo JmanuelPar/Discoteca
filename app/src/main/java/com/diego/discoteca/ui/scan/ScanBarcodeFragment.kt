@@ -1,16 +1,21 @@
 package com.diego.discoteca.ui.scan
 
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavDirections
+import androidx.navigation.fragment.navArgs
 import com.diego.discoteca.R
 import com.diego.discoteca.databinding.FragmentScanBarcodeBinding
 import com.diego.discoteca.ui.activity.MainActivity
@@ -24,18 +29,16 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 typealias BarcodeListener = (barcode: String) -> Unit
 
-//TODO : update deprecation
-@Suppress("DEPRECATION")
-class ScanBarcodeFragment : Fragment() {
+class ScanBarcodeFragment : Fragment(R.layout.fragment_scan_barcode), MenuProvider {
 
+    private val args: ScanBarcodeFragmentArgs by navArgs()
     private val mScanBarcodeViewModel: ScanBarcodeViewModel by viewModels {
-        val arguments = ScanBarcodeFragmentArgs.fromBundle(requireArguments())
-        ScanBarcodeViewModelFactory(arguments.destination)
+        ScanBarcodeViewModelFactory(args.destination)
     }
 
+    private lateinit var binding: FragmentScanBarcodeBinding
     private var processingBarcode = AtomicBoolean(false)
     private lateinit var cameraExecutor: ExecutorService
-    private lateinit var binding: FragmentScanBarcodeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,15 +46,9 @@ class ScanBarcodeFragment : Fragment() {
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_scan_barcode,
-            container,
-            false
-        )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentScanBarcodeBinding.bind(view)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             scanBarcodeViewModel = mScanBarcodeViewModel
@@ -68,18 +65,7 @@ class ScanBarcodeFragment : Fragment() {
             }
         }
 
-        setHasOptionsMenu(true)
-        return binding.root
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        setupMenu()
         startCamera()
     }
 
@@ -91,6 +77,23 @@ class ScanBarcodeFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menu.clear()
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return false
+    }
+
+    private fun setupMenu() {
+        val menuHost = requireActivity()
+        menuHost.addMenuProvider(
+            this,
+            viewLifecycleOwner,
+            Lifecycle.State.STARTED
+        )
     }
 
     /**

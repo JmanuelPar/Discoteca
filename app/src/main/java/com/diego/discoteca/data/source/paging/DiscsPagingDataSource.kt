@@ -24,28 +24,29 @@ class DiscsPagingDataSource internal constructor(
 ) : DiscsDataSource {
 
     override val countAllDiscs: Flow<Int>
-        get() = TODO("Not yet implemented")
+        get() = TODO("Not required for the paging data source")
+
     override val countFormatMediaList: Flow<List<CountFormatMedia>>
-        get() = TODO("Not yet implemented")
+        get() = TODO("Not required for the paging data source")
 
     override fun getAllDiscs(searchQuery: String, sortOrder: SortOrder): Flow<List<DatabaseDisc>> {
-        TODO("Not yet implemented")
+        TODO("Not required for the paging data source")
     }
 
     override fun getDiscWithId(key: Long): LiveData<DatabaseDisc> {
-        TODO("Not yet implemented")
+        TODO("Not required for the paging data source")
     }
 
     override suspend fun insertLong(databaseDisc: DatabaseDisc): Long {
-        TODO("Not yet implemented")
+        TODO("Not required for the paging data source")
     }
 
     override suspend fun update(databaseDisc: DatabaseDisc) {
-        TODO("Not yet implemented")
+        // Not required for the paging data source
     }
 
     override suspend fun deleteById(discId: Long) {
-        TODO("Not yet implemented")
+        // Not required for the paging data source
     }
 
     override suspend fun getListDiscDbPresent(
@@ -53,7 +54,7 @@ class DiscsPagingDataSource internal constructor(
         title: String,
         year: String
     ): List<DatabaseDisc> {
-        TODO("Not yet implemented")
+        TODO("Not required for the paging data source")
     }
 
     override fun getSearchBarcodeStream(barcode: String): Flow<PagingData<Disc>> {
