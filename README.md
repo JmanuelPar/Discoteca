@@ -8,6 +8,7 @@ CameraX<br/>
 DataStore<br/>
 Data binding<br/>
 Discogs<br/>
+Fragment<br/>
 Glide<br/>
 Google Drive Api<br/>
 Google Sign-in<br/>

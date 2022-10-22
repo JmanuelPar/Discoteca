@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity() {
         setBottomBarNavigationAndFab()
         setInternetStatus()
 
+        // OnBackPressed
         onBackPressedDispatcher.addCallback(
             this,
             object : OnBackPressedCallback(true) {
