@@ -8,10 +8,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.diego.discoteca.data.domain.Disc
 import com.diego.discoteca.getOrAwaitValue
 import com.diego.discoteca.util.AddBy
+import com.diego.discoteca.util.asDatabaseModel
+import com.google.common.truth.Truth.assertThat
 import junit.framework.TestCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import com.google.common.truth.Truth.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

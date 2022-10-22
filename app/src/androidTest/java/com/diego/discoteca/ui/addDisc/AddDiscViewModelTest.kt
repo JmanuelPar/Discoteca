@@ -7,7 +7,6 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.diego.discoteca.database.DiscRoomDatabase
-import com.diego.discoteca.database.asDatabaseModel
 import com.diego.discoteca.data.domain.Disc
 import com.diego.discoteca.getOrAwaitValue
 import com.diego.discoteca.data.model.DiscAdd
