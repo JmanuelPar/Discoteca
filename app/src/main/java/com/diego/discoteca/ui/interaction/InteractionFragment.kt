@@ -53,18 +53,6 @@ import java.util.*
  * https://developers.google.com/drive/api/v3/quickstart/java
  * https://developers.google.com/drive/api/v3/reference
  */
-
-//TODO: use this
-enum class InteractionCode {
-    EXISTS_BACK_UP,
-    NOT_EXISTS_BACK_UP,
-    NOT_EXISTS_BACK_UP_ERROR,
-    NOT_EXISTS_RESTORATION,
-    NOT_EXISTS_RESTORATION_ERROR,
-    BACK_UP,
-    RESTORATION
-}
-
 class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineScope by MainScope(),
     MenuProvider {
 
@@ -89,16 +77,6 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
         override fun handleOnBackPressed() {
             // We do nothing
         }
-    }
-
-    companion object {
-        private const val EXISTS_BACK_UP = "1"
-        private const val NOT_EXISTS_BACK_UP = "2"
-        private const val NOT_EXISTS_BACK_UP_ERROR = "3"
-        private const val NOT_EXISTS_RESTORATION = "4"
-        private const val NOT_EXISTS_RESTORATION_ERROR = "5"
-        private const val BACK_UP = "back_up"
-        private const val RESTORATION = "restoration"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -383,6 +361,7 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
             googleDriveService = googleDriveService,
             folderId = folderId
         )
+
         val resultFileRestoration = getGDriveFileRestoration(
             googleDriveService = googleDriveService,
             folderId = folderId
@@ -417,10 +396,13 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                     .execute().createdTime.toString()
             }
         }
-        val backUpTimeFormat = "${getTimeFormat(backUpTime)}\n$numberDiscsDatabase"
+
+        val backUpTimeFormat =
+            "${getMyInteraction(Interaction.Time(backUpTime))}\n$numberDiscsDatabase"
+
         val restorationTimeFormat = getRestorationTimeFormat(
             resultFileRestoration = resultFileRestoration,
-            code = EXISTS_BACK_UP
+            interaction = Interaction.ExistsBackUp
         )
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
@@ -435,6 +417,7 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                 display = true,
                 enabled = true
             )
+
             updateProgressLinearAndIconGDriveDownload(
                 visibility = true,
                 enabled = false
@@ -485,10 +468,12 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                                             visibility = false,
                                             enabled = true
                                         )
+
                                         updateScrimLayoutAndOnBackPressed(
                                             display = false,
                                             enabled = false
                                         )
+
                                         goToDiscFragment(UIText.DatabaseRestored)
                                     }
                                 }
@@ -496,7 +481,8 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                                     /* Folder present in G Drive :
                                        Error : file back up database not present in G Drive, unable to restore
                                        Get restoration time */
-                                    val backUpTimeFormat = getTimeFormat(NOT_EXISTS_BACK_UP_ERROR)
+                                    val backUpTimeFormat =
+                                        getMyInteraction(Interaction.NotExistsBackUpError)
 
                                     // Check file restoration in folder G Drive
                                     val resultFileRestoration = getGDriveFileRestoration(
@@ -506,7 +492,7 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
 
                                     val restorationTimeFormat = getRestorationTimeFormat(
                                         resultFileRestoration = resultFileRestoration,
-                                        code = NOT_EXISTS_RESTORATION_ERROR
+                                        interaction = Interaction.NotExistsRestorationError
                                     )
 
                                     withContext(Dispatchers.Main) {
@@ -529,8 +515,11 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                             /* Folder not present in G Drive :
                                File back up database not present, unable to restore
                                File restoration not present */
-                            val backUpTimeFormat = getTimeFormat(NOT_EXISTS_BACK_UP)
-                            val restorationTimeFormat = getTimeFormat(NOT_EXISTS_RESTORATION)
+                            val backUpTimeFormat =
+                                getMyInteraction(Interaction.NotExistsBackUp)
+
+                            val restorationTimeFormat =
+                                getMyInteraction(Interaction.NotExistsRestoration)
 
                             withContext(Dispatchers.Main) {
                                 updateProgressLinearAndIconGDriveDownload(
@@ -554,10 +543,12 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                             visibility = false,
                             enabled = true
                         )
+
                         updateScrimLayoutAndOnBackPressed(
                             display = false,
                             enabled = false
                         )
+
                         when (exception) {
                             is UnknownHostException -> {
                                 mInteractionViewModel.updateIconGDriveUpload(false)
@@ -590,16 +581,17 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
             googleDriveService = googleDriveService,
             folderId = folderId
         )
+
         val resultFileRestoration = getGDriveFileRestoration(
             googleDriveService = googleDriveService,
             folderId = folderId
         )
 
         // Get the number of discs of the last back up in G Drive
-        val numberDiscsLastBackUp = getNumberDiscs(
-            fileName = resultFileBackUp.files[0].name,
-            mode = BACK_UP
+        val numberDiscsLastBackUp = getMyInteraction(
+            Interaction.BackUp(resultFileBackUp.files[0].name)
         )
+
         val fileMetadata = com.google.api.services.drive.model.File()
 
         val restorationTime = when {
@@ -631,8 +623,8 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
         }
 
         val restorationTimeFormat =
-            "${getTimeFormat(restorationTime)}\n$numberDiscsLastBackUp\n\n${
-                getTimeFormat(EXISTS_BACK_UP)
+            "${getMyInteraction(Interaction.Time(restorationTime))}\n$numberDiscsLastBackUp\n\n${
+                getMyInteraction(Interaction.ExistsBackUp)
             }"
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
@@ -675,18 +667,19 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                                        Get the number of the discs of the last back up
                                        Get last back up time
                                        Get restoration time */
-                                    val numberDiscsLastBackUp = getNumberDiscs(
-                                        fileName = resultFileBackUp.files[0].name,
-                                        mode = BACK_UP
+                                    val numberDiscsLastBackUp = getMyInteraction(
+                                        Interaction.BackUp(resultFileBackUp.files[0].name)
                                     )
+
                                     val backUpTime =
                                         resultFileBackUp.files[0].modifiedTime.toString()
+
                                     val backUpTimeFormat =
-                                        "${getTimeFormat(backUpTime)}\n$numberDiscsLastBackUp"
+                                        "${getMyInteraction(Interaction.Time(backUpTime))}\n$numberDiscsLastBackUp"
 
                                     val restorationTimeFormat = getRestorationTimeFormat(
                                         resultFileRestoration = resultFileRestoration,
-                                        code = EXISTS_BACK_UP
+                                        interaction = Interaction.ExistsBackUp
                                     )
 
                                     withContext(Dispatchers.Main) {
@@ -705,10 +698,12 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                                        No number of the discs of the last back up
                                        No last back up time
                                        Get restoration time */
-                                    val backUpTimeFormat = getTimeFormat(NOT_EXISTS_BACK_UP_ERROR)
+                                    val backUpTimeFormat =
+                                        getMyInteraction(Interaction.NotExistsBackUpError)
+
                                     val restorationTimeFormat = getRestorationTimeFormat(
                                         resultFileRestoration = resultFileRestoration,
-                                        code = NOT_EXISTS_RESTORATION_ERROR
+                                        interaction = Interaction.NotExistsRestorationError
                                     )
 
                                     withContext(Dispatchers.Main) {
@@ -727,8 +722,11 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                             /* Folder not present in G Drive :
                                File back up database not present
                                File restoration not present */
-                            val backUpTimeFormat = getTimeFormat(NOT_EXISTS_BACK_UP)
-                            val restorationTimeFormat = getTimeFormat(NOT_EXISTS_RESTORATION)
+                            val backUpTimeFormat =
+                                getMyInteraction(Interaction.NotExistsBackUp)
+
+                            val restorationTimeFormat =
+                                getMyInteraction(Interaction.NotExistsRestoration)
 
                             withContext(Dispatchers.Main) {
                                 updateBackUpTime(backUpTimeFormat)
@@ -747,6 +745,7 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                             display = false,
                             enabled = false
                         )
+
                         when (exception) {
                             is UnknownHostException -> {
                                 mInteractionViewModel.updateIconGDriveUpload(false)
@@ -796,16 +795,25 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                 fields = "files(id,name,createdTime,modifiedTime)"
             }.execute()
 
-    private fun getTimeFormat(time: String): String {
-        return when (time) {
-            EXISTS_BACK_UP -> getMyString(R.string.back_up_present_in_drive)
-            NOT_EXISTS_BACK_UP -> getMyString(R.string.no_back_up_in_drive)
-            NOT_EXISTS_BACK_UP_ERROR -> getMyString(R.string.error_no_back_up_in_drive)
-            NOT_EXISTS_RESTORATION -> getMyString(R.string.no_restore_done)
-            NOT_EXISTS_RESTORATION_ERROR -> getMyString(R.string.error_no_back_up_in_drive_unable_to_restore)
-            else -> {
+    private fun getMyInteraction(interaction: Interaction): String {
+        return when (interaction) {
+            is Interaction.ExistsBackUp -> getMyString(R.string.back_up_present_in_drive)
+            is Interaction.NotExistsBackUp -> getMyString(R.string.no_back_up_in_drive)
+            is Interaction.NotExistsBackUpError -> getMyString(R.string.error_no_back_up_in_drive)
+            is Interaction.NotExistsRestoration -> getMyString(R.string.no_restore_done)
+            is Interaction.NotExistsRestorationError -> getMyString(R.string.error_no_back_up_in_drive_unable_to_restore)
+            is Interaction.BackUp -> {
+                //Example fileName : disc_database-1 disque.db
+                interaction.fileName.split("-")[1].split(".")[0]
+            }
+            is Interaction.Restoration -> {
+                //Example fileName : time_restore-1 disque
+                interaction.fileName.split("-")[1]
+            }
+            is Interaction.Time -> {
                 try {
-                    val zonedDateTime = Instant.parse(time).atZone(ZoneId.systemDefault())
+                    val zonedDateTime =
+                        Instant.parse(interaction.time).atZone(ZoneId.systemDefault())
                     val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm:ss")
                     dateTimeFormatter.format(zonedDateTime)
                 } catch (exception: Exception) {
@@ -819,37 +827,33 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
         return if (isAdded && context != null) getString(stringId) else ""
     }
 
-    private fun getRestorationTimeFormat(resultFileRestoration: FileList, code: String): String {
+    private fun getRestorationTimeFormat(
+        resultFileRestoration: FileList,
+        interaction: Interaction
+    ): String {
         return when {
             resultFileRestoration.files.size > 0 -> {
                 /* File restoration present in folder MyDatabaseDiscotecaApp G Drive
                    Get the number of the discs of the last restoration
                    Get last restoration time */
-                val numberDiscsLastRestoration = getNumberDiscs(
-                    fileName = resultFileRestoration.files[0].name,
-                    mode = RESTORATION
+                val numberDiscsLastRestoration = getMyInteraction(
+                    Interaction.Restoration(resultFileRestoration.files[0].name)
                 )
+
                 val restorationTime = resultFileRestoration.files[0].modifiedTime.toString()
 
-                "${getTimeFormat(restorationTime)}\n$numberDiscsLastRestoration\n\n${
-                    getTimeFormat(code)
+                "${getMyInteraction(Interaction.Time(restorationTime))}\n$numberDiscsLastRestoration\n\n${
+                    getMyInteraction(interaction)
                 }"
             }
             else -> {
                 /* File restoration not present in folder MyDatabaseDiscotecaApp G Drive
                    No number of the discs of the last restoration
                    No last restoration time */
-                "${getTimeFormat(NOT_EXISTS_RESTORATION)}\n\n${getTimeFormat(code)}"
+                "${getMyInteraction(Interaction.NotExistsRestoration)}\n\n${
+                    getMyInteraction(interaction)
+                }"
             }
-        }
-    }
-
-    /* Example of fileName mode BACK_UP : disc_database-1 disque.db
-       Example of fileName mode RESTORATION (else) : time_restore-1 disque */
-    private fun getNumberDiscs(fileName: String, mode: String): String {
-        return when (mode) {
-            BACK_UP -> fileName.split("-")[1].split(".")[0]
-            else -> fileName.split("-")[1]
         }
     }
 
@@ -920,4 +924,15 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
             )
         )
     }
+}
+
+sealed class Interaction {
+    object ExistsBackUp : Interaction()
+    object NotExistsBackUp : Interaction()
+    object NotExistsBackUpError : Interaction()
+    object NotExistsRestoration : Interaction()
+    object NotExistsRestorationError : Interaction()
+    data class BackUp(val fileName: String) : Interaction()
+    data class Restoration(val fileName: String) : Interaction()
+    data class Time(val time: String) : Interaction()
 }
