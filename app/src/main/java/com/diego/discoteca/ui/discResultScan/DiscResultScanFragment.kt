@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import com.diego.discoteca.DiscotecaApplication
@@ -22,7 +24,6 @@ import com.diego.discoteca.adapter.DiscsLoadStateAdapter
 import com.diego.discoteca.adapter.Listener
 import com.diego.discoteca.data.model.DiscResultDetail
 import com.diego.discoteca.databinding.FragmentDiscResultScanBinding
-import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.Destination
 import com.diego.discoteca.util.UIText
 import com.diego.discoteca.util.materialElevationScaleExitReenterTransition
@@ -175,25 +176,25 @@ class DiscResultScanFragment : Fragment(R.layout.fragment_disc_result_scan), Men
     private fun goToDiscResultDetailFragment(view: View, discResultDetail: DiscResultDetail) {
         materialElevationScaleExitReenterTransition()
         val discDetailCardTransitionName = getString(R.string.disc_detail_card_transition_name)
-        (activity as MainActivity).navigateToWithExtras(
+        view.findNavController().navigate(
             directions = DiscResultScanFragmentDirections
                 .actionDiscResultScanFragmentToDiscResultDetailFragment(discResultDetail),
-            extras = FragmentNavigatorExtras(view to discDetailCardTransitionName)
+            navigatorExtras = FragmentNavigatorExtras(view to discDetailCardTransitionName)
         )
     }
 
     private fun goToDiscDetailFragment(view: View, id: Long) {
         materialElevationScaleExitReenterTransition()
         val discDetailCardTransitionName = getString(R.string.disc_detail_card_transition_name)
-        (activity as MainActivity).navigateToWithExtras(
+        view.findNavController().navigate(
             directions = DiscResultScanFragmentDirections
                 .actionDiscResultScanFragmentToDiscDetailFragment(id),
-            extras = FragmentNavigatorExtras(view to discDetailCardTransitionName)
+            navigatorExtras = FragmentNavigatorExtras(view to discDetailCardTransitionName)
         )
     }
 
     private fun goToDiscFragment() {
-        (activity as MainActivity).navigateTo(
+        findNavController().navigate(
             DiscResultScanFragmentDirections
                 .actionDiscResultScanFragmentToDiscFragment(
                     uiText = UIText.NoDisplay,
@@ -203,7 +204,7 @@ class DiscResultScanFragment : Fragment(R.layout.fragment_disc_result_scan), Men
     }
 
     private fun goToInformationFragment() {
-        (activity as MainActivity).navigateTo(
+        findNavController().navigate(
             DiscResultScanFragmentDirections
                 .actionDiscResultScanFragmentToInfoFragment()
         )

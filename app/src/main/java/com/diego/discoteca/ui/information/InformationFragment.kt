@@ -9,13 +9,14 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
 import com.diego.discoteca.adapter.CountFormatMediaAdapter
 import com.diego.discoteca.databinding.FragmentInformationBinding
-import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.Destination
 import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 
 class InformationFragment : Fragment(R.layout.fragment_information), MenuProvider {
 
@@ -77,8 +78,18 @@ class InformationFragment : Fragment(R.layout.fragment_information), MenuProvide
     }
 
     private fun goToScanBarcodeFragment() {
-        (activity as MainActivity).navigate(
-            InformationFragmentDirections.actionInfoFragmentToScanBarcodeFragment(Destination.DATABASE)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true).apply {
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+        }
+
+        reenterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+        }
+
+        findNavController().navigate(
+            InformationFragmentDirections.actionInfoFragmentToScanBarcodeFragment(
+                Destination.DATABASE
+            )
         )
     }
 }

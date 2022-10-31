@@ -10,11 +10,11 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
 import com.diego.discoteca.databinding.FragmentDiscResultDetailBinding
-import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.UIText
 import com.diego.discoteca.util.themeColor
 import com.google.android.material.transition.MaterialContainerTransform
@@ -59,7 +59,7 @@ class DiscResultDetailFragment : Fragment(R.layout.fragment_disc_result_detail),
 
         mDiscResultDetailViewModel.navigatePopStack.observe(viewLifecycleOwner) {
             if (it == true) {
-                navigatePopStack()
+                popBackStack()
                 mDiscResultDetailViewModel.onNavigatePopStackDone()
             }
         }
@@ -84,17 +84,17 @@ class DiscResultDetailFragment : Fragment(R.layout.fragment_disc_result_detail),
         )
     }
 
+    private fun popBackStack() {
+        findNavController().popBackStack()
+    }
+
     private fun goToDiscFragment(uiText: UIText, id: Long) {
-        (activity as MainActivity).navigateTo(
+        findNavController().navigate(
             DiscResultDetailFragmentDirections
                 .actionDiscResultDetailFragmentToDiscFragment(
                     uiText = uiText,
                     idAdded = id
                 )
         )
-    }
-
-    private fun navigatePopStack() {
-        (activity as MainActivity).navigatePopStack()
     }
 }

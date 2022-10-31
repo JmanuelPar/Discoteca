@@ -15,10 +15,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.diego.discoteca.R
 import com.diego.discoteca.databinding.FragmentScanBarcodeBinding
-import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.materialSharedAxisEnterReturnTransition
 import com.diego.discoteca.util.materialSharedAxisExitReenterTransition
 import com.google.android.material.transition.MaterialSharedAxis
@@ -152,6 +152,6 @@ class ScanBarcodeFragment : Fragment(R.layout.fragment_scan_barcode), MenuProvid
 
     private fun goToDiscResultScan(directions: NavDirections) {
         materialSharedAxisExitReenterTransition(MaterialSharedAxis.Z)
-        (activity as MainActivity).navigateTo(directions)
+        findNavController().navigate(directions)
     }
 }

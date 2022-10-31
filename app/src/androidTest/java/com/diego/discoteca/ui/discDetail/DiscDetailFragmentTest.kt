@@ -51,7 +51,7 @@ class DiscDetailFragmentTest {
     }
 
     @Test
-    fun discDetail_Manually_DisplayedInUi() {
+    fun discDetail_manually_displayedInUi() {
         discsRepository.setDatabaseDisc(listOf(discDatabaseManually))
 
         val bundle = DiscDetailFragmentArgs(discDatabaseManually.id).toBundle()
@@ -93,7 +93,7 @@ class DiscDetailFragmentTest {
     }
 
     @Test
-    fun discDetail_Scan_DisplayedInUi() {
+    fun discDetail_scan_displayedInUi() {
         discsRepository.setDatabaseDisc(listOf(discDatabaseScan))
 
         val bundle = DiscDetailFragmentArgs(discDatabaseScan.id).toBundle()
@@ -136,7 +136,7 @@ class DiscDetailFragmentTest {
     }
 
     @Test
-    fun discDetail_Search_DisplayedInUi() {
+    fun discDetail_search_displayedInUi() {
         discsRepository.setDatabaseDisc(listOf(discDatabaseSearch))
 
         val bundle = DiscDetailFragmentArgs(discDatabaseSearch.id).toBundle()
@@ -188,5 +188,4 @@ class DiscDetailFragmentTest {
 
     private fun getDiscFormat(databaseDisc: DatabaseDisc) =
         databaseDisc.format.ifEmpty { context.getString(R.string.media_undefined) }
-
 }

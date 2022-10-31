@@ -23,8 +23,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
-import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -51,7 +52,7 @@ import kotlinx.coroutines.launch
 val Context.dataStore by preferencesDataStore(USER_PREFERENCES_NAME)
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class MainActivity : AppCompatActivity() {
+open class MainActivity : AppCompatActivity() {
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -188,6 +189,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.discFragment, R.id.infoFragment, R.id.interFragment)
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -373,7 +375,7 @@ class MainActivity : AppCompatActivity() {
         navigate(DiscFragmentDirections.actionDiscFragmentToAddDiscFragment())
     }
 
-    fun navigate(directions: NavDirections) {
+    private fun navigate(directions: NavDirections) {
         currentNavigationFragment?.apply {
             exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true).apply {
                 duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
@@ -382,26 +384,14 @@ class MainActivity : AppCompatActivity() {
             reenterTransition = MaterialFadeThrough().apply {
                 duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
             }
-
-            navController.navigate(directions)
         }
+
+        findNavController(R.id.my_nav_host_fragment).navigate(directions)
     }
 
-    fun navigateTo(directions: NavDirections) {
+    private fun navigatePopStack() {
         currentNavigationFragment?.apply {
-            navController.navigate(directions)
-        }
-    }
-
-    fun navigateToWithExtras(directions: NavDirections, extras: FragmentNavigator.Extras) {
-        currentNavigationFragment?.apply {
-            navController.navigate(directions, extras)
-        }
-    }
-
-    fun navigatePopStack() {
-        currentNavigationFragment?.apply {
-            navController.popBackStack()
+            findNavController().popBackStack()
         }
     }
 
@@ -440,7 +430,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showSnackBarNoAnchor(uiText: UIText) {
-        binding.root.showSnackBarNoAnchor(this.getMyUIText(uiText))
+        binding.root.showSnackBarNoAnchor(getMyUIText(uiText))
     }
 
     fun showScrimLayout(display: Boolean) {

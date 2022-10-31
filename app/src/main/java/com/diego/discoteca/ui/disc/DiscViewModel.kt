@@ -173,22 +173,20 @@ class DiscViewModel(
     }
 
     fun scrollToPosition(list: List<Disc>) {
-        if (list.isNotEmpty()) {
-            when {
-                id.value != -1L -> {
-                    var position = -1
-                    list.forEach {
-                        if (it.id == idAdded) {
-                            position = list.indexOf(it)
-                        }
+        when {
+            id.value != -1L -> {
+                var position = -1
+                list.forEach {
+                    if (it.id == idAdded) {
+                        position = list.indexOf(it)
                     }
-
-                    when (position) {
-                        -1 -> onScrollToPosition(0)
-                        else -> onScrollToPosition(position)
-                    }
-                    onIdDone()
                 }
+
+                when (position) {
+                    -1 -> onScrollToPosition(0)
+                    else -> onScrollToPosition(position)
+                }
+                onIdDone()
             }
         }
     }

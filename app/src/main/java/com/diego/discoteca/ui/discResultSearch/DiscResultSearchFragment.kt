@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import com.diego.discoteca.DiscotecaApplication
@@ -22,7 +24,6 @@ import com.diego.discoteca.adapter.DiscsLoadStateAdapter
 import com.diego.discoteca.adapter.Listener
 import com.diego.discoteca.data.model.DiscResultDetail
 import com.diego.discoteca.databinding.FragmentDiscResultSearchBinding
-import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.materialElevationScaleExitReenterTransition
 import com.diego.discoteca.util.materialSharedAxisEnterReturnTransition
@@ -86,7 +87,7 @@ class DiscResultSearchFragment : Fragment(R.layout.fragment_disc_result_search),
 
         mDiscResultSearchViewModel.buttonBack.observe(viewLifecycleOwner) {
             if (it == true) {
-                (activity as MainActivity).navigatePopStack()
+                popBackStack()
                 mDiscResultSearchViewModel.onButtonBackClickedDone()
             }
         }
@@ -151,13 +152,17 @@ class DiscResultSearchFragment : Fragment(R.layout.fragment_disc_result_search),
         )
     }
 
+    private fun popBackStack() {
+        findNavController().popBackStack()
+    }
+
     private fun goToDiscResultDetailFragment(view: View, discResultDetail: DiscResultDetail) {
         materialElevationScaleExitReenterTransition()
         val discDetailCardTransitionName = getString(R.string.disc_detail_card_transition_name)
-        (activity as MainActivity).navigateToWithExtras(
+        view.findNavController().navigate(
             directions = DiscResultSearchFragmentDirections
                 .actionDiscResultSearchFragmentToDiscResultDetailFragment(discResultDetail),
-            extras = FragmentNavigatorExtras(view to discDetailCardTransitionName)
+            navigatorExtras = FragmentNavigatorExtras(view to discDetailCardTransitionName)
         )
     }
 }
