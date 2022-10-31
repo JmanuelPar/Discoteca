@@ -10,12 +10,12 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
 import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.databinding.FragmentDiscPresentDetailBinding
-import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.materialSharedAxisExitReenterTransition
 import com.diego.discoteca.util.themeColor
 import com.google.android.material.transition.MaterialContainerTransform
@@ -52,7 +52,7 @@ class DiscPresentDetailFragment : Fragment(R.layout.fragment_disc_present_detail
         // PopStack
         mDiscPresentDetailViewModel.navigatePopStack.observe(viewLifecycleOwner) {
             if (it == true) {
-                navigatePopStack()
+                popBackStack()
                 mDiscPresentDetailViewModel.onNavigatePopStackDone()
             }
         }
@@ -85,13 +85,13 @@ class DiscPresentDetailFragment : Fragment(R.layout.fragment_disc_present_detail
         )
     }
 
-    private fun navigatePopStack() {
-        (activity as MainActivity).navigatePopStack()
+    private fun popBackStack() {
+        findNavController().popBackStack()
     }
 
     private fun goToDiscResultSearchFragment(discPresent: DiscPresent) {
         materialSharedAxisExitReenterTransition(MaterialSharedAxis.Z)
-        (activity as MainActivity).navigateTo(
+        findNavController().navigate(
             DiscPresentDetailFragmentDirections
                 .actionDiscPresentDetailFragmentToDiscResultSearchFragment(discPresent)
         )

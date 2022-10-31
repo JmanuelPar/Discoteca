@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
 import com.diego.discoteca.databinding.FragmentUpdateDiscBinding
-import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.UIText
 import com.diego.discoteca.util.materialSharedAxisEnterReturnTransition
 import com.diego.discoteca.util.showBottomSheetModal
@@ -111,6 +111,6 @@ class UpdateDiscFragment : Fragment(R.layout.fragment_update_disc), MenuProvider
     }
 
     private fun goToDiscFragment(directions: NavDirections) {
-        (activity as MainActivity).navigateTo(directions)
+        findNavController().navigate(directions)
     }
 }

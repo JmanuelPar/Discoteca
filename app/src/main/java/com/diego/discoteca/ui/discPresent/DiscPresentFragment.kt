@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavDirections
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
@@ -19,7 +21,6 @@ import com.diego.discoteca.adapter.DiscPresentAdapter
 import com.diego.discoteca.adapter.Listener
 import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.databinding.FragmentDiscPresentBinding
-import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.materialElevationScaleExitReenterTransition
 import com.diego.discoteca.util.materialSharedAxisEnterReturnTransition
 import com.diego.discoteca.util.materialSharedAxisExitReenterTransition
@@ -126,14 +127,14 @@ class DiscPresentFragment : Fragment(R.layout.fragment_disc_present), MenuProvid
     ) {
         materialElevationScaleExitReenterTransition()
         val discDetailCardTransitionName = getString(R.string.disc_detail_card_transition_name)
-        (activity as MainActivity).navigateToWithExtras(
+        view.findNavController().navigate(
             directions = DiscPresentFragmentDirections
                 .actionDiscPresentFragmentToDiscPresentDetailFragment(discPresent),
-            extras = FragmentNavigatorExtras(view to discDetailCardTransitionName)
+            navigatorExtras = FragmentNavigatorExtras(view to discDetailCardTransitionName)
         )
     }
 
     private fun navigateTo(navDirections: NavDirections) {
-        (activity as MainActivity).navigateTo(navDirections)
+        findNavController().navigate(navDirections)
     }
 }

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
 import com.diego.discoteca.databinding.FragmentInteractionBinding
@@ -876,15 +877,19 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
     }
 
     private fun updateScrimLayoutAndOnBackPressed(display: Boolean, enabled: Boolean) {
-        (activity as MainActivity).showScrimLayout(display)
+        if (activity is MainActivity) {
+            (activity as MainActivity).showScrimLayout(display)
+        }
         callbackOnBackPressed.isEnabled = enabled
     }
 
     private fun showSnackBar(uiText: UIText) {
-        (activity as MainActivity).showSnackBar(
-            uiText = uiText,
-            anchorView = (activity as MainActivity).getBottomAppBar()
-        )
+        if (activity is MainActivity) {
+            (activity as MainActivity).showSnackBar(
+                uiText = uiText,
+                anchorView = (activity as MainActivity).getBottomAppBar()
+            )
+        }
     }
 
     private fun showDialogTitle(message: String) {
@@ -917,7 +922,7 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
     }
 
     private fun goToDiscFragment(uiText: UIText) {
-        (activity as MainActivity).navigateTo(
+        findNavController().navigate(
             InteractionFragmentDirections.actionInterFragmentToDiscFragment(
                 uiText = uiText,
                 idAdded = -1L

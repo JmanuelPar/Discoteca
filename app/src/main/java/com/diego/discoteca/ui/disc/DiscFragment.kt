@@ -13,7 +13,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -165,7 +167,7 @@ class DiscFragment : Fragment(R.layout.fragment_disc), MenuProvider, DiscAdapter
             pendingQuery != null && pendingQuery.isEmpty() -> mDiscViewModel.updateIsSearch(false)
             else -> mDiscViewModel.updateIsSearch(true)
         }
-        searchView.setOnQueryTextListener(null)
+        if (this::searchView.isInitialized) searchView.setOnQueryTextListener(null)
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -192,10 +194,12 @@ class DiscFragment : Fragment(R.layout.fragment_disc), MenuProvider, DiscAdapter
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
                 mDiscViewModel.updateIsSearch(false)
                 mDiscViewModel.updatePendingQueryDone()
-                delayedTransition(
-                    (activity as MainActivity).binding.toolbar,
-                    MaterialFade().apply { duration = 150L }
-                )
+                if (activity is MainActivity) {
+                    delayedTransition(
+                        (activity as MainActivity).binding.toolbar,
+                        MaterialFade().apply { duration = 150L }
+                    )
+                }
                 menuHost.invalidateMenu()
                 showBottomBarShowFab()
                 return true
@@ -369,16 +373,16 @@ class DiscFragment : Fragment(R.layout.fragment_disc), MenuProvider, DiscAdapter
 
     // Go to UpdateFragment
     private fun goToUpdateFragment(directions: NavDirections) {
-        (activity as MainActivity).navigate(directions)
+        findNavController().navigate(directions)
     }
 
     // Go to DiscDetailFragment
     private fun goToDiscDetailFragment(view: View, disc: Disc) {
         materialElevationScaleExitReenterTransition()
         val discDetailCardTransitionName = getString(R.string.disc_detail_card_transition_name)
-        (activity as MainActivity).navigateToWithExtras(
+        view.findNavController().navigate(
             directions = DiscFragmentDirections.actionDiscFragmentToDiscDetailFragment(disc.id),
-            extras = FragmentNavigatorExtras(view to discDetailCardTransitionName)
+            navigatorExtras = FragmentNavigatorExtras(view to discDetailCardTransitionName)
         )
     }
 
@@ -404,23 +408,31 @@ class DiscFragment : Fragment(R.layout.fragment_disc), MenuProvider, DiscAdapter
     }
 
     private fun showSnackBar(uiText: UIText) {
-        val isSearch = mDiscViewModel.isSearch.value
-        when {
-            isSearch != null && isSearch -> (activity as MainActivity).showSnackBarNoAnchor(
-                uiText
-            )
-            else -> (activity as MainActivity).showSnackBar(
-                uiText = uiText,
-                anchorView = (activity as MainActivity).getFabView()
-            )
+        if (activity is MainActivity) {
+            val isSearch = mDiscViewModel.isSearch.value
+            when {
+                isSearch != null && isSearch -> {
+                    (activity as MainActivity).showSnackBarNoAnchor(
+                        uiText
+                    )
+                }
+                else -> (activity as MainActivity).showSnackBar(
+                    uiText = uiText,
+                    anchorView = (activity as MainActivity).getFabView()
+                )
+            }
         }
     }
 
     private fun showBottomBarShowFab() {
-        (activity as MainActivity).setBottomBarFab(true)
+        if (activity is MainActivity) {
+            (activity as MainActivity).setBottomBarFab(true)
+        }
     }
 
     private fun hideBottomBarHideFab() {
-        (activity as MainActivity).hideBottomBarHideFab()
+        if (activity is MainActivity) {
+            (activity as MainActivity).hideBottomBarHideFab()
+        }
     }
 }

@@ -44,7 +44,7 @@ class DiscResultDetailFragmentTest {
     }
 
     @Test
-    fun init_AddBy_Scan_NoPresent() {
+    fun init_addBy_scan_noPresent() {
         /* From DiscResultScanFragment, AddBy by Scan
            Nothing present in database -> isPresentByManually, isPresentBySearch, isPresentByScan : false
            So, button add and button cancel appears */
@@ -117,7 +117,7 @@ class DiscResultDetailFragmentTest {
     }
 
     @Test
-    fun init_AddBy_Search_NoPresent() {
+    fun init_addBy_search_noPresent() {
         /* From DiscResultSearchFragment, AddBy by Search
            Nothing present in database -> isPresentByManually, isPresentBySearch, isPresentByScan : false
            So, button add and button cancel appears */
@@ -188,7 +188,7 @@ class DiscResultDetailFragmentTest {
     }
 
     @Test
-    fun init_AddBy_Scan_PresentSearch() {
+    fun init_addBy_scan_presentSearch() {
         /* From DiscResultScanFragment, AddBy by Scan
            Present in database -> isPresentBySearch = true
            So, button update and button cancel appears */
@@ -295,7 +295,7 @@ class DiscResultDetailFragmentTest {
     }
 
     @Test
-    fun init_AddBy_Search_PresentScan() {
+    fun init_addBy_search_presentScan() {
         /* From DiscResultSearchFragment, AddBy by Search
            Present in database -> isPresentByScan = true
            So, button ok appears */

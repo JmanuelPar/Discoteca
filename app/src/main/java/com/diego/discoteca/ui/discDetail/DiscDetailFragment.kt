@@ -11,11 +11,11 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
 import com.diego.discoteca.databinding.FragmentDiscDetailBinding
-import com.diego.discoteca.ui.activity.MainActivity
 import com.diego.discoteca.util.themeColor
 import com.google.android.material.transition.MaterialContainerTransform
 
@@ -49,7 +49,7 @@ class DiscDetailFragment : Fragment(R.layout.fragment_disc_detail), MenuProvider
 
         mDiscDetailViewModel.buttonOk.observe(viewLifecycleOwner) {
             if (it == true) {
-                (activity as MainActivity).navigatePopStack()
+                popBackStack()
                 mDiscDetailViewModel.buttonOkClickedDone()
             }
         }
@@ -72,5 +72,9 @@ class DiscDetailFragment : Fragment(R.layout.fragment_disc_detail), MenuProvider
             viewLifecycleOwner,
             Lifecycle.State.STARTED
         )
+    }
+
+    private fun popBackStack() {
+        findNavController().popBackStack()
     }
 }
