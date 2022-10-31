@@ -91,11 +91,6 @@
             app:popUpToInclusive="true" />
 
         <action
-            android:id="@+id/action_addDiscFragment_to_discResultScanFragment"
-            app:destination="@id/discResultScanFragment"
-            app:popUpTo="@id/discFragment" />
-
-        <action
             android:id="@+id/action_addDiscFragment_to_discResultSearchFragment"
             app:destination="@id/discResultSearchFragment" />
 

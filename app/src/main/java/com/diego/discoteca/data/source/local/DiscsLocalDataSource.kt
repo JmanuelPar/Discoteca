@@ -27,7 +27,7 @@ class DiscsLocalDataSource internal constructor(
         }
     }
 
-    override fun getDiscWithId(key: Long) = dao.getDiscWithId(key)
+    override fun getDiscWithId(discId: Long) = dao.getDiscWithId(discId)
 
     override suspend fun insertLong(databaseDisc: DatabaseDisc) = dao.insertLong(databaseDisc)
 

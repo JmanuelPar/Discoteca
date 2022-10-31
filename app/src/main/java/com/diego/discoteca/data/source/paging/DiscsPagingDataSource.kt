@@ -33,7 +33,7 @@ class DiscsPagingDataSource internal constructor(
         TODO("Not required for the paging data source")
     }
 
-    override fun getDiscWithId(key: Long): LiveData<DatabaseDisc> {
+    override fun getDiscWithId(discId: Long): LiveData<DatabaseDisc> {
         TODO("Not required for the paging data source")
     }
 

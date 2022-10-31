@@ -71,13 +71,13 @@ class UpdateDiscFragment : Fragment(R.layout.fragment_update_disc), MenuProvider
 
         // Show BottomSheet
         mUpdateDiscViewModel.showBottomSheet.observe(viewLifecycleOwner) {
-            it?.let { disc ->
+            it?.let { discUpdate ->
                 childFragmentManager.showBottomSheetModal(
-                    artistName = disc.name,
-                    title = disc.title,
-                    year = disc.year
+                    artistName = discUpdate.name,
+                    title = discUpdate.title,
+                    year = discUpdate.year
                 ) {
-                    mUpdateDiscViewModel.updateDisc()
+                    mUpdateDiscViewModel.updateDisc(discUpdate)
                 }
                 mUpdateDiscViewModel.showBottomSheetDone()
             }

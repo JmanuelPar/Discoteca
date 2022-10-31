@@ -29,8 +29,8 @@ class DefaultDiscsRepository(
             it.asDomainModel()
         }
 
-    override fun getDiscWithId(key: Long) =
-        Transformations.map(discsLocalDataSource.getDiscWithId(key)) {
+    override fun getDiscWithId(discId: Long) =
+        Transformations.map(discsLocalDataSource.getDiscWithId(discId)) {
             it.asDomainModel()
         }
 
