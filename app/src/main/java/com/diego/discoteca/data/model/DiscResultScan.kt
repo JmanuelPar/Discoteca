@@ -8,4 +8,4 @@ import kotlinx.parcelize.Parcelize
 data class DiscResultScan(
     val barcode: String,
     val destination: Destination
-): Parcelable
+) : Parcelable

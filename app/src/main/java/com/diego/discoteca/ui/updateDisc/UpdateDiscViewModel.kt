@@ -18,7 +18,6 @@ class UpdateDiscViewModel(
 
     private var disc: LiveData<Disc> = repository.getDiscWithId(discId)
     fun getDisc() = disc
-    private lateinit var discUpdate: Disc
 
     private val _discNameArtist = MutableLiveData<String>()
     private val discNameArtist: LiveData<String>
@@ -71,26 +70,19 @@ class UpdateDiscViewModel(
         if (isValid()) {
             viewModelScope.launch {
                 val disc = disc.value ?: return@launch
-                discUpdate = Disc(
-                    id = disc.id,
+                val discUpdate = disc.copy(
                     name = discNameArtist.value!!.stringProcess(),
                     title = discTitle.value!!.stringProcess(),
-                    year = discYear.value!!,
-                    country = disc.country,
-                    format = disc.format,
-                    formatMedia = disc.formatMedia,
-                    coverImage = disc.coverImage,
-                    barcode = disc.barcode,
-                    addBy = disc.addBy
+                    year = discYear.value!!
                 )
                 _showBottomSheet.value = discUpdate
             }
         }
     }
 
-    fun updateDisc() {
+    fun updateDisc(discUpdate: Disc) {
         viewModelScope.launch {
-            updateDiscDatabase()
+            updateDiscDatabase(discUpdate)
             onNavigateToDisc(discUpdate.id)
         }
     }
@@ -138,7 +130,7 @@ class UpdateDiscViewModel(
         }
     }
 
-    private suspend fun updateDiscDatabase() {
+    private suspend fun updateDiscDatabase(discUpdate: Disc) {
         repository.update(discUpdate)
     }
 

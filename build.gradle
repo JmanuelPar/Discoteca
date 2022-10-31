@@ -2,7 +2,7 @@
 buildscript {
     ext {
         kotlinVersion = '1.7.20'
-        navigationVersion = '2.5.2'
+        navigationVersion = '2.5.3'
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.3.1'
@@ -23,7 +23,7 @@ task clean(type: Delete) {
 }
 
 ext {
-    activityVersion = '1.6.0'
+    activityVersion = '1.6.1'
     appCompatVersion = '1.5.1'
     cameraxVersion = '1.1.0'
     constraintLayoutVersion = '2.1.4'

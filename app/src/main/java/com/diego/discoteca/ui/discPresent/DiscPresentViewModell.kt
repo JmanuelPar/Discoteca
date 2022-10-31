@@ -115,7 +115,6 @@ class DiscPresentViewModel(
     }
 
     private fun onNavigateToDiscResultSearch() {
-        discItem.discAdd.addBy = AddBy.SEARCH
         _navigateToDiscResultSearch.value = discItem
     }
 
@@ -129,7 +128,7 @@ class DiscPresentViewModel(
                 name = discItem.discAdd.name,
                 title = discItem.discAdd.title,
                 year = discItem.discAdd.year,
-                addBy = AddBy.MANUALLY
+                addBy = discItem.discAdd.addBy
             )
         )
 }

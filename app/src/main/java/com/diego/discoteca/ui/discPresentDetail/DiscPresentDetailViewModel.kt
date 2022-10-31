@@ -16,14 +16,14 @@ class DiscPresentDetailViewModel(
     private val discDatabase: LiveData<Disc> = repository.getDiscWithId(discPresent.discAdd.id)
     fun getDisc() = discDatabase
 
-    private val _discAddBy = MutableLiveData<AddBy>()
-    private val discAddBy: LiveData<AddBy>
-        get() = _discAddBy
+    private val _discPresentAddBy = MutableLiveData<AddBy>()
+    private val discPresentAddBy: LiveData<AddBy>
+        get() = _discPresentAddBy
 
     val isVisible = Transformations.map(discDatabase) { disc ->
         disc.addBy == AddBy.MANUALLY
     }.asFlow()
-        .combine(Transformations.map(discAddBy) { addBy ->
+        .combine(Transformations.map(discPresentAddBy) { addBy ->
             addBy == AddBy.SEARCH
         }.asFlow()) { isManually, isSearch ->
             isManually == true && isSearch == true
@@ -38,7 +38,7 @@ class DiscPresentDetailViewModel(
         get() = _navigateToDiscResultSearch
 
     init {
-        _discAddBy.value = discPresent.discAdd.addBy
+        _discPresentAddBy.value = discPresent.discAdd.addBy
     }
 
     // Button search

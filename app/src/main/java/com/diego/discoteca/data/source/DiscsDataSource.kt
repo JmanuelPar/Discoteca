@@ -17,7 +17,7 @@ interface DiscsDataSource {
 
     fun getAllDiscs(searchQuery: String, sortOrder: SortOrder): Flow<List<DatabaseDisc>>
 
-    fun getDiscWithId(key: Long): LiveData<DatabaseDisc>
+    fun getDiscWithId(discId: Long): LiveData<DatabaseDisc>
 
     suspend fun insertLong(databaseDisc: DatabaseDisc): Long
 

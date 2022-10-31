@@ -45,6 +45,7 @@ class DiscPresentFragment : Fragment(R.layout.fragment_disc_present), MenuProvid
         val binding = FragmentDiscPresentBinding.bind(view)
         val adapterDiscPresent = DiscPresentAdapter(Listener { v, disc ->
             val discPresent = mDiscPresentViewModel.discItem
+
             // Here, we do a search with the disk chosen by the user
             discPresent.discAdd.apply {
                 id = disc.id
@@ -52,6 +53,7 @@ class DiscPresentFragment : Fragment(R.layout.fragment_disc_present), MenuProvid
                 title = disc.title
                 year = disc.year
             }
+
             goToDiscPresentDetailFragment(
                 view = v,
                 discPresent = discPresent

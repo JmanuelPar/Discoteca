@@ -27,7 +27,6 @@ class InformationViewModel(val repository: DiscsRepository) : ViewModel() {
 
     private fun setNumberVersion() {
         _numberVersion.value = BuildConfig.VERSION_NAME + "." + BuildConfig.VERSION_CODE
-
     }
 
     fun onButtonSearchScanClicked() {

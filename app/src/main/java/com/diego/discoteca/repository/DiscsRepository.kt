@@ -16,7 +16,7 @@ interface DiscsRepository {
 
     fun getAllDiscs(searchQuery: String, sortOrder: SortOrder): Flow<List<Disc>>
 
-    fun getDiscWithId(key: Long): LiveData<Disc>
+    fun getDiscWithId(discId: Long): LiveData<Disc>
 
     suspend fun insertLong(disc: Disc): Long
 
