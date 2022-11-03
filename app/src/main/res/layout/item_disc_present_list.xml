@@ -28,6 +28,7 @@
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
         app:strokeColor="@color/color_stroke_card"
+        app:strokeColorPresent="@{disc}"
         app:strokeWidth="1dp">
 
         <LinearLayout
