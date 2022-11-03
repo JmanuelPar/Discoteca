@@ -198,6 +198,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/progress_bar_linear_upload" />
 
                 <TextView
+                    android:id="@+id/upload_time"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -275,6 +276,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/progress_bar_linear_download" />
 
                 <TextView
+                    android:id="@+id/download_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"

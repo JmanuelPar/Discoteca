@@ -129,6 +129,63 @@ class DiscPresentViewModelTest {
     }
 
     @Test
+    fun test_OnButtonOkClicked_NavigateToDisc() = runTest {
+        val databaseDisc4 = DatabaseDisc(
+            id = 4L,
+            name = "name_2",
+            title = "title_2",
+            year = "year_2",
+            country = "",
+            format = "",
+            formatMedia = "",
+            coverImage = "",
+            barcode = "",
+            idDisc = -1,
+            addBy = AddBy.MANUALLY,
+            nameNormalize = "name_normalize_2",
+            titleNormalize = "title_normalize_2"
+        )
+
+        discsRepository.setDatabaseDisc(listOf(databaseDisc4))
+
+        val discAdd = DiscAdd(
+            name = "name_2",
+            title = "title_2",
+            year = "year_2",
+            addBy = AddBy.SEARCH
+        )
+
+        val listDb = discsRepository.getListDiscDbPresent(
+            name = "name_normalize_2",
+            title = "title_normalize_2",
+            year = discAdd.year
+        )
+
+        val discPresent = DiscPresent(
+            list = listDb,
+            discAdd = discAdd
+        )
+
+        discPresentViewModel = DiscPresentViewModel(
+            discsRepository,
+            discPresent
+        )
+
+        discPresentViewModel.onButtonOkClicked()
+        val result = discPresentViewModel.navigateToDisc.getOrAwaitValue()
+
+        val uiText = when (listDb.size) {
+            1 -> UIText.DiscAlreadyPresentOne
+            else -> UIText.DiscAlreadyPresentMore
+        }
+
+        val id = listDb[0].id
+
+        assertEquals(uiText, result!!.first)
+        assertEquals(id, result.second)
+    }
+
+    @Test
     fun test_OnButtonCancelClicked_NavigateToDisc() = runTest {
         val discAdd = DiscAdd(
             name = "name_2",
@@ -154,45 +211,6 @@ class DiscPresentViewModelTest {
         )
 
         discPresentViewModel.onButtonCancelClicked()
-        val result = discPresentViewModel.navigateToDisc.getOrAwaitValue()
-
-        val uiText = when (listDb.size) {
-            1 -> UIText.DiscAlreadyPresentOne
-            else -> UIText.DiscAlreadyPresentMore
-        }
-
-        val id = listDb[0].id
-
-        assertEquals(uiText, result!!.first)
-        assertEquals(id, result.second)
-    }
-
-    @Test
-    fun test_OnButtonOkClicked_NavigateToDisc() = runTest {
-        val discAdd = DiscAdd(
-            name = "name_1",
-            title = "title_1",
-            year = "year_1",
-            addBy = AddBy.SCAN
-        )
-
-        val listDb = discsRepository.getListDiscDbPresent(
-            name = "name_normalize_1",
-            title = "title_normalize_1",
-            year = discAdd.year
-        )
-
-        val discPresent = DiscPresent(
-            list = listDb,
-            discAdd = discAdd
-        )
-
-        discPresentViewModel = DiscPresentViewModel(
-            discsRepository,
-            discPresent
-        )
-
-        discPresentViewModel.onButtonOkClicked()
         val result = discPresentViewModel.navigateToDisc.getOrAwaitValue()
 
         val uiText = when (listDb.size) {
