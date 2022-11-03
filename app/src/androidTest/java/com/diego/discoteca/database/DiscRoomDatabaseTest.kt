@@ -112,9 +112,11 @@ class DiscRoomDatabaseTest {
 
     @Test
     fun countAllDiscs() = runTest {
-        discDao.insertLong(discDatabase1)
-        discDao.insertLong(discDatabase2)
-        discDao.insertLong(discDatabase3)
+        discDao.apply {
+            insertLong(discDatabase1)
+            insertLong(discDatabase2)
+            insertLong(discDatabase3)
+        }
 
         val countDiscs = discDao.countAllDiscs().first()
 
@@ -127,9 +129,11 @@ class DiscRoomDatabaseTest {
         val discFormatVinyl = discDatabase3.copy(formatMedia = "Vinyl")
 
         // 1 "Nothing" + 1 CD + 1 Vinyl
-        discDao.insertLong(discDatabase1)
-        discDao.insertLong(discFormatCD)
-        discDao.insertLong(discFormatVinyl)
+        discDao.apply {
+            insertLong(discDatabase1)
+            insertLong(discFormatCD)
+            insertLong(discFormatVinyl)
+        }
 
         val list = discDao.getCountFormatMediaList().first()
         val totalFormatMedia = list.count { it.countMedia.toInt() > 0 }
@@ -158,9 +162,11 @@ class DiscRoomDatabaseTest {
         )
 
         // discDatabase2 -> name_1
-        discDao.insertLong(discDatabase1)
-        discDao.insertLong(discDatabase2)
-        discDao.insertLong(discDatabase4)
+        discDao.apply {
+            insertLong(discDatabase1)
+            insertLong(discDatabase2)
+            insertLong(discDatabase4)
+        }
 
         val list = listOf(discDatabase2, discDatabase4)
         val allDiscs = discDao.getAllDiscsByName(discDatabase2.name).first()
@@ -187,9 +193,11 @@ class DiscRoomDatabaseTest {
         )
 
         // discDatabase2 -> title_1
-        discDao.insertLong(discDatabase1)
-        discDao.insertLong(discDatabase2)
-        discDao.insertLong(discDatabase4)
+        discDao.apply {
+            insertLong(discDatabase1)
+            insertLong(discDatabase2)
+            insertLong(discDatabase4)
+        }
 
         val list = listOf(discDatabase2, discDatabase4)
         val allDiscs = discDao.getAllDiscsByTitle(discDatabase2.title).first()
@@ -216,9 +224,11 @@ class DiscRoomDatabaseTest {
         )
 
         // discDatabase2 -> year_1
-        discDao.insertLong(discDatabase1)
-        discDao.insertLong(discDatabase2)
-        discDao.insertLong(discDatabase4)
+        discDao.apply {
+            insertLong(discDatabase1)
+            insertLong(discDatabase2)
+            insertLong(discDatabase4)
+        }
 
         val list = listOf(discDatabase2, discDatabase4)
         val allDiscs = discDao.getAllDiscsByYear(discDatabase2.year).first()
@@ -244,10 +254,12 @@ class DiscRoomDatabaseTest {
             titleNormalize = "title_normalize_1"
         )
 
-        discDao.insertLong(discDatabase1)
-        discDao.insertLong(discDatabase2)
-        discDao.insertLong(discDatabase3)
-        discDao.insertLong(discDatabase4)
+        discDao.apply {
+            insertLong(discDatabase1)
+            insertLong(discDatabase2)
+            insertLong(discDatabase3)
+            insertLong(discDatabase4)
+        }
 
         val list = listOf(discDatabase2, discDatabase4)
         val listDb = discDao.getListDiscDbScan(discDatabase2.barcode)
@@ -257,9 +269,11 @@ class DiscRoomDatabaseTest {
 
     @Test
     fun getDiscDbManually() = runTest {
-        discDao.insertLong(discDatabase1)
-        discDao.insertLong(discDatabase2)
-        discDao.insertLong(discDatabase3)
+        discDao.apply {
+            insertLong(discDatabase1)
+            insertLong(discDatabase2)
+            insertLong(discDatabase3)
+        }
 
         val databaseDisc = discDao.getDiscDbManually(
             discDatabase1.nameNormalize,
@@ -273,9 +287,11 @@ class DiscRoomDatabaseTest {
 
     @Test
     fun getDiscDbSearch() = runTest {
-        discDao.insertLong(discDatabase1)
-        discDao.insertLong(discDatabase2)
-        discDao.insertLong(discDatabase3)
+        discDao.apply {
+            insertLong(discDatabase1)
+            insertLong(discDatabase2)
+            insertLong(discDatabase3)
+        }
 
         val databaseDisc = discDao.getDiscDbSearch(
             discDatabase3.idDisc,
@@ -290,9 +306,11 @@ class DiscRoomDatabaseTest {
 
     @Test
     fun getListDiscDbPresent() = runTest {
-        discDao.insertLong(discDatabase1)
-        discDao.insertLong(discDatabase2)
-        discDao.insertLong(discDatabase3)
+        discDao.apply {
+            insertLong(discDatabase1)
+            insertLong(discDatabase2)
+            insertLong(discDatabase3)
+        }
 
         val databaseDisc = discDao.getListDiscDbPresent(
             discDatabase1.nameNormalize,
@@ -337,9 +355,11 @@ class DiscRoomDatabaseTest {
             titleNormalize = "title_normalize_1"
         )
 
-        discDao.insertLong(discDatabaseS)
-        discDao.insertLong(discDatabase2)
-        discDao.insertLong(discDatabaseM)
+        discDao.apply {
+            insertLong(discDatabaseS)
+            insertLong(discDatabase2)
+            insertLong(discDatabaseM)
+        }
 
         val list = listOf(discDatabaseS, discDatabaseM)
         val listDao = discDao.getListDiscDbManuallySearch(

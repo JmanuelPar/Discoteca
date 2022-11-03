@@ -7,8 +7,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.diego.discoteca.FakeAndroidDiscsRepository
-import com.diego.discoteca.R
+import com.diego.discoteca.*
 import com.diego.discoteca.data.domain.Disc
 import com.diego.discoteca.data.model.DiscLight
 import com.diego.discoteca.data.model.DiscResultDetail
@@ -76,44 +75,59 @@ class DiscResultDetailFragmentTest {
 
         onView(withId(R.id.layout_disc_light)).check(matches(not(isDisplayed())))
 
-        onView(withId(R.id.tv_answer)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_answer))
-            .check(matches(withText(context.getString(R.string.answer_add))))
+        onView(withId(R.id.tv_answer)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(context.getString(R.string.answer_add))))
+        }
 
         onView(withId(R.id.disc_result_cover_image)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.tv_disc_result_name)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_name))
-            .check(matches(withText(discResultDetail.disc.name)))
+        onView(withId(R.id.tv_disc_result_name)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.name)))
+        }
 
-        onView(withId(R.id.tv_disc_result_title)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_title))
-            .check(matches(withText(discResultDetail.disc.title)))
+        onView(withId(R.id.tv_disc_result_title)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.title)))
+        }
 
-        val countryYear = getCountryYear(discResultDetail.disc)
-        onView(withId(R.id.tv_disc_result_country_year)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_country_year))
-            .check(matches(withText(countryYear)))
+        val countryYear = context.getCountryYear(discResultDetail.disc)
+        onView(withId(R.id.tv_disc_result_country_year)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(countryYear)))
+        }
 
-        onView(withId(R.id.tv_disc_result_format_media)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_format_media))
-            .check(matches(withText(discResultDetail.disc.formatMedia)))
+        onView(withId(R.id.tv_disc_result_format_media)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.formatMedia)))
+        }
 
-        val discFormat = getDiscFormat(discResultDetail.disc)
-        onView(withId(R.id.tv_disc_result_format)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_format)).check(matches(withText(discFormat)))
+        val discFormat = context.getDiscFormat(discResultDetail.disc)
+        onView(withId(R.id.tv_disc_result_format)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discFormat)))
+        }
 
-        onView(withId(R.id.tv_barcode)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_barcode)).check(matches(withText(context.getString(R.string.barcode))))
+        onView(withId(R.id.tv_barcode)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(context.getString(R.string.barcode))))
+        }
 
-        onView(withId(R.id.tv_disc_result_barcode)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_barcode)).check(matches(withText(discResultDetail.disc.barcode)))
+        onView(withId(R.id.tv_disc_result_barcode)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.barcode)))
+        }
 
-        onView(withId(R.id.button_yes)).check(matches(isDisplayed()))
-        onView(withId(R.id.button_yes)).check(matches(withText(context.getString(R.string.add))))
+        onView(withId(R.id.button_yes)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(context.getString(R.string.add))))
+        }
 
-        onView(withId(R.id.button_no)).check(matches(isDisplayed()))
-        onView(withId(R.id.button_no)).check(matches(withText(context.getString(R.string.cancel))))
+        onView(withId(R.id.button_no)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(context.getString(R.string.cancel))))
+        }
     }
 
     @Test
@@ -149,42 +163,53 @@ class DiscResultDetailFragmentTest {
 
         onView(withId(R.id.layout_disc_light)).check(matches(not(isDisplayed())))
 
-        onView(withId(R.id.tv_answer)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_answer))
-            .check(matches(withText(context.getString(R.string.answer_add))))
+        onView(withId(R.id.tv_answer)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(context.getString(R.string.answer_add))))
+        }
 
         onView(withId(R.id.disc_result_cover_image)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.tv_disc_result_name)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_name))
-            .check(matches(withText(discResultDetail.disc.name)))
+        onView(withId(R.id.tv_disc_result_name)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.name)))
+        }
 
-        onView(withId(R.id.tv_disc_result_title)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_title))
-            .check(matches(withText(discResultDetail.disc.title)))
+        onView(withId(R.id.tv_disc_result_title)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.title)))
+        }
 
-        val countryYear = getCountryYear(discResultDetail.disc)
-        onView(withId(R.id.tv_disc_result_country_year)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_country_year))
-            .check(matches(withText(countryYear)))
+        val countryYear = context.getCountryYear(discResultDetail.disc)
+        onView(withId(R.id.tv_disc_result_country_year)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(countryYear)))
+        }
 
-        onView(withId(R.id.tv_disc_result_format_media)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_format_media))
-            .check(matches(withText(discResultDetail.disc.formatMedia)))
+        onView(withId(R.id.tv_disc_result_format_media)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.formatMedia)))
+        }
 
-        val discFormat = getDiscFormat(discResultDetail.disc)
-        onView(withId(R.id.tv_disc_result_format)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_format)).check(matches(withText(discFormat)))
+        val discFormat = context.getDiscFormat(discResultDetail.disc)
+        onView(withId(R.id.tv_disc_result_format)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discFormat)))
+        }
 
         onView(withId(R.id.tv_barcode)).check(matches(not(isDisplayed())))
 
         onView(withId(R.id.tv_disc_result_barcode)).check(matches(not(isDisplayed())))
 
-        onView(withId(R.id.button_yes)).check(matches(isDisplayed()))
-        onView(withId(R.id.button_yes)).check(matches(withText(context.getString(R.string.add))))
+        onView(withId(R.id.button_yes)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(context.getString(R.string.add))))
+        }
 
-        onView(withId(R.id.button_no)).check(matches(isDisplayed()))
-        onView(withId(R.id.button_no)).check(matches(withText(context.getString(R.string.cancel))))
+        onView(withId(R.id.button_no)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(context.getString(R.string.cancel))))
+        }
     }
 
     @Test
@@ -227,71 +252,93 @@ class DiscResultDetailFragmentTest {
             themeResId = R.style.Theme_Discoteca
         )
 
-        onView(withId(R.id.tv_disc_present)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_present))
-            .check(matches(withText(context.getString(R.string.disc_present_search))))
+        onView(withId(R.id.tv_disc_present)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(context.getString(R.string.disc_present_search))))
+        }
 
         onView(withId(R.id.layout_disc_light)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_light_name)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_light_name))
-            .check(matches(withText(discResultDetail.disc.discLight!!.name)))
+        onView(withId(R.id.tv_disc_light_name)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.discLight!!.name)))
+        }
 
-        onView(withId(R.id.tv_disc_light_title)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_light_title))
-            .check(matches(withText(discResultDetail.disc.discLight!!.title)))
+        onView(withId(R.id.tv_disc_light_title)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.discLight!!.title)))
+        }
 
-        val discLightCountryYear = getDiscLightCountryYear(discResultDetail.disc.discLight!!)
-        onView(withId(R.id.tv_disc_light_country_year)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_light_country_year))
-            .check(matches(withText(discLightCountryYear)))
+        val discLightCountryYear =
+            context.getDiscLightCountryYear(discResultDetail.disc.discLight!!)
+        onView(withId(R.id.tv_disc_light_country_year)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discLightCountryYear)))
+        }
 
-        onView(withId(R.id.tv_disc_light_format_media)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_light_format_media))
-            .check(matches(withText(discResultDetail.disc.discLight!!.formatMedia)))
+        onView(withId(R.id.tv_disc_light_format_media)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.discLight!!.formatMedia)))
+        }
 
-        val discLightFormat = getDiscLightFormat(discResultDetail.disc)
-        onView(withId(R.id.tv_disc_light_format)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_light_format))
-            .check(matches(withText(discLightFormat)))
+        val discLightFormat = context.getDiscLightFormat(discResultDetail.disc)
+        onView(withId(R.id.tv_disc_light_format)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discLightFormat)))
+        }
 
-        onView(withId(R.id.tv_answer)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_answer))
-            .check(matches(withText(context.getString(R.string.answer_update))))
+        onView(withId(R.id.tv_answer)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(context.getString(R.string.answer_update))))
+        }
 
         onView(withId(R.id.disc_result_cover_image)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.tv_disc_result_name)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_name))
-            .check(matches(withText(discResultDetail.disc.name)))
+        onView(withId(R.id.tv_disc_result_name)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.name)))
+        }
 
-        onView(withId(R.id.tv_disc_result_title)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_title))
-            .check(matches(withText(discResultDetail.disc.title)))
+        onView(withId(R.id.tv_disc_result_title)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.title)))
+        }
 
-        val countryYear = getCountryYear(discResultDetail.disc)
-        onView(withId(R.id.tv_disc_result_country_year)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_country_year))
-            .check(matches(withText(countryYear)))
+        val countryYear = context.getCountryYear(discResultDetail.disc)
+        onView(withId(R.id.tv_disc_result_country_year)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(countryYear)))
+        }
 
-        onView(withId(R.id.tv_disc_result_format_media)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_format_media))
-            .check(matches(withText(discResultDetail.disc.formatMedia)))
+        onView(withId(R.id.tv_disc_result_format_media)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.formatMedia)))
+        }
 
-        val discFormat = getDiscFormat(discResultDetail.disc)
-        onView(withId(R.id.tv_disc_result_format)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_format)).check(matches(withText(discFormat)))
+        val discFormat = context.getDiscFormat(discResultDetail.disc)
+        onView(withId(R.id.tv_disc_result_format)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discFormat)))
+        }
 
-        onView(withId(R.id.tv_barcode)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_barcode)).check(matches(withText(context.getString(R.string.barcode))))
+        onView(withId(R.id.tv_barcode)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(context.getString(R.string.barcode))))
+        }
 
-        onView(withId(R.id.tv_disc_result_barcode)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_barcode)).check(matches(withText(discResultDetail.disc.barcode)))
+        onView(withId(R.id.tv_disc_result_barcode)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.barcode)))
+        }
 
-        onView(withId(R.id.button_yes)).check(matches(isDisplayed()))
-        onView(withId(R.id.button_yes)).check(matches(withText(context.getString(R.string.update))))
+        onView(withId(R.id.button_yes)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(context.getString(R.string.update))))
+        }
 
-        onView(withId(R.id.button_no)).check(matches(isDisplayed()))
-        onView(withId(R.id.button_no)).check(matches(withText(context.getString(R.string.cancel))))
+        onView(withId(R.id.button_no)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(context.getString(R.string.cancel))))
+        }
     }
 
     @Test
@@ -325,9 +372,10 @@ class DiscResultDetailFragmentTest {
             themeResId = R.style.Theme_Discoteca
         )
 
-        onView(withId(R.id.tv_disc_present)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_present))
-            .check(matches(withText(context.getString(R.string.disc_present_scan))))
+        onView(withId(R.id.tv_disc_present)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(context.getString(R.string.disc_present_scan))))
+        }
 
         onView(withId(R.id.layout_disc_light)).check(matches(not(isDisplayed())))
 
@@ -335,58 +383,42 @@ class DiscResultDetailFragmentTest {
 
         onView(withId(R.id.disc_result_cover_image)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.tv_disc_result_name)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_name))
-            .check(matches(withText(discResultDetail.disc.name)))
+        onView(withId(R.id.tv_disc_result_name)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.name)))
+        }
 
-        onView(withId(R.id.tv_disc_result_title)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_title))
-            .check(matches(withText(discResultDetail.disc.title)))
+        onView(withId(R.id.tv_disc_result_title)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.title)))
+        }
 
-        val countryYear = getCountryYear(discResultDetail.disc)
-        onView(withId(R.id.tv_disc_result_country_year)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_country_year))
-            .check(matches(withText(countryYear)))
+        val countryYear = context.getCountryYear(discResultDetail.disc)
+        onView(withId(R.id.tv_disc_result_country_year)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(countryYear)))
+        }
 
-        onView(withId(R.id.tv_disc_result_format_media)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_format_media))
-            .check(matches(withText(discResultDetail.disc.formatMedia)))
+        onView(withId(R.id.tv_disc_result_format_media)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discResultDetail.disc.formatMedia)))
+        }
 
-        val discFormat = getDiscFormat(discResultDetail.disc)
-        onView(withId(R.id.tv_disc_result_format)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_disc_result_format)).check(matches(withText(discFormat)))
+        val discFormat = context.getDiscFormat(discResultDetail.disc)
+        onView(withId(R.id.tv_disc_result_format)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(discFormat)))
+        }
 
         onView(withId(R.id.tv_barcode)).check(matches(not(isDisplayed())))
 
         onView(withId(R.id.tv_disc_result_barcode)).check(matches(not(isDisplayed())))
 
-        onView(withId(R.id.button_yes)).check(matches(isDisplayed()))
-        onView(withId(R.id.button_yes)).check(matches(withText(context.getString(R.string.ok))))
+        onView(withId(R.id.button_yes)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(context.getString(R.string.ok))))
+        }
 
         onView(withId(R.id.button_no)).check(matches(not(isDisplayed())))
     }
-
-    private fun getCountryYear(disc: Disc) =
-        when {
-            disc.country.isEmpty() && disc.year.isEmpty() -> context.getString(R.string.not_specified)
-            disc.country.isEmpty() && disc.year.isNotEmpty() -> disc.year
-            disc.country.isNotEmpty() && disc.year.isEmpty() ->
-                "${disc.country} - ${context.getString(R.string.not_specified)}"
-            else -> "${disc.country} - ${disc.year}"
-        }
-
-    private fun getDiscLightCountryYear(discLight: DiscLight) =
-        when {
-            discLight.country.isEmpty() && discLight.year.isEmpty() -> context.getString(R.string.not_specified)
-            discLight.country.isEmpty() && discLight.year.isNotEmpty() -> discLight.year
-            discLight.country.isNotEmpty() && discLight.year.isEmpty() ->
-                "${discLight.country} - ${context.getString(R.string.not_specified)}"
-            else -> "${discLight.country} - ${discLight.year}"
-        }
-
-    private fun getDiscFormat(disc: Disc) =
-        disc.format.ifEmpty { context.getString(R.string.media_undefined) }
-
-    private fun getDiscLightFormat(disc: Disc) =
-        disc.discLight?.format?.ifEmpty { context.getString(R.string.media_undefined) }
 }

@@ -7,7 +7,6 @@ import androidx.navigation.testing.TestNavHostController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -83,7 +82,7 @@ class DiscFragmentTest {
 
     @Test
     fun navigate_to_update() {
-        val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
+        val navController = TestNavHostController(context)
         val bundle = DiscFragmentArgs(UIText.NoDisplay, -1L).toBundle()
         val scenario = launchFragmentInContainer<DiscFragment>(
             fragmentArgs = bundle,
@@ -115,7 +114,7 @@ class DiscFragmentTest {
 
     @Test
     fun navigate_to_disc_detail() {
-        val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
+        val navController = TestNavHostController(context)
         val bundle = DiscFragmentArgs(UIText.NoDisplay, -1L).toBundle()
         val scenario = launchFragmentInContainer<DiscFragment>(
             fragmentArgs = bundle,
@@ -130,7 +129,7 @@ class DiscFragmentTest {
         onView(withId(R.id.rv_list_discs))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                    0, ViewActions.click()
+                    0, click()
                 )
             )
 

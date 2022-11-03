@@ -53,6 +53,7 @@ class DiscPresentViewModel(
 
     private fun configure() {
         _discPresent.value = discItem
+
         /*discItem.list = list of Disc from Room Database
           see getListDiscDbPresent in AddDiscViewModel*/
         _listDisc.value = discItem.list.onEach { disc ->
@@ -65,6 +66,7 @@ class DiscPresentViewModel(
         }.sortedByDescending { disc ->
             disc.isPresentByManually == true
         }
+
         /*discItem.discAdd.addBy = AddBy.MANUALLY or AddBy.SEARCH
         see onButtonAddClicked, onButtonSearchClicked in AddDiscViewModel*/
         _addBy.value = discItem.discAdd.addBy

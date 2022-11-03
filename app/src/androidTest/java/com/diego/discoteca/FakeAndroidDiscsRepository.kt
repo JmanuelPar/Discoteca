@@ -280,6 +280,10 @@ class FakeAndroidDiscsRepository : DiscsRepository {
             emit(pagingData)
         }
 
+    fun setDiscApi(list: List<Disc>) {
+        discApiItems = list
+    }
+
     fun setDatabaseDisc(list: List<DatabaseDisc>) {
         discDatabaseItems.addAll(list)
     }

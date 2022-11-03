@@ -110,14 +110,12 @@ fun ImageView.setStateIconGDriveDownload(enabled: Boolean) {
 @BindingAdapter("numberDiscs", "isSignIn")
 fun TextView.setTextInterMessage(numberDiscs: Int, isSignIn: Boolean) {
     text = when {
-        (numberDiscs > 0 && isSignIn) || (numberDiscs > 0 && !isSignIn) ->
-            context.resources.getQuantityString(
-                R.plurals.plural_nb_disc_discoteca,
-                numberDiscs,
-                numberDiscs
-            )
-        numberDiscs == 0 && isSignIn ->
-            context.getString(R.string.disc_interaction_message_empty_unable_to_restore)
+        numberDiscs > 0 -> context.resources.getQuantityString(
+            R.plurals.plural_nb_disc_discoteca,
+            numberDiscs,
+            numberDiscs
+        )
+        numberDiscs == 0 && isSignIn -> context.getString(R.string.disc_interaction_message_empty_unable_to_restore)
         else -> context.getString(R.string.no_disc)
     }
 }
