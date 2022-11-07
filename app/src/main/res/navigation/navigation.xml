@@ -218,10 +218,6 @@
             app:popUpToInclusive="true" />
 
         <action
-            android:id="@+id/action_discPresentFragment_to_discDetailFragment"
-            app:destination="@id/discDetailFragment" />
-
-        <action
             android:id="@+id/action_discPresentFragment_to_discPresentDetailFragment"
             app:destination="@id/discPresentDetailFragment" />
 

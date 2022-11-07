@@ -3,8 +3,8 @@ package com.diego.discoteca.ui.addDisc
 import android.content.Context
 import android.os.SystemClock.sleep
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
@@ -13,21 +13,16 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.diego.discoteca.FakeAndroidDiscsRepository
 import com.diego.discoteca.R
-import com.diego.discoteca.data.model.DiscAdd
-import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.database.DatabaseDisc
 import com.diego.discoteca.hasTextInputLayoutErrorText
 import com.diego.discoteca.hasTextInputLayoutHintText
 import com.diego.discoteca.util.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -202,13 +197,15 @@ class AddDiscFragmentTest {
 
     @Test
     fun navigate_to_disc() {
-        val navController = mock(NavController::class.java)
+        val navController = TestNavHostController(context)
         val scenario = launchFragmentInContainer<AddDiscFragment>(
             themeResId = R.style.Theme_Discoteca
         )
 
         scenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.navigation)
             Navigation.setViewNavController(fragment.requireView(), navController)
+            navController.setCurrentDestination(R.id.addDiscFragment)
         }
 
         onView(withId(R.id.et_disc_artist)).perform(typeText(nameAdd))
@@ -227,24 +224,20 @@ class AddDiscFragmentTest {
         onView(isRoot()).perform(closeSoftKeyboard())
 
         // database is empty -> we add a disc
-        val navDirections =
-            AddDiscFragmentDirections.actionAddDiscFragmentToDiscFragment(
-                UIText.DiscAdded,
-                1L
-            )
-
-        verify(navController).navigate(navDirections)
+        assertEquals(navController.currentDestination!!.id, R.id.discFragment)
     }
 
     @Test
-    fun navigate_to_disc_result_search() = runBlocking {
-        val navController = mock(NavController::class.java)
+    fun navigate_to_disc_result_search() {
+        val navController = TestNavHostController(context)
         val scenario = launchFragmentInContainer<AddDiscFragment>(
             themeResId = R.style.Theme_Discoteca
         )
 
         scenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.navigation)
             Navigation.setViewNavController(fragment.requireView(), navController)
+            navController.setCurrentDestination(R.id.addDiscFragment)
         }
 
         onView(withId(R.id.et_disc_artist)).perform(typeText(nameAdd))
@@ -261,22 +254,7 @@ class AddDiscFragmentTest {
         onView(withId(R.id.button_yes)).check(matches(isDisplayed())).perform(click())
 
         // database is empty -> we search a disc
-        val discPresent = DiscPresent(
-            list = emptyList(),
-            discAdd = DiscAdd(
-                name = nameAdd,
-                title = titleAdd,
-                year = yearAdd,
-                addBy = AddBy.SEARCH
-            )
-        )
-
-        val navDirections =
-            AddDiscFragmentDirections.actionAddDiscFragmentToDiscResultSearchFragment(
-                discPresent
-            )
-
-        verify(navController).navigate(navDirections)
+        assertEquals(navController.currentDestination!!.id, R.id.discResultSearchFragment)
     }
 
     @Test
@@ -299,13 +277,15 @@ class AddDiscFragmentTest {
 
         discsRepository.setDatabaseDisc(listOf(databaseDisc))
 
-        val navController = mock(NavController::class.java)
+        val navController = TestNavHostController(context)
         val scenario = launchFragmentInContainer<AddDiscFragment>(
             themeResId = R.style.Theme_Discoteca
         )
 
         scenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.navigation)
             Navigation.setViewNavController(fragment.requireView(), navController)
+            navController.setCurrentDestination(R.id.addDiscFragment)
         }
 
         onView(withId(R.id.et_disc_artist)).perform(typeText(nameAdd))
@@ -321,23 +301,7 @@ class AddDiscFragmentTest {
         sleep(1000)
         onView(withId(R.id.button_yes)).check(matches(isDisplayed())).perform(click())
 
-        val disc = databaseDisc.asDomainModel()
-        val discPresent = DiscPresent(
-            list = listOf(disc),
-            discAdd = DiscAdd(
-                name = nameAdd,
-                title = titleAdd,
-                year = yearAdd,
-                addBy = AddBy.SEARCH
-            )
-        )
-
-        val navDirections =
-            AddDiscFragmentDirections.actionAddDiscFragmentToDiscPresentFragment(
-                discPresent
-            )
-
-        verify(navController).navigate(navDirections)
+        assertEquals(navController.currentDestination!!.id, R.id.discPresentFragment)
     }
 }
 

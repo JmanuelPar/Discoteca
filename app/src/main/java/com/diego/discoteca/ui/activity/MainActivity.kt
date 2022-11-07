@@ -70,7 +70,7 @@ open class MainActivity : AppCompatActivity() {
         MainActivityViewModelFactory(PreferencesManager(this.dataStore))
     }
 
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     private lateinit var layoutNoInternet: ConstraintLayout
     private lateinit var scrimLayout: LinearLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -416,6 +416,10 @@ open class MainActivity : AppCompatActivity() {
 
     fun getFabView(): View {
         return fabButton
+    }
+
+    fun getToolbar(): ViewGroup {
+        return toolbar
     }
 
     fun showSnackBar(uiText: UIText, anchorView: View) {

@@ -2,8 +2,8 @@ package com.diego.discoteca.ui.information
 
 import android.content.Context
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -17,7 +17,6 @@ import com.diego.discoteca.FakeAndroidDiscsRepository
 import com.diego.discoteca.R
 import com.diego.discoteca.database.DatabaseDisc
 import com.diego.discoteca.util.AddBy
-import com.diego.discoteca.util.Destination
 import com.diego.discoteca.util.ServiceLocator
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -28,8 +27,6 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -166,18 +163,18 @@ class InformationFragmentTest {
             )
         )
 
-        val navController = mock(NavController::class.java)
+        val navController = TestNavHostController(context)
         val scenario =
             launchFragmentInContainer<InformationFragment>(themeResId = R.style.Theme_Discoteca)
 
         scenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.navigation)
             Navigation.setViewNavController(fragment.requireView(), navController)
+            navController.setCurrentDestination(R.id.infoFragment)
         }
 
         onView(withId(R.id.button_search_scan_database)).perform(click())
 
-        val navDirections =
-            InformationFragmentDirections.actionInfoFragmentToScanBarcodeFragment(Destination.DATABASE)
-        verify(navController).navigate(navDirections)
+        assertEquals(navController.currentDestination?.id, R.id.scanBarcodeFragment)
     }
 }

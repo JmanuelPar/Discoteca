@@ -2,8 +2,8 @@ package com.diego.discoteca.ui.discPresentDetail
 
 import android.content.Context
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -24,8 +24,6 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -275,7 +273,7 @@ class DiscPresentDetailFragmentTest {
     }
 
     @Test
-    fun disc_manually_popBackStack() = runTest {
+    fun disc_manually_from_discPresent_popBackStack() = runTest {
         val discAdd = DiscAdd(
             id = databaseDisc1.id,
             name = databaseDisc1.name,
@@ -293,10 +291,9 @@ class DiscPresentDetailFragmentTest {
         val discPresent = DiscPresent(
             list = listDb,
             discAdd = discAdd
-
         )
 
-        val navController = mock(NavController::class.java)
+        val navController = TestNavHostController(context)
         val bundle = DiscPresentDetailFragmentArgs(discPresent).toBundle()
         val scenario = launchFragmentInContainer<DiscPresentDetailFragment>(
             fragmentArgs = bundle,
@@ -304,12 +301,16 @@ class DiscPresentDetailFragmentTest {
         )
 
         scenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.navigation)
             Navigation.setViewNavController(fragment.requireView(), navController)
+            // From discPresentFragment -> discPresentDetailFragment
+            navController.navigate(R.id.discPresentFragment)
+            navController.navigate(R.id.discPresentDetailFragment)
         }
 
         onView(withId(R.id.button_cancel_ok)).perform(click())
 
-        verify(navController).popBackStack()
+        assertEquals(navController.currentDestination?.id, R.id.discPresentFragment)
     }
 
     @Test
@@ -333,7 +334,7 @@ class DiscPresentDetailFragmentTest {
             discAdd = discAdd
         )
 
-        val navController = mock(NavController::class.java)
+        val navController = TestNavHostController(context)
         val bundle = DiscPresentDetailFragmentArgs(discPresent).toBundle()
         val scenario = launchFragmentInContainer<DiscPresentDetailFragment>(
             fragmentArgs = bundle,
@@ -341,17 +342,13 @@ class DiscPresentDetailFragmentTest {
         )
 
         scenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.navigation)
             Navigation.setViewNavController(fragment.requireView(), navController)
+            navController.setCurrentDestination(R.id.discPresentDetailFragment)
         }
 
         onView(withId(R.id.button_search)).perform(click())
 
-        val navDirections =
-            DiscPresentDetailFragmentDirections
-                .actionDiscPresentDetailFragmentToDiscResultSearchFragment(
-                    discPresent
-                )
-
-        verify(navController).navigate(navDirections)
+        assertEquals(navController.currentDestination?.id, R.id.discResultSearchFragment)
     }
 }
