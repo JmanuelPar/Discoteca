@@ -3,8 +3,8 @@ package com.diego.discoteca.ui.updateDisc
 import android.content.Context
 import android.os.SystemClock.sleep
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
@@ -18,15 +18,12 @@ import com.diego.discoteca.database.DatabaseDisc
 import com.diego.discoteca.hasTextInputLayoutHelperText
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.ServiceLocator
-import com.diego.discoteca.util.UIText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -148,7 +145,7 @@ class UpdateDiscFragmentTest {
 
     @Test
     fun update_disc_nav() {
-        val navController = mock(NavController::class.java)
+        val navController = TestNavHostController(context)
         val bundle = UpdateDiscFragmentArgs(discDatabase.id).toBundle()
         val scenario = launchFragmentInContainer<UpdateDiscFragment>(
             fragmentArgs = bundle,
@@ -156,7 +153,9 @@ class UpdateDiscFragmentTest {
         )
 
         scenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.navigation)
             Navigation.setViewNavController(fragment.requireView(), navController)
+            navController.setCurrentDestination(R.id.updateDiscFragment, bundle)
         }
 
         onView(withId(R.id.et_disc_artist)).perform(replaceText("name_artist_update"))
@@ -170,12 +169,6 @@ class UpdateDiscFragmentTest {
 
         onView(isRoot()).perform(closeSoftKeyboard())
 
-        val navDirections =
-            UpdateDiscFragmentDirections.actionUpdateDiscFragmentToDiscFragment(
-                UIText.DiscUpdated,
-                discDatabase.id
-            )
-
-        verify(navController).navigate(navDirections)
+        assertEquals(navController.currentDestination?.id, R.id.discFragment)
     }
 }

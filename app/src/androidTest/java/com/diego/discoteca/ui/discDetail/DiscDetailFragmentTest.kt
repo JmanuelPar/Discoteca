@@ -2,8 +2,11 @@ package com.diego.discoteca.ui.discDetail
 
 import android.content.Context
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -199,5 +202,52 @@ class DiscDetailFragmentTest {
         onView(withId(R.id.barcode)).check(matches(not(isDisplayed())))
 
         onView(withId(R.id.button_ok)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun onButtonOkClicked_from_disc_popBackStack() {
+        discsRepository.setDatabaseDisc(listOf(discDatabaseManually))
+
+        val navController = TestNavHostController(context)
+        val bundle = DiscDetailFragmentArgs(discDatabaseManually.id).toBundle()
+        val scenario = launchFragmentInContainer<DiscDetailFragment>(
+            fragmentArgs = bundle,
+            themeResId = R.style.Theme_Discoteca
+        )
+
+        scenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.navigation)
+            Navigation.setViewNavController(fragment.requireView(), navController)
+            // From DiscFragment (start) -> DiscDetailFragment
+            navController.setCurrentDestination(R.id.discDetailFragment, bundle)
+        }
+
+        onView(withId(R.id.button_ok)).perform(click())
+
+        assertEquals(navController.currentDestination?.id, R.id.discFragment)
+    }
+
+    @Test
+    fun onButtonOkClicked_from_discResultScan_popBackStack() {
+        discsRepository.setDatabaseDisc(listOf(discDatabaseScan))
+
+        val navController = TestNavHostController(context)
+        val bundle = DiscDetailFragmentArgs(discDatabaseScan.id).toBundle()
+        val scenario = launchFragmentInContainer<DiscDetailFragment>(
+            fragmentArgs = bundle,
+            themeResId = R.style.Theme_Discoteca
+        )
+
+        scenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.navigation)
+            Navigation.setViewNavController(fragment.requireView(), navController)
+            // From DiscResultScanFragment(Destination.DATABASE) -> DiscDetailFragment
+            navController.navigate(R.id.discResultScanFragment)
+            navController.navigate(R.id.discDetailFragment)
+        }
+
+        onView(withId(R.id.button_ok)).perform(click())
+
+        assertEquals(navController.currentDestination?.id, R.id.discResultScanFragment)
     }
 }

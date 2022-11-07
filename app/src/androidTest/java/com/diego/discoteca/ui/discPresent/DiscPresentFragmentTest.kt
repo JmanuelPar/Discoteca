@@ -2,8 +2,8 @@ package com.diego.discoteca.ui.discPresent
 
 import android.content.Context
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -19,7 +19,6 @@ import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.database.DatabaseDisc
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.ServiceLocator
-import com.diego.discoteca.util.UIText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -27,8 +26,6 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -251,7 +248,7 @@ class DiscPresentFragmentTest {
             discAdd = discAddM
         )
 
-        val navController = mock(NavController::class.java)
+        val navController = TestNavHostController(context)
         val bundle = DiscPresentFragmentArgs(discPresent).toBundle()
         val scenario = launchFragmentInContainer<DiscPresentFragment>(
             fragmentArgs = bundle,
@@ -259,20 +256,14 @@ class DiscPresentFragmentTest {
         )
 
         scenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.navigation)
             Navigation.setViewNavController(fragment.requireView(), navController)
+            navController.setCurrentDestination(R.id.discPresentFragment)
         }
 
         onView(withId(R.id.button_add)).perform(click())
 
-        /* We have 3 discs in database
-           We add a disc, so id is 4L */
-        val navDirections =
-            DiscPresentFragmentDirections.actionDiscPresentFragmentToDiscFragment(
-                UIText.DiscAdded,
-                4L
-            )
-
-        verify(navController).navigate(navDirections)
+        assertEquals(navController.currentDestination?.id, R.id.discFragment)
     }
 
     @Test
@@ -288,7 +279,7 @@ class DiscPresentFragmentTest {
             discAdd = discAddS
         )
 
-        val navController = mock(NavController::class.java)
+        val navController = TestNavHostController(context)
         val bundle = DiscPresentFragmentArgs(discPresent).toBundle()
         val scenario = launchFragmentInContainer<DiscPresentFragment>(
             fragmentArgs = bundle,
@@ -296,18 +287,14 @@ class DiscPresentFragmentTest {
         )
 
         scenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.navigation)
             Navigation.setViewNavController(fragment.requireView(), navController)
+            navController.setCurrentDestination(R.id.discPresentFragment)
         }
 
         onView(withId(R.id.button_add)).perform(click())
 
-        val navDirections =
-            DiscPresentFragmentDirections
-                .actionDiscPresentFragmentToDiscResultSearchFragment(
-                    discPresent
-                )
-
-        verify(navController).navigate(navDirections)
+        assertEquals(navController.currentDestination?.id, R.id.discResultSearchFragment)
     }
 
     @Test
@@ -343,7 +330,7 @@ class DiscPresentFragmentTest {
             discAdd = discAddS
         )
 
-        val navController = mock(NavController::class.java)
+        val navController = TestNavHostController(context)
         val bundle = DiscPresentFragmentArgs(discPresent).toBundle()
         val scenario = launchFragmentInContainer<DiscPresentFragment>(
             fragmentArgs = bundle,
@@ -351,7 +338,9 @@ class DiscPresentFragmentTest {
         )
 
         scenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.navigation)
             Navigation.setViewNavController(fragment.requireView(), navController)
+            navController.setCurrentDestination(R.id.discPresentFragment)
         }
 
         onView(withId(R.id.button_ok)).apply {
@@ -359,13 +348,7 @@ class DiscPresentFragmentTest {
             perform(click())
         }
 
-        val navDirections =
-            DiscPresentFragmentDirections.actionDiscPresentFragmentToDiscFragment(
-                UIText.DiscAlreadyPresentMore,
-                listDb[0].id
-            )
-
-        verify(navController).navigate(navDirections)
+        assertEquals(navController.currentDestination?.id, R.id.discFragment)
     }
 
     @Test
@@ -381,7 +364,7 @@ class DiscPresentFragmentTest {
             discAdd = discAddS
         )
 
-        val navController = mock(NavController::class.java)
+        val navController = TestNavHostController(context)
         val bundle = DiscPresentFragmentArgs(discPresent).toBundle()
         val scenario = launchFragmentInContainer<DiscPresentFragment>(
             fragmentArgs = bundle,
@@ -389,17 +372,13 @@ class DiscPresentFragmentTest {
         )
 
         scenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.navigation)
             Navigation.setViewNavController(fragment.requireView(), navController)
+            navController.setCurrentDestination(R.id.discPresentFragment)
         }
 
         onView(withId(R.id.button_cancel)).perform(click())
 
-        val navDirections =
-            DiscPresentFragmentDirections.actionDiscPresentFragmentToDiscFragment(
-                UIText.DiscAlreadyPresentOne,
-                listDb[0].id
-            )
-
-        verify(navController).navigate(navDirections)
+        assertEquals(navController.currentDestination?.id, R.id.discFragment)
     }
 }

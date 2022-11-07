@@ -196,7 +196,7 @@ class DiscFragment : Fragment(R.layout.fragment_disc), MenuProvider, DiscAdapter
                 mDiscViewModel.updatePendingQueryDone()
                 if (activity is MainActivity) {
                     delayedTransition(
-                        (activity as MainActivity).binding.toolbar,
+                        (activity as MainActivity).getToolbar(),
                         MaterialFade().apply { duration = 150L }
                     )
                 }
