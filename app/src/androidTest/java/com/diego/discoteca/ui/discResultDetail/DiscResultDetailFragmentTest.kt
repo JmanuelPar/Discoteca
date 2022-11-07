@@ -2,8 +2,11 @@ package com.diego.discoteca.ui.discResultDetail
 
 import android.content.Context
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -420,5 +423,95 @@ class DiscResultDetailFragmentTest {
         }
 
         onView(withId(R.id.button_no)).check(matches(not(isDisplayed())))
+    }
+
+    @Test
+    fun onButtonNoClicked_popBackStack() {
+        /* From DiscResultScanFragment, AddBy by Scan
+           Nothing present in database -> isPresentByManually, isPresentBySearch, isPresentByScan : false
+           So, button add and button cancel appears */
+        val disc = Disc(
+            name = "name_1",
+            title = "title_1",
+            year = "year_1",
+            country = "country_1",
+            format = "format_1",
+            formatMedia = "formatMedia_1",
+            coverImage = "url_coverImage_1",
+            barcode = "barcode_1",
+            idDisc = 2,
+            addBy = AddBy.NONE
+        )
+
+        val discResultDetail = DiscResultDetail(
+            disc = disc,
+            addBy = AddBy.SCAN
+        )
+
+        val navController = TestNavHostController(context)
+        val bundle = DiscResultDetailFragmentArgs(discResultDetail).toBundle()
+        val scenario = launchFragmentInContainer<DiscResultDetailFragment>(
+            fragmentArgs = bundle,
+            themeResId = R.style.Theme_Discoteca
+        )
+
+        scenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.navigation)
+            Navigation.setViewNavController(fragment.requireView(), navController)
+            // From DiscResultScanFragment -> DiscResultDetailFragment
+            navController.navigate(R.id.discResultScanFragment)
+            navController.navigate(R.id.discResultDetailFragment)
+        }
+
+        // Button no (cancel) -> popBackStack
+        onView(withId(R.id.button_no)).perform(click())
+
+        assertEquals(navController.currentDestination?.id, R.id.discResultScanFragment)
+    }
+
+    @Test
+    fun onButtonYesClicked_popBackStack() {
+        /* From DiscResultSearchFragment, AddBy by Search
+           Present in database -> isPresentByScan = true
+           So, button ok appears */
+        val disc = Disc(
+            name = "name_1",
+            title = "title_1",
+            year = "year_1",
+            country = "country_1",
+            format = "format_1",
+            formatMedia = "formatMedia_1",
+            coverImage = "url_coverImage_1",
+            barcode = "",
+            idDisc = 2,
+            addBy = AddBy.NONE
+        )
+
+        disc.isPresentByScan = true
+
+        val discResultDetail = DiscResultDetail(
+            disc = disc,
+            addBy = AddBy.SEARCH
+        )
+
+        val navController = TestNavHostController(context)
+        val bundle = DiscResultDetailFragmentArgs(discResultDetail).toBundle()
+        val scenario = launchFragmentInContainer<DiscResultDetailFragment>(
+            fragmentArgs = bundle,
+            themeResId = R.style.Theme_Discoteca
+        )
+
+        scenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.navigation)
+            Navigation.setViewNavController(fragment.requireView(), navController)
+            // From DiscResultSearchFragment -> DiscResultDetailFragment
+            navController.navigate(R.id.discResultSearchFragment)
+            navController.navigate(R.id.discResultDetailFragment)
+        }
+
+        // Button yes (ok) -> popBackStack
+        onView(withId(R.id.button_yes)).perform(click())
+
+        assertEquals(navController.currentDestination!!.id, R.id.discResultSearchFragment)
     }
 }
