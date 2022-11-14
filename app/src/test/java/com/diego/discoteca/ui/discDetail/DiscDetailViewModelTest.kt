@@ -38,15 +38,15 @@ class DiscDetailViewModelTest {
         listDatabaseDisc = listOf(databaseDisc1)
 
         discsRepository.setDatabaseDisc(listDatabaseDisc)
-    }
 
-    @Test
-    fun test_GetDisc() {
         discDetailViewModel = DiscDetailViewModel(
             discsRepository,
             databaseDisc1.id
         )
+    }
 
+    @Test
+    fun test_GetDisc() {
         val result = discDetailViewModel.getDisc().getOrAwaitValue()
 
         assertEquals(databaseDisc1.asDomainModel(), result)
@@ -54,11 +54,6 @@ class DiscDetailViewModelTest {
 
     @Test
     fun test_ButtonOkClicked() {
-        discDetailViewModel = DiscDetailViewModel(
-            discsRepository,
-            databaseDisc1.id
-        )
-
         discDetailViewModel.buttonOkClicked()
         val result = discDetailViewModel.buttonOk.getOrAwaitValue()
 

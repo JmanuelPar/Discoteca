@@ -2,13 +2,9 @@ package com.diego.discoteca.ui.disc
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.diego.discoteca.DatabaseDiscFactory
-import com.diego.discoteca.FakeDiscsRepository
-import com.diego.discoteca.MainCoroutineRule
+import com.diego.discoteca.*
 import com.diego.discoteca.data.PreferencesManager
 import com.diego.discoteca.database.DatabaseDisc
-import com.diego.discoteca.getOrAwaitValue
-import com.diego.discoteca.ui.activity.dataStore
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.UIText
 import com.diego.discoteca.util.asDomainModel
@@ -61,7 +57,9 @@ class DiscViewModelTest {
 
         val context = Mockito.mock(Context::class.java)
         `when`(context.applicationContext).thenReturn(context)
-        preferencesManager = PreferencesManager(context.dataStore)
+
+        val dataStore = TestDataStore.provideTestDataStore(context)
+        preferencesManager = PreferencesManager(dataStore)
     }
 
     @Test

@@ -95,7 +95,7 @@ class FakeDiscsRepository : DiscsRepository {
         year: String
     ): List<Disc> {
         val listDiscDbPresent = discDatabaseItems.filter { disc ->
-            (disc.nameNormalize == name || disc.titleNormalize == title) && disc.year == year
+            (disc.name == name || disc.title == title) && disc.year == year
         }.asDomainModel()
         return listDiscDbPresent
     }

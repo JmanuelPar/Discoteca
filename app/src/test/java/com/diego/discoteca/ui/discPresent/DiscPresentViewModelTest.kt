@@ -63,8 +63,8 @@ class DiscPresentViewModelTest {
         )
 
         val listDb = discsRepository.getListDiscDbPresent(
-            name = "name_normalize_3",
-            title = "title_normalize_3",
+            name = discAdd.name,
+            title = discAdd.title,
             year = discAdd.year
         )
 
@@ -107,8 +107,8 @@ class DiscPresentViewModelTest {
         )
 
         val listDb = discsRepository.getListDiscDbPresent(
-            name = "name_normalize_2",
-            title = "title_normalize_2",
+            name = discAdd.name,
+            title = discAdd.title,
             year = discAdd.year
         )
 
@@ -156,8 +156,8 @@ class DiscPresentViewModelTest {
         )
 
         val listDb = discsRepository.getListDiscDbPresent(
-            name = "name_normalize_2",
-            title = "title_normalize_2",
+            name = discAdd.name,
+            title = discAdd.title,
             year = discAdd.year
         )
 
@@ -195,8 +195,8 @@ class DiscPresentViewModelTest {
         )
 
         val listDb = discsRepository.getListDiscDbPresent(
-            name = "name_normalize_2",
-            title = "title_normalize_2",
+            name = discAdd.name,
+            title = discAdd.title,
             year = discAdd.year
         )
 
