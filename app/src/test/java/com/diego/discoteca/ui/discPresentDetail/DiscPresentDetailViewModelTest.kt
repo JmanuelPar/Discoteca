@@ -53,24 +53,26 @@ class DiscPresentDetailViewModelTest {
 
     @Test
     fun test_GetDisc() = runTest {
-        //DatabaseDisc1 clicked
+        /* We want to add a disc manually
+           DatabaseDisc1 (added manually) was clicked -> name_3
+           Disc want to add is present in Db */
         val discAdd = DiscAdd(
-            id = databaseDisc1.id,
-            name = databaseDisc1.name,
-            title = databaseDisc1.title,
-            year = databaseDisc1.year,
-            addBy = databaseDisc1.addBy
+            name = "name_3",
+            title = "title_3",
+            year = "year_3",
+            addBy = AddBy.MANUALLY
         )
+        val discAddForDetail = discAdd.copy(id = databaseDisc1.id)
 
         val listDb = discsRepository.getListDiscDbPresent(
-            name = databaseDisc1.nameNormalize,
-            title = databaseDisc1.titleNormalize,
+            name = discAdd.name,
+            title = discAdd.title,
             year = discAdd.year
         )
 
         val discPresent = DiscPresent(
             list = listDb,
-            discAdd = discAdd
+            discAdd = discAddForDetail
         )
 
         discPresentDetailViewModel = DiscPresentDetailViewModel(
@@ -85,26 +87,29 @@ class DiscPresentDetailViewModelTest {
 
     @Test
     fun test_OnButtonSearchClicked_NavigateToDiscResultSearch() = runTest {
-        // DatabaseDisc1 clicked
-        /* Button search appears : disPresent.discAdd.addBy = AddBy.SEARCH and Disc in Db addBY = AddBy.MANUALLY
+        /* We want to add a disc by search
+           DatabaseDisc1 (added manually) was clicked -> name_3
+           Disc want to add is present in Db */
+
+        /* Button search appears : disPresent.discAdd.addBy = AddBy.SEARCH and disc in Db addBY = AddBy.MANUALLY
            addBy = AddBy.SEARCH */
         val discAdd = DiscAdd(
-            id = databaseDisc3.id,
-            name = databaseDisc3.name,
-            title = databaseDisc3.title,
-            year = databaseDisc3.year,
-            addBy = databaseDisc3.addBy
+            name = "name_3",
+            title = "title_3",
+            year = "year_3",
+            addBy = AddBy.SEARCH
         )
+        val discAddForDetail = discAdd.copy(id = databaseDisc1.id)
 
         val listDb = discsRepository.getListDiscDbPresent(
-            name = databaseDisc3.nameNormalize,
-            title = databaseDisc3.titleNormalize,
+            name = discAdd.name,
+            title = discAdd.title,
             year = discAdd.year
         )
 
         val discPresent = DiscPresent(
             list = listDb,
-            discAdd = discAdd
+            discAdd = discAddForDetail
         )
 
         discPresentDetailViewModel = DiscPresentDetailViewModel(
@@ -115,32 +120,36 @@ class DiscPresentDetailViewModelTest {
         discPresentDetailViewModel.onButtonSearchClicked()
 
         val result = discPresentDetailViewModel.navigateToDiscResultSearch.getOrAwaitValue()
-        val addBy = result!!.discAdd.addBy
+        val listDbResult = result!!.list
+        val addByResult = result.discAdd.addBy
 
-        assertEquals(discPresent, result)
-        assertEquals(AddBy.MANUALLY, addBy)
+        assertEquals(listDb, listDbResult)
+        assertEquals(AddBy.MANUALLY, addByResult)
     }
 
     @Test
     fun test_OnButtonCancelOkClicked_NavigatePopStack() = runTest {
-        // DatabaseDisc1 clicked
+        /* We want to add a disc by search
+           DatabaseDisc2 (added by scan) was clicked -> name_1
+           Disc want to add is present in Db
+           Button Ok appears */
         val discAdd = DiscAdd(
-            id = databaseDisc2.id,
-            name = databaseDisc2.name,
-            title = databaseDisc2.title,
-            year = databaseDisc2.year,
-            addBy = databaseDisc2.addBy
+            name = "name_1",
+            title = "title_1",
+            year = "year_1",
+            addBy = AddBy.SEARCH
         )
+        val discAddForDetail = discAdd.copy(id = databaseDisc2.id)
 
         val listDb = discsRepository.getListDiscDbPresent(
-            name = databaseDisc2.nameNormalize,
-            title = databaseDisc2.titleNormalize,
+            name = discAdd.name,
+            title = discAdd.title,
             year = discAdd.year
         )
 
         val discPresent = DiscPresent(
             list = listDb,
-            discAdd = discAdd
+            discAdd = discAddForDetail
         )
 
         discPresentDetailViewModel = DiscPresentDetailViewModel(
