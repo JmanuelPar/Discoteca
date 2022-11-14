@@ -2,7 +2,6 @@ package com.diego.discoteca.ui.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
@@ -18,7 +17,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -29,14 +27,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
-import com.diego.discoteca.data.PreferencesManager
 import com.diego.discoteca.databinding.ActivityMainBinding
 import com.diego.discoteca.ui.disc.DiscFragment
 import com.diego.discoteca.ui.disc.DiscFragmentDirections
 import com.diego.discoteca.util.*
 import com.diego.discoteca.util.Constants.REQUIRED_PERMISSION_CAMERA
-import com.diego.discoteca.util.Constants.USER_PREFERENCES_NAME
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -48,8 +45,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-
-val Context.dataStore by preferencesDataStore(USER_PREFERENCES_NAME)
 
 @OptIn(ExperimentalCoroutinesApi::class)
 open class MainActivity : AppCompatActivity() {
@@ -67,7 +62,8 @@ open class MainActivity : AppCompatActivity() {
         }
 
     private val mMainActivityViewModel: MainActivityViewModel by viewModels {
-        MainActivityViewModelFactory(PreferencesManager(this.dataStore))
+        val preferencesManager = (applicationContext as DiscotecaApplication).preferencesManager
+        MainActivityViewModelFactory(preferencesManager)
     }
 
     private lateinit var binding: ActivityMainBinding

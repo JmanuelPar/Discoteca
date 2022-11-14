@@ -83,8 +83,8 @@ class DiscResultSearchViewModelTest {
         )
 
         val listDb = discsRepository.getListDiscDbPresent(
-            name = "name_normalize_3",
-            title = "title_normalize_3",
+            name = discAdd.name,
+            title = discAdd.title,
             year = discAdd.year
         )
 
@@ -125,8 +125,8 @@ class DiscResultSearchViewModelTest {
         )
 
         val listDb = discsRepository.getListDiscDbPresent(
-            name = databaseDisc1.nameNormalize,
-            title = databaseDisc1.nameNormalize,
+            name = discAdd.name,
+            title = discAdd.title,
             year = discAdd.year
         )
 
@@ -171,8 +171,8 @@ class DiscResultSearchViewModelTest {
         )
 
         val listDb = discsRepository.getListDiscDbPresent(
-            name = databaseDisc1.nameNormalize,
-            title = databaseDisc1.nameNormalize,
+            name = discAdd.name,
+            title = discAdd.title,
             year = discAdd.year
         )
 

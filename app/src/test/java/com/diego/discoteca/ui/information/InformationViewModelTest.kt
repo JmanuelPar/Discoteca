@@ -45,14 +45,11 @@ class InformationViewModelTest {
         )
 
         discsRepository.setDatabaseDisc(listDatabaseDisc)
+        informationViewModel = InformationViewModel(discsRepository)
     }
 
     @Test
     fun test_CountDiscs() {
-        informationViewModel = InformationViewModel(
-            discsRepository
-        )
-
         val result = informationViewModel.countDiscs.getOrAwaitValue()
 
         assertEquals(listDatabaseDisc.size, result)
@@ -60,10 +57,6 @@ class InformationViewModelTest {
 
     @Test
     fun test_CountFormatMediaList() {
-        informationViewModel = InformationViewModel(
-            discsRepository
-        )
-
         val result = informationViewModel.countFormatMediaList.getOrAwaitValue()
         val size = listDatabaseDisc.groupBy { it.formatMedia }.size
 

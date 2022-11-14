@@ -30,16 +30,16 @@ class AddDiscViewModelTest {
     private val id = 1L
 
     private val discAddManually = DiscAdd(
-        name = "name_1",
-        title = "title_1",
-        year = "year_1",
+        name = "name_3",
+        title = "title_3",
+        year = "year_3",
         addBy = AddBy.MANUALLY
     )
 
     private val discAddSearch = DiscAdd(
-        name = "name_3",
-        title = "title_3",
-        year = "year_3",
+        name = "name_2",
+        title = "title_2",
+        year = "year_2",
         addBy = AddBy.SEARCH
     )
 
@@ -149,11 +149,11 @@ class AddDiscViewModelTest {
 
     @Test
     fun addDiscManually_Present_NavigateToDiscPresent() = runTest {
-        //Disc add present in database
+        //Disc add present in database, manually -> name_3
         discsRepository.setDatabaseDisc(listDatabaseDisc)
         val listDiscDbPresent = discsRepository.getListDiscDbPresent(
-            name = "name_normalize_1",
-            title = "title_normalize_1",
+            name = discAddManually.name,
+            title = discAddManually.title,
             year = discAddManually.year
         )
 
@@ -183,11 +183,11 @@ class AddDiscViewModelTest {
 
     @Test
     fun addDiscSearch_Present_NavigateToDiscPresent() = runTest {
-        //Disc add present in database
+        //Disc add present in database, search -> name_1
         discsRepository.setDatabaseDisc(listDatabaseDisc)
         val listDiscDbPresent = discsRepository.getListDiscDbPresent(
-            name = "name_normalize_3",
-            title = "title_normalize_3",
+            name = discAddSearch.name,
+            title = discAddSearch.title,
             year = discAddSearch.year
         )
 
@@ -201,8 +201,8 @@ class AddDiscViewModelTest {
 
     @Test
     fun test_OnButtonAddClicked() {
-        `when`(artist.text).thenReturn(MockEditable("name_1"))
-        `when`(title.text).thenReturn(MockEditable("title_1"))
+        `when`(artist.text).thenReturn(MockEditable("name_3"))
+        `when`(title.text).thenReturn(MockEditable("title_3"))
         `when`(year.text).thenReturn(MockEditable("2022"))
 
         val discAdd = discAddManually.copy(year = "2022")
@@ -219,8 +219,8 @@ class AddDiscViewModelTest {
 
     @Test
     fun test_OnButtonSearchClicked() {
-        `when`(artist.text).thenReturn(MockEditable("name_3"))
-        `when`(title.text).thenReturn(MockEditable("title_3"))
+        `when`(artist.text).thenReturn(MockEditable("name_2"))
+        `when`(title.text).thenReturn(MockEditable("title_2"))
         `when`(year.text).thenReturn(MockEditable("2022"))
 
         val discAdd = discAddSearch.copy(year = "2022")

@@ -22,12 +22,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
 import com.diego.discoteca.adapter.DiscAdapter
-import com.diego.discoteca.data.PreferencesManager
 import com.diego.discoteca.data.SortOrder
 import com.diego.discoteca.data.domain.Disc
 import com.diego.discoteca.databinding.FragmentDiscBinding
 import com.diego.discoteca.ui.activity.MainActivity
-import com.diego.discoteca.ui.activity.dataStore
 import com.diego.discoteca.util.UIText
 import com.diego.discoteca.util.delayedTransition
 import com.diego.discoteca.util.materialElevationScaleExitReenterTransition
@@ -45,7 +43,7 @@ class DiscFragment : Fragment(R.layout.fragment_disc), MenuProvider, DiscAdapter
     private val mDiscViewModel: DiscViewModel by viewModels {
         DiscViewModelFactory(
             repository = (requireContext().applicationContext as DiscotecaApplication).discsRepository,
-            preferencesManager = PreferencesManager(requireContext().dataStore),
+            preferencesManager = (requireContext().applicationContext as DiscotecaApplication).preferencesManager,
             uiText = args.uiText,
             idAdded = args.idAdded
         )

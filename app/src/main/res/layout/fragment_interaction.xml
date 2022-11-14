@@ -14,7 +14,6 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/layout_interaction"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="8dp"
@@ -36,6 +35,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/interaction_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:context=".interaction.InteractionViewModel">

@@ -45,14 +45,11 @@ class InteractionViewModelTest {
         )
 
         discsRepository.setDatabaseDisc(listDatabaseDisc)
+        interactionViewModel = InteractionViewModel(discsRepository)
     }
 
     @Test
     fun test_NumberDiscs() {
-        interactionViewModel = InteractionViewModel(
-            discsRepository
-        )
-
         val result = interactionViewModel.numberDiscs.getOrAwaitValue()
 
         assertEquals(listDatabaseDisc.size, result)
@@ -60,8 +57,6 @@ class InteractionViewModelTest {
 
     @Test
     fun test_UpdateProgressLinearGDriveUpload_Init() {
-        interactionViewModel = InteractionViewModel(discsRepository)
-
         val result = interactionViewModel.progressLinearGDriveUpload.getOrAwaitValue()
 
         assertEquals(false, result)
@@ -69,8 +64,6 @@ class InteractionViewModelTest {
 
     @Test
     fun test_UpdateProgressLinearGDriveDownload_Init() {
-        interactionViewModel = InteractionViewModel(discsRepository)
-
         val result = interactionViewModel.progressLinearGDriveDownload.getOrAwaitValue()
 
         assertEquals(false, result)
@@ -78,8 +71,6 @@ class InteractionViewModelTest {
 
     @Test
     fun test_DriveLogOutClicked() {
-        interactionViewModel = InteractionViewModel(discsRepository)
-
         interactionViewModel.driveLogOutClicked()
         val result = interactionViewModel.driveLogOutClicked.getOrAwaitValue()
 
@@ -88,8 +79,6 @@ class InteractionViewModelTest {
 
     @Test
     fun test_DriveDisconnectClicked() {
-        interactionViewModel = InteractionViewModel(discsRepository)
-
         interactionViewModel.driveDisconnectClicked()
         val result = interactionViewModel.driveDisconnectClicked.getOrAwaitValue()
 
@@ -98,8 +87,6 @@ class InteractionViewModelTest {
 
     @Test
     fun test_UpdateIconGDriveUpload() {
-        interactionViewModel = InteractionViewModel(discsRepository)
-
         interactionViewModel.updateIconGDriveUpload(true)
         val result = interactionViewModel.stateIconGDriveUpload.getOrAwaitValue()
 
@@ -108,8 +95,6 @@ class InteractionViewModelTest {
 
     @Test
     fun test_UpdateIconGDriveDownload() {
-        interactionViewModel = InteractionViewModel(discsRepository)
-
         interactionViewModel.updateIconGDriveDownload(true)
         val result = interactionViewModel.stateIconGDriveDownload.getOrAwaitValue()
 
@@ -118,8 +103,6 @@ class InteractionViewModelTest {
 
     @Test
     fun test_IconGDriveUploadClicked() {
-        interactionViewModel = InteractionViewModel(discsRepository)
-
         interactionViewModel.iconGDriveUploadClicked()
         val result = interactionViewModel.iconGDriveUploadClicked.getOrAwaitValue()
 
@@ -128,8 +111,6 @@ class InteractionViewModelTest {
 
     @Test
     fun test_IconGDriveDownloadClicked() {
-        interactionViewModel = InteractionViewModel(discsRepository)
-
         interactionViewModel.iconGDriveDownloadClicked()
         val result = interactionViewModel.iconGDriveDownloadClicked.getOrAwaitValue()
 
