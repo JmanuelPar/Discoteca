@@ -24,6 +24,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.lang.Thread.sleep
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -762,6 +763,8 @@ class DiscResultScanFragmentTest {
             navController.setCurrentDestination(R.id.discResultScanFragment)
         }
 
+        sleep(1000)
+
         onView(withId(R.id.button_back)).perform(click())
 
         assertEquals(navController.currentDestination?.id, R.id.discFragment)
@@ -788,6 +791,8 @@ class DiscResultScanFragmentTest {
             Navigation.setViewNavController(fragment.requireView(), navController)
             navController.setCurrentDestination(R.id.discResultScanFragment)
         }
+
+        sleep(1000)
 
         onView(withId(R.id.button_back)).perform(click())
 

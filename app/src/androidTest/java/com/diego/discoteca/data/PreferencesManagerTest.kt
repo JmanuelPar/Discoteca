@@ -1,9 +1,6 @@
 package com.diego.discoteca.data
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.diego.discoteca.MainCoroutineRule
@@ -33,18 +30,16 @@ class PreferencesManagerTest {
         ApplicationProvider.getApplicationContext<Context>()
     }
 
-    private lateinit var testDataStore: DataStore<Preferences>
     private lateinit var preferencesManager: PreferencesManager
 
     @Before
     fun setup() {
-        testDataStore = TestAndroidDataStore.provideTestDataStore(context)
-        preferencesManager = PreferencesManager(testDataStore)
+        preferencesManager = TestAndroidDataStore.providePreferencesManager(context)
     }
 
     @After
-    fun cleanUp() = runTest {
-        testDataStore.edit { it.clear() }
+    fun reset() {
+        TestAndroidDataStore.reset()
     }
 
     @Test

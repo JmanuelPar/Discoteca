@@ -20,14 +20,17 @@ import com.diego.discoteca.data.model.DiscAdd
 import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.database.DatabaseDisc
 import com.diego.discoteca.util.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.withContext
 import org.hamcrest.CoreMatchers.not
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.lang.Thread.sleep
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -674,6 +677,10 @@ class DiscResultSearchFragmentTest {
             navController.navigate(R.id.discResultSearchFragment)
         }
 
+        withContext(Dispatchers.IO) {
+            sleep(1000)
+        }
+
         onView(withId(R.id.button_back)).perform(click())
 
         assertEquals(navController.currentDestination!!.id, R.id.addDiscFragment)
@@ -718,6 +725,10 @@ class DiscResultSearchFragmentTest {
             navController.navigate(R.id.discResultSearchFragment)
         }
 
+        withContext(Dispatchers.IO) {
+            sleep(1000)
+        }
+
         onView(withId(R.id.button_back)).perform(click())
 
         assertEquals(navController.currentDestination!!.id, R.id.addDiscFragment)
@@ -760,6 +771,10 @@ class DiscResultSearchFragmentTest {
             navController.navigate(R.id.addDiscFragment)
             navController.popBackStack(R.id.discPresentDetailFragment, false)
             navController.navigate(R.id.discResultSearchFragment)
+        }
+
+        withContext(Dispatchers.IO) {
+            sleep(1000)
         }
 
         onView(withId(R.id.button_back)).perform(click())

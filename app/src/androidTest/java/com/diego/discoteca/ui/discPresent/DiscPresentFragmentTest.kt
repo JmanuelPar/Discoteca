@@ -19,13 +19,16 @@ import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.database.DatabaseDisc
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.ServiceLocator
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.withContext
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.lang.Thread.sleep
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -261,6 +264,10 @@ class DiscPresentFragmentTest {
             navController.setCurrentDestination(R.id.discPresentFragment)
         }
 
+        withContext(Dispatchers.IO) {
+            sleep(1000)
+        }
+
         onView(withId(R.id.button_add)).perform(click())
 
         assertEquals(navController.currentDestination?.id, R.id.discFragment)
@@ -290,6 +297,10 @@ class DiscPresentFragmentTest {
             navController.setGraph(R.navigation.navigation)
             Navigation.setViewNavController(fragment.requireView(), navController)
             navController.setCurrentDestination(R.id.discPresentFragment)
+        }
+
+        withContext(Dispatchers.IO) {
+            sleep(1000)
         }
 
         onView(withId(R.id.button_add)).perform(click())
@@ -343,6 +354,10 @@ class DiscPresentFragmentTest {
             navController.setCurrentDestination(R.id.discPresentFragment)
         }
 
+        withContext(Dispatchers.IO) {
+            sleep(1000)
+        }
+
         onView(withId(R.id.button_ok)).apply {
             check(matches(isDisplayed()))
             perform(click())
@@ -375,6 +390,10 @@ class DiscPresentFragmentTest {
             navController.setGraph(R.navigation.navigation)
             Navigation.setViewNavController(fragment.requireView(), navController)
             navController.setCurrentDestination(R.id.discPresentFragment)
+        }
+
+        withContext(Dispatchers.IO) {
+            sleep(1000)
         }
 
         onView(withId(R.id.button_cancel)).perform(click())

@@ -53,7 +53,7 @@ class MainActivityTest {
     fun activity_displayInUi() {
         if (isAirPlaneMode) {
             clickAirplaneMode(getInstrumentation(), context)
-            sleep(2000)
+            sleep(4000)
         }
 
         val scenario = ActivityScenario.launch(MainActivity::class.java)
@@ -70,7 +70,7 @@ class MainActivityTest {
     fun noInternet_displayInUi() {
         if (!isAirPlaneMode) {
             clickAirplaneMode(getInstrumentation(), context)
-            sleep(2000)
+            sleep(4000)
         }
 
         val scenario = ActivityScenario.launch(MainActivity::class.java)
@@ -84,7 +84,7 @@ class MainActivityTest {
     fun fab_expandButton_displayInUi() {
         if (isAirPlaneMode) {
             clickAirplaneMode(getInstrumentation(), context)
-            sleep(2000)
+            sleep(4000)
         }
 
         val scenario = ActivityScenario.launch(MainActivity::class.java)
@@ -107,7 +107,7 @@ class MainActivityTest {
     fun fab_collapseButton_displayInUi() {
         if (isAirPlaneMode) {
             clickAirplaneMode(getInstrumentation(), context)
-            sleep(2000)
+            sleep(4000)
         }
 
         val scenario = ActivityScenario.launch(MainActivity::class.java)
@@ -132,7 +132,7 @@ class MainActivityTest {
     fun nav_add_disc_manually() {
         if (isAirPlaneMode) {
             clickAirplaneMode(getInstrumentation(), context)
-            sleep(2000)
+            sleep(4000)
         }
 
         val scenario = ActivityScenario.launch(MainActivity::class.java)
@@ -152,7 +152,7 @@ class MainActivityTest {
     fun add_disc_manually_backPress_toMainActivity() {
         if (isAirPlaneMode) {
             clickAirplaneMode(getInstrumentation(), context)
-            sleep(2000)
+            sleep(4000)
         }
 
         val scenario = ActivityScenario.launch(MainActivity::class.java)
@@ -176,7 +176,7 @@ class MainActivityTest {
     fun nav_scan() {
         if (isAirPlaneMode) {
             clickAirplaneMode(getInstrumentation(), context)
-            sleep(2000)
+            sleep(4000)
         }
 
         val scenario = ActivityScenario.launch(MainActivity::class.java)
@@ -196,7 +196,7 @@ class MainActivityTest {
     fun nav_scan_backPress_toMainActivity() {
         if (isAirPlaneMode) {
             clickAirplaneMode(getInstrumentation(), context)
-            sleep(2000)
+            sleep(4000)
         }
 
         val scenario = ActivityScenario.launch(MainActivity::class.java)
@@ -220,7 +220,7 @@ class MainActivityTest {
     fun nav_info_fragment() {
         if (isAirPlaneMode) {
             clickAirplaneMode(getInstrumentation(), context)
-            sleep(2000)
+            sleep(4000)
         }
 
         val scenario = ActivityScenario.launch(MainActivity::class.java)
@@ -235,7 +235,7 @@ class MainActivityTest {
     fun info_fragment_pressBack_toMainActivity() {
         if (isAirPlaneMode) {
             clickAirplaneMode(getInstrumentation(), context)
-            sleep(2000)
+            sleep(4000)
         }
 
         val scenario = ActivityScenario.launch(MainActivity::class.java)
@@ -254,7 +254,7 @@ class MainActivityTest {
     fun nav_interaction_fragment() {
         if (isAirPlaneMode) {
             clickAirplaneMode(getInstrumentation(), context)
-            sleep(2000)
+            sleep(4000)
         }
 
         val scenario = ActivityScenario.launch(MainActivity::class.java)
@@ -269,7 +269,7 @@ class MainActivityTest {
     fun interaction_fragment_pressBack_toMainActivity() {
         if (isAirPlaneMode) {
             clickAirplaneMode(getInstrumentation(), context)
-            sleep(2000)
+            sleep(4000)
         }
 
         val scenario = ActivityScenario.launch(MainActivity::class.java)
