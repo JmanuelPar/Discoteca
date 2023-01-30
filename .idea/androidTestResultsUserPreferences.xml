@@ -8,9 +8,13 @@
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
                 <map>
+                  <entry key="API_30_Appli" value="120" />
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
+                  <entry key="Xiaomi&#10; POCOPHONE F1" value="120" />
+                  <entry key="cfa64c4" value="120" />
                 </map>
               </option>
             </AndroidTestResultsTableState>
@@ -75,6 +79,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -88,6 +93,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                   <entry key="Xiaomi&#10; POCOPHONE F1" value="120" />
                   <entry key="cfa64c4" value="120" />
@@ -259,6 +265,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -326,6 +333,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -352,6 +360,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -471,6 +480,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -523,6 +533,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -549,6 +560,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -627,6 +639,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -666,6 +679,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                   <entry key="Xiaomi&#10; POCOPHONE F1" value="120" />
                   <entry key="cfa64c4" value="120" />
@@ -713,6 +727,19 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="-722564435">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Pixel_5_API_31" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="-674781724">
           <value>
             <AndroidTestResultsTableState>
@@ -733,6 +760,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -971,6 +999,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -1017,6 +1046,19 @@
           </value>
         </entry>
         <entry key="-98576592">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="-88664747">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
@@ -1081,6 +1123,19 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="52644756">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Pixel_5_API_31" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="89340019">
           <value>
             <AndroidTestResultsTableState>
@@ -1105,6 +1160,19 @@
                   <entry key="Tests" value="360" />
                   <entry key="Xiaomi&#10; POCOPHONE F1" value="120" />
                   <entry key="cfa64c4" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="234358774">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Pixel_5_API_31" value="120" />
+                  <entry key="Tests" value="360" />
                 </map>
               </option>
             </AndroidTestResultsTableState>
@@ -1208,6 +1276,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -1247,6 +1316,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -1299,6 +1369,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -1365,6 +1436,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -1378,7 +1450,10 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
+                  <entry key="Xiaomi&#10; POCOPHONE F1" value="120" />
+                  <entry key="cfa64c4" value="120" />
                 </map>
               </option>
             </AndroidTestResultsTableState>
@@ -1430,6 +1505,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -1495,6 +1571,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -1612,6 +1689,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -1638,6 +1716,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -1651,6 +1730,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -1664,6 +1744,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                   <entry key="Xiaomi&#10; POCOPHONE F1" value="120" />
                   <entry key="cfa64c4" value="120" />
@@ -1759,6 +1840,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -1772,6 +1854,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -1956,6 +2039,7 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_32" value="120" />
+                  <entry key="Pixel_5_API_31" value="120" />
                   <entry key="Tests" value="360" />
                   <entry key="Xiaomi&#10; POCOPHONE F1" value="120" />
                   <entry key="cfa64c4" value="120" />

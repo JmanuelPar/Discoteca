@@ -26,6 +26,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.lang.Thread.sleep
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -101,6 +102,8 @@ class DiscFragmentTest {
                     MyViewAction.clickChildViewWithId(R.id.img_overflow_menu)
                 )
             )
+
+        sleep(2000)
 
         val modify = context.getString(R.string.modify)
         // Click modify in PopupMenu
