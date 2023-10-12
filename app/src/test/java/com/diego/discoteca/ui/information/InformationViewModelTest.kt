@@ -13,7 +13,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 class InformationViewModelTest {
 
     private lateinit var informationViewModel: InformationViewModel
@@ -24,7 +24,6 @@ class InformationViewModelTest {
     private lateinit var databaseDisc2: DatabaseDisc
     private lateinit var databaseDisc3: DatabaseDisc
 
-    @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 

@@ -12,12 +12,12 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
 import com.diego.discoteca.*
 import com.diego.discoteca.data.domain.Disc
 import com.diego.discoteca.data.model.DiscResultScan
 import com.diego.discoteca.database.DatabaseDisc
 import com.diego.discoteca.util.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers.not
 import org.junit.After
 import org.junit.Assert.*
@@ -26,7 +26,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.lang.Thread.sleep
 
-@ExperimentalCoroutinesApi
+@MediumTest
 @RunWith(AndroidJUnit4::class)
 class DiscResultScanFragmentTest {
 
@@ -57,9 +57,7 @@ class DiscResultScanFragmentTest {
 
         discsRepository.setDiscApi(
             listOf(
-                discApi1,
-                discApi2,
-                discApi3
+                discApi1, discApi2, discApi3
             )
         )
         ServiceLocator.discsRepository = discsRepository
@@ -73,14 +71,12 @@ class DiscResultScanFragmentTest {
     @Test
     fun scan_disc_in_api_displayInUi() {
         val discResultScan = DiscResultScan(
-            barcode = discApi1.barcode,
-            destination = Destination.API
+            barcode = discApi1.barcode, destination = Destination.API
         )
 
         val bundle = DiscResultScanFragmentArgs(discResultScan).toBundle()
         launchFragmentInContainer<DiscResultScanFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         onView(withId(R.id.layout_no_scan_result)).check(matches(not(isDisplayed())))
@@ -125,14 +121,12 @@ class DiscResultScanFragmentTest {
         discsRepository.setDatabaseDisc(listOf(databaseDisc1Sc))
 
         val discResultScan = DiscResultScan(
-            barcode = databaseDisc1Sc.barcode,
-            destination = Destination.DATABASE
+            barcode = databaseDisc1Sc.barcode, destination = Destination.DATABASE
         )
 
         val bundle = DiscResultScanFragmentArgs(discResultScan).toBundle()
         launchFragmentInContainer<DiscResultScanFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         onView(withId(R.id.layout_no_scan_result)).check(matches(not(isDisplayed())))
@@ -173,20 +167,17 @@ class DiscResultScanFragmentTest {
     }
 
     @Test
-    fun scan_disc_in_api_disc_in_database_add_scan_displayInUi() {
-        /* barcode_1 -> databaseDisc1Sc.barcode, discApi1.barcode
+    fun scan_disc_in_api_disc_in_database_add_scan_displayInUi() {/* barcode_1 -> databaseDisc1Sc.barcode, discApi1.barcode
            databaseDisc1Sc -> add by scan */
         discsRepository.setDatabaseDisc(listOf(databaseDisc1Sc))
 
         val discResultScan = DiscResultScan(
-            barcode = discApi1.barcode,
-            destination = Destination.API
+            barcode = discApi1.barcode, destination = Destination.API
         )
 
         val bundle = DiscResultScanFragmentArgs(discResultScan).toBundle()
         launchFragmentInContainer<DiscResultScanFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         onView(withId(R.id.layout_no_scan_result)).check(matches(not(isDisplayed())))
@@ -204,9 +195,7 @@ class DiscResultScanFragmentTest {
         }
 
         val nbScan = context.resources.getQuantityString(
-            R.plurals.plural_nb_disc_present_scan,
-            1,
-            1
+            R.plurals.plural_nb_disc_present_scan, 1, 1
         )
         onView(withId(R.id.tv_disc_present_scan)).apply {
             check(matches(isDisplayed()))
@@ -236,20 +225,17 @@ class DiscResultScanFragmentTest {
     }
 
     @Test
-    fun scan_disc_in_api_disc_in_database_add_search_displayInUi() {
-        /* discApi2 -> name_2
+    fun scan_disc_in_api_disc_in_database_add_search_displayInUi() {/* discApi2 -> name_2
            databaseDisc2Se-> name_2, add by search */
         discsRepository.setDatabaseDisc(listOf(databaseDisc2Se))
 
         val discResultScan = DiscResultScan(
-            barcode = discApi2.barcode,
-            destination = Destination.API
+            barcode = discApi2.barcode, destination = Destination.API
         )
 
         val bundle = DiscResultScanFragmentArgs(discResultScan).toBundle()
         launchFragmentInContainer<DiscResultScanFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         onView(withId(R.id.layout_no_scan_result)).check(matches(not(isDisplayed())))
@@ -267,9 +253,7 @@ class DiscResultScanFragmentTest {
         }
 
         val nbScan = context.resources.getQuantityString(
-            R.plurals.plural_nb_disc_present_search,
-            1,
-            1
+            R.plurals.plural_nb_disc_present_search, 1, 1
         )
         onView(withId(R.id.tv_disc_present_search)).apply {
             check(matches(isDisplayed()))
@@ -299,20 +283,17 @@ class DiscResultScanFragmentTest {
     }
 
     @Test
-    fun scan_disc_in_api_disc_in_database_add_manually_displayInUi() {
-        /* discApi3 -> name_3
+    fun scan_disc_in_api_disc_in_database_add_manually_displayInUi() {/* discApi3 -> name_3
            databaseDisc3Man -> name_3, add manually */
         discsRepository.setDatabaseDisc(listOf(databaseDisc3Man))
 
         val discResultScan = DiscResultScan(
-            barcode = discApi3.barcode,
-            destination = Destination.API
+            barcode = discApi3.barcode, destination = Destination.API
         )
 
         val bundle = DiscResultScanFragmentArgs(discResultScan).toBundle()
         launchFragmentInContainer<DiscResultScanFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         onView(withId(R.id.layout_no_scan_result)).check(matches(not(isDisplayed())))
@@ -330,9 +311,7 @@ class DiscResultScanFragmentTest {
         }
 
         val nbScan = context.resources.getQuantityString(
-            R.plurals.plural_nb_disc_present_manually,
-            1,
-            1
+            R.plurals.plural_nb_disc_present_manually, 1, 1
         )
         onView(withId(R.id.tv_disc_present_manually)).apply {
             check(matches(isDisplayed()))
@@ -362,20 +341,17 @@ class DiscResultScanFragmentTest {
     }
 
     @Test
-    fun scan_disc_in_database_disc_add_scan_displayInUi() {
-        /* barcode_1 -> databaseDisc1Sc.barcode, discApi1.barcode
+    fun scan_disc_in_database_disc_add_scan_displayInUi() {/* barcode_1 -> databaseDisc1Sc.barcode, discApi1.barcode
            databaseDisc1Sc -> add by scan */
         discsRepository.setDatabaseDisc(listOf(databaseDisc1Sc))
 
         val discResultScan = DiscResultScan(
-            barcode = discApi1.barcode,
-            destination = Destination.DATABASE
+            barcode = discApi1.barcode, destination = Destination.DATABASE
         )
 
         val bundle = DiscResultScanFragmentArgs(discResultScan).toBundle()
         launchFragmentInContainer<DiscResultScanFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         onView(withId(R.id.layout_no_scan_result)).check(matches(not(isDisplayed())))
@@ -418,14 +394,12 @@ class DiscResultScanFragmentTest {
     @Test
     fun scan_disc_api_not_found_displayInUi() {
         val discResultScan = DiscResultScan(
-            barcode = "barcode_4",
-            destination = Destination.API
+            barcode = "barcode_4", destination = Destination.API
         )
 
         val bundle = DiscResultScanFragmentArgs(discResultScan).toBundle()
         launchFragmentInContainer<DiscResultScanFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         onView(withId(R.id.layout_no_scan_result)).check(matches(isDisplayed()))
@@ -454,14 +428,12 @@ class DiscResultScanFragmentTest {
         discsRepository.setDatabaseDisc(listOf(databaseDisc2Se))
 
         val discResultScan = DiscResultScan(
-            barcode = discApi2.barcode,
-            destination = Destination.DATABASE
+            barcode = discApi2.barcode, destination = Destination.DATABASE
         )
 
         val bundle = DiscResultScanFragmentArgs(discResultScan).toBundle()
         launchFragmentInContainer<DiscResultScanFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         onView(withId(R.id.layout_no_scan_result)).check(matches(isDisplayed()))
@@ -490,14 +462,12 @@ class DiscResultScanFragmentTest {
         discsRepository.setDatabaseDisc(listOf(databaseDisc3Man))
 
         val discResultScan = DiscResultScan(
-            barcode = discApi3.barcode,
-            destination = Destination.DATABASE
+            barcode = discApi3.barcode, destination = Destination.DATABASE
         )
 
         val bundle = DiscResultScanFragmentArgs(discResultScan).toBundle()
         launchFragmentInContainer<DiscResultScanFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         onView(withId(R.id.layout_no_scan_result)).check(matches(isDisplayed()))
@@ -522,8 +492,7 @@ class DiscResultScanFragmentTest {
     }
 
     @Test
-    fun scan_disc_in_database_more_displayInUi() {
-        /* disc added by scan, disc added manually
+    fun scan_disc_in_database_more_displayInUi() {/* disc added by scan, disc added manually
            discApi3 -> name_3 */
         val databaseDisc3Sc = DatabaseDisc(
             id = 1L,
@@ -543,20 +512,17 @@ class DiscResultScanFragmentTest {
 
         discsRepository.setDatabaseDisc(
             listOf(
-                databaseDisc3Sc,
-                databaseDisc3Man
+                databaseDisc3Sc, databaseDisc3Man
             )
         )
 
         val discResultScan = DiscResultScan(
-            barcode = discApi3.barcode,
-            destination = Destination.DATABASE
+            barcode = discApi3.barcode, destination = Destination.DATABASE
         )
 
         val bundle = DiscResultScanFragmentArgs(discResultScan).toBundle()
         launchFragmentInContainer<DiscResultScanFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         onView(withId(R.id.layout_no_scan_result)).check(matches(not(isDisplayed())))
@@ -597,8 +563,7 @@ class DiscResultScanFragmentTest {
     }
 
     @Test
-    fun scan_disc_api_more_displayInUi() {
-        /* disc added by scan, disc added manually
+    fun scan_disc_api_more_displayInUi() {/* disc added by scan, disc added manually
            discApi3 -> name_3
            Priority to add by scan / add by search */
         val databaseDisc3Sc = DatabaseDisc(
@@ -619,20 +584,17 @@ class DiscResultScanFragmentTest {
 
         discsRepository.setDatabaseDisc(
             listOf(
-                databaseDisc3Sc,
-                databaseDisc3Man
+                databaseDisc3Sc, databaseDisc3Man
             )
         )
 
         val discResultScan = DiscResultScan(
-            barcode = discApi3.barcode,
-            destination = Destination.API
+            barcode = discApi3.barcode, destination = Destination.API
         )
 
         val bundle = DiscResultScanFragmentArgs(discResultScan).toBundle()
         launchFragmentInContainer<DiscResultScanFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         onView(withId(R.id.layout_no_scan_result)).check(matches(not(isDisplayed())))
@@ -650,9 +612,7 @@ class DiscResultScanFragmentTest {
         }
 
         val nbManually = context.resources.getQuantityString(
-            R.plurals.plural_nb_disc_present_manually,
-            1,
-            1
+            R.plurals.plural_nb_disc_present_manually, 1, 1
         )
         onView(withId(R.id.tv_disc_present_manually)).apply {
             check(matches(isDisplayed()))
@@ -684,15 +644,13 @@ class DiscResultScanFragmentTest {
     @Test
     fun onDiscResultClicked_navToDiscResultDetail() {
         val discResultScan = DiscResultScan(
-            barcode = discApi1.barcode,
-            destination = Destination.API
+            barcode = discApi1.barcode, destination = Destination.API
         )
 
         val navController = TestNavHostController(context)
         val bundle = DiscResultScanFragmentArgs(discResultScan).toBundle()
         val scenario = launchFragmentInContainer<DiscResultScanFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         scenario.onFragment { fragment ->
@@ -701,8 +659,7 @@ class DiscResultScanFragmentTest {
             navController.setCurrentDestination(R.id.discResultScanFragment)
         }
 
-        onView(withId(R.id.rv_list_disc_result_scan))
-            .perform(
+        onView(withId(R.id.rv_list_disc_result_scan)).perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                     0, click()
                 )
@@ -716,15 +673,13 @@ class DiscResultScanFragmentTest {
         discsRepository.setDatabaseDisc(listOf(databaseDisc1Sc))
 
         val discResultScan = DiscResultScan(
-            barcode = databaseDisc1Sc.barcode,
-            destination = Destination.DATABASE
+            barcode = databaseDisc1Sc.barcode, destination = Destination.DATABASE
         )
 
         val navController = TestNavHostController(context)
         val bundle = DiscResultScanFragmentArgs(discResultScan).toBundle()
         val scenario = launchFragmentInContainer<DiscResultScanFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         scenario.onFragment { fragment ->
@@ -733,8 +688,7 @@ class DiscResultScanFragmentTest {
             navController.setCurrentDestination(R.id.discResultScanFragment)
         }
 
-        onView(withId(R.id.rv_list_disc_result_scan))
-            .perform(
+        onView(withId(R.id.rv_list_disc_result_scan)).perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                     0, click()
                 )
@@ -746,15 +700,13 @@ class DiscResultScanFragmentTest {
     @Test
     fun onButtonBackClicked_navToDisc() {
         val discResultScan = DiscResultScan(
-            barcode = discApi1.barcode,
-            destination = Destination.API
+            barcode = discApi1.barcode, destination = Destination.API
         )
 
         val navController = TestNavHostController(context)
         val bundle = DiscResultScanFragmentArgs(discResultScan).toBundle()
         val scenario = launchFragmentInContainer<DiscResultScanFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         scenario.onFragment { fragment ->
@@ -775,15 +727,13 @@ class DiscResultScanFragmentTest {
         discsRepository.setDatabaseDisc(listOf(databaseDisc1Sc))
 
         val discResultScan = DiscResultScan(
-            barcode = databaseDisc1Sc.barcode,
-            destination = Destination.DATABASE
+            barcode = databaseDisc1Sc.barcode, destination = Destination.DATABASE
         )
 
         val navController = TestNavHostController(context)
         val bundle = DiscResultScanFragmentArgs(discResultScan).toBundle()
         val scenario = launchFragmentInContainer<DiscResultScanFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         scenario.onFragment { fragment ->

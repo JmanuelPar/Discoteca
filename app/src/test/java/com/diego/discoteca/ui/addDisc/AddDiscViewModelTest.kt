@@ -18,7 +18,7 @@ import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 class AddDiscViewModelTest {
 
     private lateinit var addDiscViewModel: AddDiscViewModel
@@ -43,7 +43,6 @@ class AddDiscViewModelTest {
         addBy = AddBy.SEARCH
     )
 
-    @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 

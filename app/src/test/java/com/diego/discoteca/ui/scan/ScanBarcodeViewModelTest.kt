@@ -10,13 +10,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 class ScanBarcodeViewModelTest {
 
     private lateinit var scanBarcodeViewModel: ScanBarcodeViewModel
     private val barcode = "barcode_1"
 
-    @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 

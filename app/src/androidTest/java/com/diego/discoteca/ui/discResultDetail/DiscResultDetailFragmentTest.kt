@@ -10,13 +10,13 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
 import com.diego.discoteca.*
 import com.diego.discoteca.data.domain.Disc
 import com.diego.discoteca.data.model.DiscLight
 import com.diego.discoteca.data.model.DiscResultDetail
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.ServiceLocator
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers.not
 import org.junit.After
 import org.junit.Assert.*
@@ -24,7 +24,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@ExperimentalCoroutinesApi
+@MediumTest
 @RunWith(AndroidJUnit4::class)
 class DiscResultDetailFragmentTest {
 
@@ -46,8 +46,7 @@ class DiscResultDetailFragmentTest {
     }
 
     @Test
-    fun init_addBy_scan_noPresent() {
-        /* From DiscResultScanFragment, AddBy by Scan
+    fun init_addBy_scan_noPresent() {/* From DiscResultScanFragment, AddBy by Scan
            Nothing present in database -> isPresentByManually, isPresentBySearch, isPresentByScan : false
            So, button add and button cancel appears */
         val disc = Disc(
@@ -64,14 +63,12 @@ class DiscResultDetailFragmentTest {
         )
 
         val discResultDetail = DiscResultDetail(
-            disc = disc,
-            addBy = AddBy.SCAN
+            disc = disc, addBy = AddBy.SCAN
         )
 
         val bundle = DiscResultDetailFragmentArgs(discResultDetail).toBundle()
         launchFragmentInContainer<DiscResultDetailFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         onView(withId(R.id.tv_disc_present)).check(matches(not(isDisplayed())))
@@ -134,8 +131,7 @@ class DiscResultDetailFragmentTest {
     }
 
     @Test
-    fun init_addBy_search_noPresent() {
-        /* From DiscResultSearchFragment, AddBy by Search
+    fun init_addBy_search_noPresent() {/* From DiscResultSearchFragment, AddBy by Search
            Nothing present in database -> isPresentByManually, isPresentBySearch, isPresentByScan : false
            So, button add and button cancel appears */
         val disc = Disc(
@@ -152,14 +148,12 @@ class DiscResultDetailFragmentTest {
         )
 
         val discResultDetail = DiscResultDetail(
-            disc = disc,
-            addBy = AddBy.SEARCH
+            disc = disc, addBy = AddBy.SEARCH
         )
 
         val bundle = DiscResultDetailFragmentArgs(discResultDetail).toBundle()
         launchFragmentInContainer<DiscResultDetailFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         onView(withId(R.id.tv_disc_present)).check(matches(not(isDisplayed())))
@@ -216,8 +210,7 @@ class DiscResultDetailFragmentTest {
     }
 
     @Test
-    fun init_addBy_scan_presentSearch() {
-        /* From DiscResultScanFragment, AddBy by Scan
+    fun init_addBy_scan_presentSearch() {/* From DiscResultScanFragment, AddBy by Scan
            Present in database -> isPresentBySearch = true
            So, button update and button cancel appears */
         val disc = Disc(
@@ -245,14 +238,12 @@ class DiscResultDetailFragmentTest {
         )
 
         val discResultDetail = DiscResultDetail(
-            disc = disc,
-            addBy = AddBy.SCAN
+            disc = disc, addBy = AddBy.SCAN
         )
 
         val bundle = DiscResultDetailFragmentArgs(discResultDetail).toBundle()
         launchFragmentInContainer<DiscResultDetailFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         onView(withId(R.id.tv_disc_present)).apply {
@@ -345,8 +336,7 @@ class DiscResultDetailFragmentTest {
     }
 
     @Test
-    fun init_addBy_search_presentScan() {
-        /* From DiscResultSearchFragment, AddBy by Search
+    fun init_addBy_search_presentScan() {/* From DiscResultSearchFragment, AddBy by Search
            Present in database -> isPresentByScan = true
            So, button ok appears */
         val disc = Disc(
@@ -365,14 +355,12 @@ class DiscResultDetailFragmentTest {
         disc.isPresentByScan = true
 
         val discResultDetail = DiscResultDetail(
-            disc = disc,
-            addBy = AddBy.SEARCH
+            disc = disc, addBy = AddBy.SEARCH
         )
 
         val bundle = DiscResultDetailFragmentArgs(discResultDetail).toBundle()
         launchFragmentInContainer<DiscResultDetailFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         onView(withId(R.id.tv_disc_present)).apply {
@@ -426,8 +414,7 @@ class DiscResultDetailFragmentTest {
     }
 
     @Test
-    fun onButtonNoClicked_popBackStack() {
-        /* From DiscResultScanFragment, AddBy by Scan
+    fun onButtonNoClicked_popBackStack() {/* From DiscResultScanFragment, AddBy by Scan
            Nothing present in database -> isPresentByManually, isPresentBySearch, isPresentByScan : false
            So, button add and button cancel appears */
         val disc = Disc(
@@ -444,15 +431,13 @@ class DiscResultDetailFragmentTest {
         )
 
         val discResultDetail = DiscResultDetail(
-            disc = disc,
-            addBy = AddBy.SCAN
+            disc = disc, addBy = AddBy.SCAN
         )
 
         val navController = TestNavHostController(context)
         val bundle = DiscResultDetailFragmentArgs(discResultDetail).toBundle()
         val scenario = launchFragmentInContainer<DiscResultDetailFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         scenario.onFragment { fragment ->
@@ -470,8 +455,7 @@ class DiscResultDetailFragmentTest {
     }
 
     @Test
-    fun onButtonYesClicked_popBackStack() {
-        /* From DiscResultSearchFragment, AddBy by Search
+    fun onButtonYesClicked_popBackStack() {/* From DiscResultSearchFragment, AddBy by Search
            Present in database -> isPresentByScan = true
            So, button ok appears */
         val disc = Disc(
@@ -490,15 +474,13 @@ class DiscResultDetailFragmentTest {
         disc.isPresentByScan = true
 
         val discResultDetail = DiscResultDetail(
-            disc = disc,
-            addBy = AddBy.SEARCH
+            disc = disc, addBy = AddBy.SEARCH
         )
 
         val navController = TestNavHostController(context)
         val bundle = DiscResultDetailFragmentArgs(discResultDetail).toBundle()
         val scenario = launchFragmentInContainer<DiscResultDetailFragment>(
-            fragmentArgs = bundle,
-            themeResId = R.style.Theme_Discoteca
+            fragmentArgs = bundle, themeResId = R.style.Theme_Discoteca
         )
 
         scenario.onFragment { fragment ->

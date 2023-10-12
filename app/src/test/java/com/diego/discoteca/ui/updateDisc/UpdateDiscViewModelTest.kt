@@ -15,7 +15,7 @@ import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 class UpdateDiscViewModelTest {
 
     private lateinit var updateDiscViewModel: UpdateDiscViewModel
@@ -29,7 +29,6 @@ class UpdateDiscViewModelTest {
     private lateinit var title: EditText
     private lateinit var year: EditText
 
-    @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 

@@ -32,8 +32,16 @@ import com.diego.discoteca.R
 import com.diego.discoteca.databinding.ActivityMainBinding
 import com.diego.discoteca.ui.disc.DiscFragment
 import com.diego.discoteca.ui.disc.DiscFragmentDirections
-import com.diego.discoteca.util.*
+import com.diego.discoteca.util.ConnectivityStatus
 import com.diego.discoteca.util.Constants.REQUIRED_PERMISSION_CAMERA
+import com.diego.discoteca.util.Destination
+import com.diego.discoteca.util.UIText
+import com.diego.discoteca.util.delayedTransition
+import com.diego.discoteca.util.getMyUIText
+import com.diego.discoteca.util.showDialogMessageOneButton
+import com.diego.discoteca.util.showDialogTitle
+import com.diego.discoteca.util.showSnackBar
+import com.diego.discoteca.util.showSnackBarNoAnchor
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -41,12 +49,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.transition.MaterialFade
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalCoroutinesApi::class)
 open class MainActivity : AppCompatActivity() {
 
     private val requestPermissionLauncher =
@@ -134,16 +140,19 @@ open class MainActivity : AppCompatActivity() {
                 mMainActivityViewModel.onNightModeSelected(AppCompatDelegate.MODE_NIGHT_NO)
                 true
             }
+
             R.id.dark_mode -> {
                 item.isChecked = !item.isChecked
                 mMainActivityViewModel.onNightModeSelected(AppCompatDelegate.MODE_NIGHT_YES)
                 true
             }
+
             R.id.system_default -> {
                 item.isChecked = !item.isChecked
                 mMainActivityViewModel.onNightModeSelected(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -195,16 +204,19 @@ open class MainActivity : AppCompatActivity() {
                     showScrimLayout(false)
                     setBottomBarFab(true)
                 }
+
                 R.id.infoFragment -> {
                     mTransitionFadeThroughExit()
                     showScrimLayout(false)
                     setBottomBarFab(false)
                 }
+
                 R.id.interFragment -> {
                     mTransitionFadeThroughExit()
                     showScrimLayout(false)
                     setBottomBarFab(false)
                 }
+
                 else -> hideBottomBarHideFabHandle()
             }
         }
@@ -347,6 +359,7 @@ open class MainActivity : AppCompatActivity() {
         when {
             ContextCompat.checkSelfPermission(this, REQUIRED_PERMISSION_CAMERA)
                     == PackageManager.PERMISSION_GRANTED -> goToScanBarcodeFragment()
+
             shouldShowRequestPermissionRationale(REQUIRED_PERMISSION_CAMERA) -> showAlertDialogRationale()
             else -> requestPermissionLauncher.launch(REQUIRED_PERMISSION_CAMERA)
         }

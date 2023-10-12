@@ -2,7 +2,11 @@ package com.diego.discoteca.ui.disc
 
 import android.graphics.drawable.Animatable
 import android.os.Bundle
-import android.view.*
+import android.view.ContextThemeWrapper
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuHost
@@ -32,11 +36,9 @@ import com.diego.discoteca.util.materialElevationScaleExitReenterTransition
 import com.diego.discoteca.util.showDialogMessageAction
 import com.google.android.material.transition.MaterialFade
 import com.google.android.material.transition.MaterialFadeThrough
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-@ExperimentalCoroutinesApi
 class DiscFragment : Fragment(R.layout.fragment_disc), MenuProvider, DiscAdapter.DiscListener {
 
     private val args: DiscFragmentArgs by navArgs()
@@ -241,16 +243,19 @@ class DiscFragment : Fragment(R.layout.fragment_disc), MenuProvider, DiscAdapter
                 mDiscViewModel.onSortOrderSelected((SortOrder.BY_NAME))
                 true
             }
+
             R.id.sort_by_title -> {
                 menuItem.isChecked = !menuItem.isChecked
                 mDiscViewModel.onSortOrderSelected((SortOrder.BY_TITLE))
                 true
             }
+
             R.id.sort_by_year -> {
                 menuItem.isChecked = !menuItem.isChecked
                 mDiscViewModel.onSortOrderSelected((SortOrder.BY_YEAR))
                 true
             }
+
             R.id.grid -> {
                 menuItem.isChecked = !menuItem.isChecked
                 mDiscViewModel.onGridModeSelected(menuItem.isChecked)
@@ -295,10 +300,12 @@ class DiscFragment : Fragment(R.layout.fragment_disc), MenuProvider, DiscAdapter
                     mDiscViewModel.buttonDeleteDiscClicked(disc.id)
                     true
                 }
+
                 R.id.menu_modify -> {
                     mDiscViewModel.buttonUpdateDiscClicked(disc.id)
                     true
                 }
+
                 else -> false
             }
         }
@@ -338,6 +345,7 @@ class DiscFragment : Fragment(R.layout.fragment_disc), MenuProvider, DiscAdapter
                     gridItem.isChecked = true
                     gridItem.setIcon(R.drawable.ic_grid_view)
                 }
+
                 else -> {
                     gridItem.isChecked = false
                     gridItem.setIcon(R.drawable.ic_list_view)
@@ -352,6 +360,7 @@ class DiscFragment : Fragment(R.layout.fragment_disc), MenuProvider, DiscAdapter
                 item.setIcon(R.drawable.avd_list_view_to_grid_view)
                 (item.icon as Animatable).start()
             }
+
             else -> {
                 item.setIcon(R.drawable.avd_grid_view_to_list_view)
                 (item.icon as Animatable).start()
@@ -414,6 +423,7 @@ class DiscFragment : Fragment(R.layout.fragment_disc), MenuProvider, DiscAdapter
                         uiText
                     )
                 }
+
                 else -> (activity as MainActivity).showSnackBar(
                     uiText = uiText,
                     anchorView = (activity as MainActivity).getFabView()

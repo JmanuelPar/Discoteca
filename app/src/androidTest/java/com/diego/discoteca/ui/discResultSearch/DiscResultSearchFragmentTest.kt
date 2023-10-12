@@ -11,6 +11,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
 import com.diego.discoteca.DatabaseDiscFactory
 import com.diego.discoteca.DiscApiFactory
 import com.diego.discoteca.FakeAndroidDiscsRepository
@@ -32,7 +33,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.lang.Thread.sleep
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
+@MediumTest
 @RunWith(AndroidJUnit4::class)
 class DiscResultSearchFragmentTest {
 
