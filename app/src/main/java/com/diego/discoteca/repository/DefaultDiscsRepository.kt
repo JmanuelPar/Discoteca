@@ -1,6 +1,6 @@
 package com.diego.discoteca.repository
 
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import androidx.paging.PagingData
 import com.diego.discoteca.data.SortOrder
 import com.diego.discoteca.data.domain.Disc
@@ -30,7 +30,7 @@ class DefaultDiscsRepository(
         }
 
     override fun getDiscWithId(discId: Long) =
-        Transformations.map(discsLocalDataSource.getDiscWithId(discId)) {
+        discsLocalDataSource.getDiscWithId(discId).map {
             it.asDomainModel()
         }
 

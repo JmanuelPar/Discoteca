@@ -26,9 +26,9 @@ class DiscPresentViewModel(
     private val addBy: LiveData<AddBy>
         get() = _addBy
 
-    val nBTotal = Transformations.map(listDisc) { list -> list.size }
+    val nBTotal = listDisc.map { list -> list.size }
 
-    val visibilityLayout = Transformations.map(listDisc) { list ->
+    val visibilityLayout = listDisc.map { list ->
         list.filter { disc -> disc.isPresentByManually == true }.size
     }.asFlow()
         .combine(addBy.asFlow()) { nB, addBy ->

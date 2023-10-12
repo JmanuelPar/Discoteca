@@ -20,13 +20,13 @@ class DiscPresentDetailViewModel(
     private val discPresentAddBy: LiveData<AddBy>
         get() = _discPresentAddBy
 
-    val isVisible = Transformations.map(discDatabase) { disc ->
+    val isVisible = discDatabase.map { disc ->
         disc.addBy == AddBy.MANUALLY
     }.asFlow()
-        .combine(Transformations.map(discPresentAddBy) { addBy ->
+        .combine(discPresentAddBy.map { addBy ->
             addBy == AddBy.SEARCH
         }.asFlow()) { isManually, isSearch ->
-            isManually == true && isSearch == true
+            isManually && isSearch
         }.asLiveData()
 
     private val _navigatePopStack = MutableLiveData<Boolean>()

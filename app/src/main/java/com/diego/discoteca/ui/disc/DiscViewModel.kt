@@ -37,7 +37,7 @@ class DiscViewModel(
 
     val listDiscs = listDiscsFlow.asLiveData()
 
-    private val isNotEmpty = Transformations.map(listDiscs) { allDiscs ->
+    private val isNotEmpty = listDiscs.map { allDiscs ->
         allDiscs.isNotEmpty()
     }
 
