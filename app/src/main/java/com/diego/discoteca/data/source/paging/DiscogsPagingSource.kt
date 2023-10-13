@@ -108,6 +108,7 @@ class DiscogsPagingSourceSearchBarcode(
                             when {
                                 discApi.idDisc == discDb.idDisc && discDb.addBy == AddBy.SCAN ->
                                     discApi.isPresentByScan = true
+
                                 discApi.idDisc == discDb.idDisc && discDb.addBy == AddBy.SEARCH -> {
                                     discApi.isPresentBySearch = true
                                     discApi.discLight = DiscLight(
@@ -239,6 +240,7 @@ class DiscogsPagingSourceSearchDisc(
                             when {
                                 discApi.idDisc == discDb.idDisc && discDb.addBy == AddBy.SCAN ->
                                     discApi.isPresentByScan = true
+
                                 discApi.idDisc == discDb.idDisc && discDb.addBy == AddBy.SEARCH ->
                                     discApi.isPresentBySearch = true
                             }

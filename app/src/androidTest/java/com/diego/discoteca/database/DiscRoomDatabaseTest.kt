@@ -11,7 +11,6 @@ import com.diego.discoteca.MainCoroutineRule
 import com.diego.discoteca.getOrAwaitValue
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.Constants.DATABASE_PAGE_SIZE
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -21,12 +20,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@ExperimentalCoroutinesApi
-@RunWith(AndroidJUnit4::class)
 @MediumTest
+@RunWith(AndroidJUnit4::class)
 class DiscRoomDatabaseTest {
 
-    @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 

@@ -5,9 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.diego.discoteca.data.PreferencesManager
 import com.diego.discoteca.repository.DiscsRepository
 import com.diego.discoteca.util.UIText
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
 class DiscViewModelFactory(
     private val repository: DiscsRepository,
     private val preferencesManager: PreferencesManager,

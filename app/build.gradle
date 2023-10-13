@@ -4,15 +4,17 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.devtools.ksp'
 }
 
 android {
-    compileSdk 33
+    namespace 'com.diego.discoteca'
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.diego.discoteca"
         minSdk 23
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -24,15 +26,10 @@ android {
 
         buildConfigField "String", "API_KEY", "\"${properties.getProperty("API_KEY")}\""
         buildConfigField "String", "API_SECRET", "\"${properties.getProperty("API_SECRET")}\""
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += ["room.schemaLocation":
-                                      "$projectDir/schemas".toString()]
-            }
-        }
     }
-
+    ksp {
+        arg('room.schemaLocation', "$projectDir/schemas")
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -41,137 +38,120 @@ android {
     }
     compileOptions {
         coreLibraryDesugaringEnabled = true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
         freeCompilerArgs += ["-opt-in=kotlin.RequiresOptIn"]
     }
     buildFeatures {
         dataBinding true
     }
-
     packagingOptions {
         resources {
             excludes += ['META-INF/DEPENDENCIES']
         }
     }
-
-    namespace 'com.diego.discoteca'
 }
 
 dependencies {
+    implementation "androidx.core:core-ktx:1.12.0"
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "com.google.android.material:material:1.10.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
 
-    /* A failure occurred while executing app:checkDebugDuplicateClasses, Android Studio Electric Eel | 2022.1.1
-     with org.jetbrains.kotlin:kotlin-reflect:1.8.0
-     https://stackoverflow.com/questions/75274720/a-failure-occurred-while-executing-appcheckdebugduplicateclasses*/
-    modules {
-        module('org.jetbrains.kotlin:kotlin-stdlib-jdk8') {
-            replacedBy 'org.jetbrains.kotlin:kotlin-stdlib', 'kotlin fixes'
-        }
-        module('org.jetbrains.kotlin:kotlin-stdlib-jdk7') {
-            replacedBy 'org.jetbrains.kotlin:kotlin-stdlib', 'kotlin fixes'
-        }
-    }
-    // Or : implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
-
-    implementation "androidx.core:core-ktx:1.9.0"
-    implementation "androidx.appcompat:appcompat:$appCompatVersion"
-    implementation "com.google.android.material:material:$materialVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+    // Library for tests
+    debugImplementation 'androidx.fragment:fragment-testing:1.6.1'
+    implementation "androidx.test:core:1.5.0"
     implementation 'androidx.test.uiautomator:uiautomator:2.2.0'
-    debugImplementation 'androidx.fragment:fragment-testing:1.5.5'
-
-    // Core library for tests
-    debugImplementation "androidx.test:core:1.5.0"
 
     testImplementation 'junit:junit:4.12'
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
-    testImplementation 'org.mockito:mockito-core:5.0.0'
-    testImplementation "org.mockito.kotlin:mockito-kotlin:4.1.0"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3"
+    testImplementation 'org.mockito:mockito-core:5.5.0'
+    testImplementation "org.mockito.kotlin:mockito-kotlin:5.1.0"
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+    androidTestImplementation "androidx.test.ext:junit-ktx:1.1.5"
+    androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "androidx.test.espresso:espresso-contrib:3.5.1"
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
-    androidTestImplementation 'org.mockito:mockito-core:5.0.0'
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3"
+    androidTestImplementation 'org.mockito:mockito-core:5.5.0'
     androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:2.28.3"
-    androidTestImplementation "androidx.test.ext:junit-ktx:1.1.5"
-    androidTestImplementation "androidx.navigation:navigation-testing:2.5.3"
+    androidTestImplementation "androidx.navigation:navigation-testing:2.7.4"
     androidTestImplementation 'androidx.test:rules:1.5.0'
 
     // Timber
-    implementation "com.jakewharton.timber:timber:$timberVersion"
+    implementation "com.jakewharton.timber:timber:5.0.1"
 
     // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.7.4"
+    implementation "androidx.navigation:navigation-ui-ktx:2.7.4"
 
     // Kotlin extensions for activity and fragments
-    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
-    implementation "androidx.activity:activity-ktx:$activityVersion"
+    implementation "androidx.fragment:fragment-ktx:1.6.1"
+    implementation "androidx.activity:activity-ktx:1.8.0"
 
     // Room
-    implementation "androidx.room:room-runtime:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
-    implementation "androidx.room:room-ktx:$roomVersion"
+    implementation "androidx.room:room-runtime:2.5.2"
+    ksp "androidx.room:room-compiler:2.5.2"
+    implementation "androidx.room:room-ktx:2.5.2"
 
     // Kotlin Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
 
     // RecyclerView
-    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
+    implementation "androidx.recyclerview:recyclerview:1.3.1"
 
     // Android architecture components
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleExtensionsVersion"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.2"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.2"
 
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$reflectVersion"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.8.22"
 
     // Barcode scanner
-    implementation "com.google.mlkit:barcode-scanning:$mlkitVersion"
+    implementation "com.google.mlkit:barcode-scanning:17.2.0"
 
     // CameraX
-    implementation "androidx.camera:camera-core:$cameraxVersion"
-    implementation "androidx.camera:camera-camera2:$cameraxVersion"
-    implementation "androidx.camera:camera-lifecycle:$cameraxVersion"
-    implementation "androidx.camera:camera-view:$cameraxVersion"
-    implementation "androidx.camera:camera-extensions:$cameraxVersion"
+    implementation "androidx.camera:camera-core:1.2.3"
+    implementation "androidx.camera:camera-camera2:1.2.3"
+    implementation "androidx.camera:camera-lifecycle:1.2.3"
+    implementation "androidx.camera:camera-view:1.2.3"
+    implementation "androidx.camera:camera-extensions:1.2.3"
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpLoggingInterceptorVersion"
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.3"
 
     // Moshi
-    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
-    implementation "com.squareup.retrofit2:converter-moshi:$moshiConverterVersion"
+    implementation "com.squareup.moshi:moshi-kotlin:1.15.0"
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
 
     // Google Sign-in
-    implementation "com.google.android.gms:play-services-auth:$playServiceVersion"
+    implementation "com.google.android.gms:play-services-auth:20.7.0"
 
     // Google Drive Api
-    implementation "com.google.api-client:google-api-client-android:$googleApiClientVersion"
-    implementation "com.google.apis:google-api-services-drive:$googleApiServicesDriveVersion"
+    implementation "com.google.api-client:google-api-client-android:2.2.0"
+    implementation "com.google.apis:google-api-services-drive:v3-rev20220508-1.32.1"
 
     // Splashscreen
-    implementation "androidx.core:core-splashscreen:$splashscreenVersion"
+    implementation "androidx.core:core-splashscreen:1.0.1"
 
     // Glide
-    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    implementation "com.github.bumptech.glide:glide:4.14.2"
 
     // DataStore Preferences
-    implementation("androidx.datastore:datastore-preferences:$dataStoreVersion")
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     // ZoneDateTime
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:$zoneDateTimeVersion")
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$zoneDateTimeVersion"
 
     // Paging3
-    implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
-    implementation "androidx.room:room-paging:$roomVersion"
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+    implementation "androidx.room:room-paging:2.5.2"
 }

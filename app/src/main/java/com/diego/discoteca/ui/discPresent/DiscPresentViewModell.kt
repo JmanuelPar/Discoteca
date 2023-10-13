@@ -1,6 +1,12 @@
 package com.diego.discoteca.ui.discPresent
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import com.diego.discoteca.data.domain.Disc
 import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.repository.DiscsRepository
@@ -26,9 +32,9 @@ class DiscPresentViewModel(
     private val addBy: LiveData<AddBy>
         get() = _addBy
 
-    val nBTotal = Transformations.map(listDisc) { list -> list.size }
+    val nBTotal = listDisc.map { list -> list.size }
 
-    val visibilityLayout = Transformations.map(listDisc) { list ->
+    val visibilityLayout = listDisc.map { list ->
         list.filter { disc -> disc.isPresentByManually == true }.size
     }.asFlow()
         .combine(addBy.asFlow()) { nB, addBy ->

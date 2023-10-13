@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 class DiscViewModel(
     private val repository: DiscsRepository,
     private val preferencesManager: PreferencesManager,
@@ -37,7 +37,7 @@ class DiscViewModel(
 
     val listDiscs = listDiscsFlow.asLiveData()
 
-    private val isNotEmpty = Transformations.map(listDiscs) { allDiscs ->
+    private val isNotEmpty = listDiscs.map { allDiscs ->
         allDiscs.isNotEmpty()
     }
 

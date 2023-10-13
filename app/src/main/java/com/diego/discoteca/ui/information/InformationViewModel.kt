@@ -1,6 +1,10 @@
 package com.diego.discoteca.ui.information
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
 import com.diego.discoteca.BuildConfig
 import com.diego.discoteca.repository.DiscsRepository
 
@@ -17,7 +21,7 @@ class InformationViewModel(val repository: DiscsRepository) : ViewModel() {
     val buttonSearchScan: LiveData<Boolean>
         get() = _buttonSearchScan
 
-    val isEmptyDatabase = Transformations.map(countDiscs) { count ->
+    val isEmptyDatabase = countDiscs.map { count ->
         count == 0
     }
 

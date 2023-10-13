@@ -128,10 +128,12 @@ class AddDiscViewModel(private val repository: DiscsRepository) : ViewModel() {
             _errorMessageDiscYear.value = UIText.DiscYearIndicate
             false
         }
+
         discYear.value?.length!! < 4 || discYear.value!! < "1900" -> {
             _errorMessageDiscYear.value = UIText.NoValidDiscYear
             false
         }
+
         else -> {
             _errorMessageDiscYear.value = null
             true
@@ -192,6 +194,7 @@ class AddDiscViewModel(private val repository: DiscsRepository) : ViewModel() {
 
                 onNavigateToDisc(id)
             }
+
             else -> onNavigateToDiscPresent(DiscPresent(listDb, discAdd))
         }
     }

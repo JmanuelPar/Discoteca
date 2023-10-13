@@ -1,6 +1,12 @@
 package com.diego.discoteca.ui.discPresentDetail
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import com.diego.discoteca.data.domain.Disc
 import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.repository.DiscsRepository
@@ -20,13 +26,13 @@ class DiscPresentDetailViewModel(
     private val discPresentAddBy: LiveData<AddBy>
         get() = _discPresentAddBy
 
-    val isVisible = Transformations.map(discDatabase) { disc ->
+    val isVisible = discDatabase.map { disc ->
         disc.addBy == AddBy.MANUALLY
     }.asFlow()
-        .combine(Transformations.map(discPresentAddBy) { addBy ->
+        .combine(discPresentAddBy.map { addBy ->
             addBy == AddBy.SEARCH
         }.asFlow()) { isManually, isSearch ->
-            isManually == true && isSearch == true
+            isManually && isSearch
         }.asLiveData()
 
     private val _navigatePopStack = MutableLiveData<Boolean>()

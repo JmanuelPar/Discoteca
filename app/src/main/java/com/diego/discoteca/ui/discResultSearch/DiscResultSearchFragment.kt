@@ -134,6 +134,7 @@ class DiscResultSearchFragment : Fragment(R.layout.fragment_disc_result_search),
                             getString(R.string.error_result_message_retry),
                             loadStateError.error.localizedMessage
                         )
+
                         else -> getString(R.string.error_result_message_unknown_retry)
                     }
 

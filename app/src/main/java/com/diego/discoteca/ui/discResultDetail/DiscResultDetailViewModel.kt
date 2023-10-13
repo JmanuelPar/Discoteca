@@ -75,6 +75,7 @@ class DiscResultDetailViewModel(
                         // Button ok -> popStack
                         discChosen.isPresentByScan == true
                                 || discChosen.isPresentBySearch == true -> onNavigatePopStack()
+
                         else -> {
                             // Button add -> add this disc in database, don't keep the barcode
                             val id = addDiscDatabase(true)

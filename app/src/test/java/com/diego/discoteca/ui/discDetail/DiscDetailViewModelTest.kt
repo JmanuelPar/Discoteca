@@ -8,13 +8,11 @@ import com.diego.discoteca.database.DatabaseDisc
 import com.diego.discoteca.getOrAwaitValue
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.asDomainModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class DiscDetailViewModelTest {
 
     private lateinit var discDetailViewModel: DiscDetailViewModel
@@ -23,7 +21,6 @@ class DiscDetailViewModelTest {
 
     private lateinit var databaseDisc1: DatabaseDisc
 
-    @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 

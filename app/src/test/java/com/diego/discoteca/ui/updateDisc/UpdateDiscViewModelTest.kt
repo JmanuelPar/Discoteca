@@ -2,12 +2,15 @@ package com.diego.discoteca.ui.updateDisc
 
 import android.widget.EditText
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.diego.discoteca.*
+import com.diego.discoteca.DatabaseDiscFactory
+import com.diego.discoteca.FakeDiscsRepository
+import com.diego.discoteca.MainCoroutineRule
+import com.diego.discoteca.MockEditable
 import com.diego.discoteca.database.DatabaseDisc
+import com.diego.discoteca.getOrAwaitValue
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.UIText
 import com.diego.discoteca.util.asDomainModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -15,7 +18,6 @@ import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 
-@ExperimentalCoroutinesApi
 class UpdateDiscViewModelTest {
 
     private lateinit var updateDiscViewModel: UpdateDiscViewModel
@@ -29,7 +31,6 @@ class UpdateDiscViewModelTest {
     private lateinit var title: EditText
     private lateinit var year: EditText
 
-    @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 

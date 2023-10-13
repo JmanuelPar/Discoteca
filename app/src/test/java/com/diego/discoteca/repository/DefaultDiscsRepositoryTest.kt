@@ -20,7 +20,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 class DefaultDiscsRepositoryTest {
 
     private lateinit var listDiscApi: List<Disc>
@@ -34,14 +34,12 @@ class DefaultDiscsRepositoryTest {
     private lateinit var discApi3: Disc
     private lateinit var discApi4: Disc
 
-    @ExperimentalCoroutinesApi
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
     @get:Rule
     var instantExecuteRule = InstantTaskExecutorRule()
 
-    @ExperimentalCoroutinesApi
     @Before
     fun createRepository() {
         val discApiFactory = DiscApiFactory()
@@ -79,7 +77,6 @@ class DefaultDiscsRepositoryTest {
         )
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun countAllDiscs_FromDiscsLocalDataSource() = runTest {
         val count = discsRepository.countAllDiscs.first()
@@ -87,7 +84,6 @@ class DefaultDiscsRepositoryTest {
         assertEquals(listDatabaseDisc.size, count)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun countAllDiscs_FromDiscsLocalDataSource_Empty() = runTest {
         discsRepository = DefaultDiscsRepository(
@@ -105,7 +101,6 @@ class DefaultDiscsRepositoryTest {
         assertTrue(count == 0)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun countFormatMediaList_FromDiscsLocalDataSource() = runTest {
         val list = discsRepository.countFormatMediaList.first()
@@ -116,7 +111,6 @@ class DefaultDiscsRepositoryTest {
         assertEquals(size, list.size)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getAllDiscs_FromDiscsLocalDataSource() = runTest {
         // databaseDisc2 -> name_1
@@ -130,7 +124,6 @@ class DefaultDiscsRepositoryTest {
         assertEquals(databaseDisc2.name, name)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getDiscWithId_FromDiscsLocalDataSource() {
         val disc = listDatabaseDisc.first().asDomainModel()
@@ -139,7 +132,6 @@ class DefaultDiscsRepositoryTest {
         assertEquals(disc, discRepo)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun insertLong_FromDiscsLocalDataSource() = runTest {
         val addDisc = Disc(
@@ -161,7 +153,6 @@ class DefaultDiscsRepositoryTest {
         assertEquals(4L, index)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun update_FromDiscsLocalDataSource() = runTest {
         val discUpdate = listDatabaseDisc.first().copy(
@@ -179,7 +170,6 @@ class DefaultDiscsRepositoryTest {
         assertTrue(list.contains(discUpdate.asDomainModel()))
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun deleteById_FromDiscsLocalDataSource() = runTest {
         discsRepository.deleteById(databaseDisc3.id)
@@ -192,7 +182,6 @@ class DefaultDiscsRepositoryTest {
         assertFalse(list.contains(databaseDisc3.asDomainModel()))
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getListDiscDbPresent_FromDiscsLocalDataSource() = runTest {
         val list = discsRepository.getListDiscDbPresent(
@@ -204,7 +193,6 @@ class DefaultDiscsRepositoryTest {
         assertTrue(list.contains(databaseDisc1.asDomainModel()))
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getListDiscDbPresent_FromDiscsLocalDataSource_Empty() = runTest {
         val list = discsRepository.getListDiscDbPresent(
@@ -216,7 +204,6 @@ class DefaultDiscsRepositoryTest {
         assertTrue(list.isEmpty())
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getSearchBarcodeStream_FromDiscsPagingDataSource_NoPresent() = runTest {
         val pagingData = discsRepository.getSearchBarcodeStream(discApi4.barcode).first()
@@ -233,7 +220,6 @@ class DefaultDiscsRepositoryTest {
         assertTrue(listDisc.contains(discApi4))
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getSearchBarcodeStream_FromDiscsPagingDataSource_PresentManually() = runTest {
         /* databaseDisc1 -> added manually and name_3
@@ -252,7 +238,6 @@ class DefaultDiscsRepositoryTest {
         assertTrue(disc.isPresentByManually!!)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getSearchBarcodeStream_FromDiscsPagingDataSource_PresentScan() = runTest {
         /* databaseDisc2 -> added by scan and name_1
@@ -271,7 +256,6 @@ class DefaultDiscsRepositoryTest {
         assertTrue(disc.isPresentByScan!!)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getSearchBarcodeStream_FromDiscsPagingDataSource_PresentSearch() = runTest {
         /* databaseDisc3 -> added by search and name_2
@@ -290,7 +274,6 @@ class DefaultDiscsRepositoryTest {
         assertTrue(disc.isPresentBySearch!!)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getSearchDiscStream_FromDiscsPagingDataSource() = runTest {
         // discApi4 -> name_4, title_4, year_4
@@ -322,7 +305,6 @@ class DefaultDiscsRepositoryTest {
         assertTrue(listDisc.contains(discApi4))
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getSearchDiscStream_FromDiscsPagingDataSource_PresentManually() = runTest {
         /* disc in database added manually -> databaseDisc1
@@ -357,7 +339,6 @@ class DefaultDiscsRepositoryTest {
         assertTrue(disc.isPresentByManually!!)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getSearchDiscStream_FromDiscsPagingDataSource_PresentSearch() = runTest {
         /* disc in database added by search -> databaseDisc3
@@ -392,7 +373,6 @@ class DefaultDiscsRepositoryTest {
         assertTrue(disc.isPresentBySearch!!)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getSearchBarcodeDatabase_FromDiscsPagingDataSource() = runTest {
         // databaseDisc2.barcode -> barcode_1
@@ -410,7 +390,6 @@ class DefaultDiscsRepositoryTest {
         assertEquals(databaseDisc2.asDomainModel(), disc)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getSearchBarcodeDatabase_FromDiscsPagingDataSource_PresentManuallySearch() = runTest {
         val databaseDisc4 = DatabaseDisc(

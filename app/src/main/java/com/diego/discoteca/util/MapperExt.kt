@@ -80,6 +80,7 @@ private fun processingResult(result: Result, barcode: String, context: Context):
         when {
             listBarcodeDiscogs != null && listBarcodeDiscogs.isNotEmpty() ->
                 listBarcodeDiscogs[0]
+
             else -> ""
         }
     }
@@ -94,12 +95,15 @@ private fun processingResult(result: Result, barcode: String, context: Context):
             name.isNotEmpty() && descriptionsString.isEmpty() && text.isEmpty() -> name
             name.isEmpty() && descriptionsString.isEmpty() && text.isNotEmpty() ->
                 "${context.getString(R.string.media_undefined)} : $text"
+
             name.isEmpty() && descriptionsString.isNotEmpty() && text.isEmpty() ->
                 "${context.getString(R.string.media_undefined)} : $descriptionsString"
+
             name.isNotEmpty() && descriptionsString.isEmpty() && text.isNotEmpty() -> "$name : $text"
             name.isNotEmpty() && descriptionsString.isNotEmpty() && text.isEmpty() -> "$name : $descriptionsString"
             name.isEmpty() && descriptionsString.isNotEmpty() && text.isNotEmpty() ->
                 "${context.getString(R.string.media_undefined)} : $descriptionsString , $text"
+
             name.isNotEmpty() && descriptionsString.isNotEmpty() && text.isNotEmpty() -> "$name : $descriptionsString , $text"
             else -> ""
         }
@@ -121,8 +125,10 @@ private fun processingResult(result: Result, barcode: String, context: Context):
     myFormat = when {
         formatQuantity > 0 && myFormat.isNotEmpty() ->
             "$formatQuantity ${context.getString(R.string.media)}\n$myFormat"
+
         formatQuantity > 0 && myFormat.isEmpty() ->
             "$formatQuantity ${context.getString(R.string.media)}"
+
         formatQuantity < 1 && myFormat.isNotEmpty() -> myFormat
         else -> ""
     }

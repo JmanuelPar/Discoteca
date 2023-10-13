@@ -69,6 +69,7 @@ fun ImageView.setStateIconGDriveUpload(numberDiscs: Int, stateIcon: Boolean) {
             )
             true
         }
+
         else -> {
             setColorFilter(
                 ContextCompat.getColor(
@@ -94,6 +95,7 @@ fun ImageView.setStateIconGDriveDownload(enabled: Boolean) {
             )
             true
         }
+
         else -> {
             setColorFilter(
                 ContextCompat.getColor(
@@ -115,6 +117,7 @@ fun TextView.setTextInterMessage(numberDiscs: Int, isSignIn: Boolean) {
             numberDiscs,
             numberDiscs
         )
+
         numberDiscs == 0 && isSignIn -> context.getString(R.string.disc_interaction_message_empty_unable_to_restore)
         else -> context.getString(R.string.no_disc)
     }
@@ -144,6 +147,7 @@ fun TextView.setDiscCountryYear(item: Disc?) {
             disc.country.isEmpty() && disc.year.isNotEmpty() -> disc.year
             disc.country.isNotEmpty() && disc.year.isEmpty() ->
                 "${disc.country} - ${context.getString(R.string.not_specified)}"
+
             else -> "${disc.country} - ${disc.year}"
         }
     }
@@ -319,14 +323,17 @@ fun TextView.setDiscPresent(item: Disc?) {
                 visibility = View.VISIBLE
                 text = context.getString(R.string.disc_present_manually)
             }
+
             disc.isPresentByScan == true -> {
                 visibility = View.VISIBLE
                 text = context.getString(R.string.disc_present_scan)
             }
+
             disc.isPresentBySearch == true -> {
                 visibility = View.VISIBLE
                 text = context.getString(R.string.disc_present_search)
             }
+
             else -> visibility = View.GONE
         }
     }
@@ -342,12 +349,14 @@ fun MaterialCardView.setStrokeColorPresent(item: Disc?) {
                     com.google.android.material.R.attr.colorPrimary
                 )
             }
+
             disc.isPresentBySearch == true -> {
                 MaterialColors.getColor(
                     this,
                     com.google.android.material.R.attr.colorPrimaryVariant
                 )
             }
+
             else -> ContextCompat.getColor(context, color.color_stroke_card)
         }
     }
@@ -371,6 +380,7 @@ fun TextView.setDiscLightCountryYear(item: DiscLight?) {
             discLight.country.isEmpty() && discLight.year.isNotEmpty() -> discLight.year
             discLight.country.isNotEmpty() && discLight.year.isEmpty() ->
                 "${discLight.country} - ${context.getString(R.string.not_specified)}"
+
             else -> "${discLight.country} - ${discLight.year}"
         }
     }
@@ -428,11 +438,13 @@ fun TextView.setDiscResultDetailAnswer(item: DiscResultDetail?) {
                     discResultDetail.disc.isPresentByScan == true -> {
                         visibility = View.GONE
                     }
+
                     discResultDetail.disc.isPresentByManually == true
                             || discResultDetail.disc.isPresentBySearch == true -> {
                         text = context.getString(R.string.answer_update)
                         visibility = View.VISIBLE
                     }
+
                     else -> {
                         text = context.getString(R.string.answer_add)
                         visibility = View.VISIBLE
@@ -446,10 +458,12 @@ fun TextView.setDiscResultDetailAnswer(item: DiscResultDetail?) {
                             || discResultDetail.disc.isPresentBySearch == true -> {
                         visibility = View.GONE
                     }
+
                     discResultDetail.disc.isPresentByManually == true -> {
                         text = context.getString(R.string.answer_update)
                         visibility = View.VISIBLE
                     }
+
                     else -> {
                         text = context.getString(R.string.answer_add)
                         visibility = View.VISIBLE
@@ -470,6 +484,7 @@ fun MaterialButton.setButtonYesResultDetail(item: DiscResultDetail?) {
                     discResultDetail.disc.isPresentByManually == true
                             || discResultDetail.disc.isPresentBySearch == true ->
                         context.getString(R.string.update)
+
                     else -> context.getString(R.string.add)
                 }
             }
@@ -480,6 +495,7 @@ fun MaterialButton.setButtonYesResultDetail(item: DiscResultDetail?) {
                             || discResultDetail.disc.isPresentBySearch == true -> context.getString(
                         R.string.ok
                     )
+
                     discResultDetail.disc.isPresentByManually == true -> context.getString(R.string.update)
                     else -> context.getString(R.string.add)
                 }
@@ -545,6 +561,7 @@ fun TextView.setIsVisible(isVisible: Boolean) {
             text = context.getString(R.string.answer_search)
             visibility = View.VISIBLE
         }
+
         else -> visibility = View.GONE
     }
 }
@@ -556,6 +573,7 @@ fun MaterialButton.setButtonSearch(isVisible: Boolean) {
             text = context.getString(R.string.search)
             visibility = View.VISIBLE
         }
+
         else -> visibility = View.GONE
     }
 }
@@ -631,6 +649,7 @@ fun TextView.setTvBarcode(item: DiscResultDetail?) {
                     && (discResultDetail.disc.isPresentBySearch == true
                     || discResultDetail.disc.barcode.isEmpty()) ->
                 visibility = View.GONE
+
             else -> {
                 text = context.getString(R.string.barcode)
                 visibility = View.VISIBLE
@@ -647,6 +666,7 @@ fun TextView.setDiscBarcodeDetail(item: DiscResultDetail?) {
                     && (discResultDetail.disc.isPresentBySearch == true
                     || discResultDetail.disc.barcode.isEmpty()) ->
                 visibility = View.GONE
+
             else -> {
                 text = discResultDetail.disc.barcode
                 visibility = View.VISIBLE

@@ -10,11 +10,11 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
 import com.diego.discoteca.*
 import com.diego.discoteca.database.DatabaseDisc
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.ServiceLocator
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers.not
 import org.junit.After
 import org.junit.Assert.*
@@ -22,7 +22,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@ExperimentalCoroutinesApi
+@MediumTest
 @RunWith(AndroidJUnit4::class)
 class DiscDetailFragmentTest {
 

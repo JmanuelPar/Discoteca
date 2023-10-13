@@ -18,7 +18,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 class DiscResultSearchViewModelTest {
 
     private lateinit var discResultSearchViewModel: DiscResultSearchViewModel
@@ -46,7 +46,6 @@ class DiscResultSearchViewModelTest {
     private lateinit var discApi2: Disc
     private lateinit var discApi3: Disc
 
-    @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
