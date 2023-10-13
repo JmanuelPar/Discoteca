@@ -87,6 +87,7 @@ class InteractionViewModel(val repository: DiscsRepository) : ViewModel() {
                 )
                 updateIconGDriveUpload(true)
             }
+
             else -> {
                 // Not log in in Drive
                 displayAccount(

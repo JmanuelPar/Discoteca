@@ -38,6 +38,7 @@ class DiscAdapter(
                 val discItem = getItem(position) as DataItem.DiscItem
                 holder.bind(discItem.disc, listener)
             }
+
             is DiscViewHolderGrid -> {
                 val discItem = getItem(position) as DataItem.DiscItem
                 holder.bind(discItem.disc, listener)
@@ -52,6 +53,7 @@ class DiscAdapter(
                 if (myLayoutManager.spanCount == 1) DiscViewHolderLinear.from(parent)
                 else DiscViewHolderGrid.from(parent)
             }
+
             else -> throw ClassCastException("Unknown viewType $viewType")
         }
     }
@@ -67,6 +69,7 @@ class DiscAdapter(
                     }
                     listOf(DataItem.MessageItem)
                 }
+
                 else -> {
                     myLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                         override fun getSpanSize(position: Int): Int {
@@ -167,7 +170,7 @@ sealed class DataItem {
         override val id = disc.id
     }
 
-    object MessageItem : DataItem() {
+    data object MessageItem : DataItem() {
         override val id = Long.MIN_VALUE
     }
 }

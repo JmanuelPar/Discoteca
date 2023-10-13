@@ -7,13 +7,11 @@ import com.diego.discoteca.MainCoroutineRule
 import com.diego.discoteca.database.DatabaseDisc
 import com.diego.discoteca.getOrAwaitValue
 import com.diego.discoteca.util.AddBy
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class InteractionViewModelTest {
 
     private lateinit var interactionViewModel: InteractionViewModel

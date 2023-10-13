@@ -7,46 +7,46 @@ import kotlinx.parcelize.Parcelize
 
 sealed class UIText : Parcelable {
     @Parcelize
-    object DiscArtistNameIndicate : UIText()
+    data object DiscArtistNameIndicate : UIText()
 
     @Parcelize
-    object DiscTitleIndicate : UIText()
+    data object DiscTitleIndicate : UIText()
 
     @Parcelize
-    object DiscYearIndicate : UIText()
+    data object DiscYearIndicate : UIText()
 
     @Parcelize
-    object NoValidDiscYear : UIText()
+    data object NoValidDiscYear : UIText()
 
     @Parcelize
-    object DiscAdded : UIText()
+    data object DiscAdded : UIText()
 
     @Parcelize
-    object DiscDeleted : UIText()
+    data object DiscDeleted : UIText()
 
     @Parcelize
-    object DiscUpdated : UIText()
+    data object DiscUpdated : UIText()
 
     @Parcelize
-    object DiscAlreadyPresentOne : UIText()
+    data object DiscAlreadyPresentOne : UIText()
 
     @Parcelize
-    object DiscAlreadyPresentMore : UIText()
+    data object DiscAlreadyPresentMore : UIText()
 
     @Parcelize
-    object DatabaseBackUp : UIText()
+    data object DatabaseBackUp : UIText()
 
     @Parcelize
-    object DatabaseRestored : UIText()
+    data object DatabaseRestored : UIText()
 
     @Parcelize
-    object DatabaseNotRestored : UIText()
+    data object DatabaseNotRestored : UIText()
 
     @Parcelize
-    object AccountNotLogIn : UIText()
+    data object AccountNotLogIn : UIText()
 
     @Parcelize
-    object NoDisplay : UIText()
+    data object NoDisplay : UIText()
 
     @Parcelize
     data class TotalApi(val total: Int) : UIText()
@@ -79,11 +79,13 @@ fun Context.getMyUIText(uiText: UIText): String {
             uiText.total,
             uiText.total
         )
+
         is UIText.TotalDatabase -> resources.getQuantityString(
             R.plurals.plural_total_database_result,
             uiText.total,
             uiText.total
         )
+
         is UIText.AccountLogIn -> uiText.account
     }
 }

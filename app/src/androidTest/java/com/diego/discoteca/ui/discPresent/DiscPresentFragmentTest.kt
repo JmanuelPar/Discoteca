@@ -21,7 +21,6 @@ import com.diego.discoteca.database.DatabaseDisc
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.ServiceLocator
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.withContext
 import org.junit.After
@@ -31,7 +30,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.lang.Thread.sleep
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @MediumTest
 @RunWith(AndroidJUnit4::class)
 class DiscPresentFragmentTest {

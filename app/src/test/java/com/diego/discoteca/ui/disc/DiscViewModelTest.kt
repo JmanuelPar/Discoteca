@@ -2,14 +2,17 @@ package com.diego.discoteca.ui.disc
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.diego.discoteca.*
+import com.diego.discoteca.DatabaseDiscFactory
+import com.diego.discoteca.FakeDiscsRepository
+import com.diego.discoteca.MainCoroutineRule
+import com.diego.discoteca.TestDataStore
 import com.diego.discoteca.data.PreferencesManager
 import com.diego.discoteca.database.DatabaseDisc
+import com.diego.discoteca.getOrAwaitValue
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.UIText
 import com.diego.discoteca.util.asDomainModel
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -18,7 +21,6 @@ import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class DiscViewModelTest {
 
     private lateinit var discViewModel: DiscViewModel

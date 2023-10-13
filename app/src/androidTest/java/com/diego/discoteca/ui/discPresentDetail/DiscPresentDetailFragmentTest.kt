@@ -17,7 +17,6 @@ import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.database.DatabaseDisc
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.ServiceLocator
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers.not
 import org.junit.After
@@ -26,7 +25,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @MediumTest
 @RunWith(AndroidJUnit4::class)
 class DiscPresentDetailFragmentTest {

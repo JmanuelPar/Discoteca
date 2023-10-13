@@ -18,9 +18,13 @@ import com.diego.discoteca.DiscotecaApplication
 import com.diego.discoteca.R
 import com.diego.discoteca.databinding.FragmentInteractionBinding
 import com.diego.discoteca.ui.activity.MainActivity
-import com.diego.discoteca.util.*
+import com.diego.discoteca.util.ConnectivityStatus
 import com.diego.discoteca.util.Constants.DATABASE_NAME
 import com.diego.discoteca.util.Constants.G_DRIVE_FOLDER_NAME
+import com.diego.discoteca.util.UIText
+import com.diego.discoteca.util.showDialogMessageAction
+import com.diego.discoteca.util.showDialogTitle
+import com.diego.discoteca.util.showDialogTitleAction
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -38,7 +42,11 @@ import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
 import com.google.api.services.drive.model.FileList
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -46,7 +54,7 @@ import java.net.UnknownHostException
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Collections
 
 /**
  * https://developers.google.com/identity/sign-in/android/start
@@ -168,6 +176,7 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                 account,
                 Scope(Scopes.DRIVE_FILE)
             ) -> updateUI(account)
+
             else -> updateUI(null)
         }
         setUploadDownloadTime()
@@ -312,11 +321,13 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                                     goToDiscFragment(UIText.NoDisplay)
                                 }
                             }
+
                             is UserRecoverableAuthIOException -> showDialogTitleAction(
                                 getString(R.string.google_drive_authorization_message)
                             ) {
                                 signIn()
                             }
+
                             else -> showDialogTitle(getString(R.string.error_message))
                         }
                     }
@@ -334,6 +345,7 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                 // Folder present, already created in G Drive
                 resultFolder.files[0].id
             }
+
             else -> {
                 // Create a folder MyDatabaseDiscotecaApp in G Drive
                 val fileMetadata = com.google.api.services.drive.model.File().apply {
@@ -384,6 +396,7 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                     .setFields("modifiedTime")
                     .execute().modifiedTime.toString()
             }
+
             else -> {
                 /* File back up database is not created
                    Create file back up / upload database in G Drive */
@@ -478,6 +491,7 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                                         goToDiscFragment(UIText.DatabaseRestored)
                                     }
                                 }
+
                                 else -> {
                                     /* Folder present in G Drive :
                                        Error : file back up database not present in G Drive, unable to restore
@@ -512,6 +526,7 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                                 }
                             }
                         }
+
                         else -> {
                             /* Folder not present in G Drive :
                                File back up database not present, unable to restore
@@ -560,11 +575,13 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                                     goToDiscFragment(UIText.NoDisplay)
                                 }
                             }
+
                             is UserRecoverableAuthIOException -> showDialogTitleAction(
                                 getString(R.string.google_drive_authorization_message)
                             ) {
                                 signIn()
                             }
+
                             else -> showDialogTitle(getString(R.string.error_message))
                         }
                     }
@@ -608,6 +625,7 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                     .setFields("modifiedTime")
                     .execute().modifiedTime.toString()
             }
+
             else -> {
                 /* File restoration is not created
                    Create file restoration / upload in G Drive */
@@ -693,6 +711,7 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                                         )
                                     }
                                 }
+
                                 else -> {
                                     /* Folder present in G Drive
                                        Error : file back up database not present in G Drive, unable to restore
@@ -719,6 +738,7 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                                 }
                             }
                         }
+
                         else -> {
                             /* Folder not present in G Drive :
                                File back up database not present
@@ -757,11 +777,13 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                                     goToDiscFragment(UIText.NoDisplay)
                                 }
                             }
+
                             is UserRecoverableAuthIOException -> showDialogTitleAction(
                                 getString(R.string.google_drive_authorization_message)
                             ) {
                                 signIn()
                             }
+
                             else -> showDialogTitle(getString(R.string.error_message))
                         }
                     }
@@ -807,10 +829,12 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                 //Example fileName : disc_database-1 disque.db
                 interaction.fileName.split("-")[1].split(".")[0]
             }
+
             is Interaction.Restoration -> {
                 //Example fileName : time_restore-1 disque
                 interaction.fileName.split("-")[1]
             }
+
             is Interaction.Time -> {
                 try {
                     val zonedDateTime =
@@ -847,6 +871,7 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
                     getMyInteraction(interaction)
                 }"
             }
+
             else -> {
                 /* File restoration not present in folder MyDatabaseDiscotecaApp G Drive
                    No number of the discs of the last restoration
@@ -932,11 +957,11 @@ class InteractionFragment : Fragment(R.layout.fragment_interaction), CoroutineSc
 }
 
 sealed class Interaction {
-    object ExistsBackUp : Interaction()
-    object NotExistsBackUp : Interaction()
-    object NotExistsBackUpError : Interaction()
-    object NotExistsRestoration : Interaction()
-    object NotExistsRestorationError : Interaction()
+    data object ExistsBackUp : Interaction()
+    data object NotExistsBackUp : Interaction()
+    data object NotExistsBackUpError : Interaction()
+    data object NotExistsRestoration : Interaction()
+    data object NotExistsRestorationError : Interaction()
     data class BackUp(val fileName: String) : Interaction()
     data class Restoration(val fileName: String) : Interaction()
     data class Time(val time: String) : Interaction()

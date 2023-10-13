@@ -22,7 +22,6 @@ import com.diego.discoteca.data.model.DiscPresent
 import com.diego.discoteca.database.DatabaseDisc
 import com.diego.discoteca.util.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.withContext
 import org.hamcrest.CoreMatchers.not
@@ -33,7 +32,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.lang.Thread.sleep
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @MediumTest
 @RunWith(AndroidJUnit4::class)
 class DiscResultSearchFragmentTest {

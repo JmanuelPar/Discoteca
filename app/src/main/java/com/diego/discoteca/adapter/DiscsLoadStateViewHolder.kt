@@ -27,6 +27,7 @@ class DiscsLoadStateViewHolder(
                     binding.errorMsg.context.getString(R.string.error_result_message),
                     loadState.error.localizedMessage
                 )
+
                 else -> binding.errorMsg.context.getString(R.string.error_result_message_unknown)
             }
         }

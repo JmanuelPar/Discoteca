@@ -5,12 +5,10 @@ import com.diego.discoteca.MainCoroutineRule
 import com.diego.discoteca.data.model.DiscResultScan
 import com.diego.discoteca.getOrAwaitValue
 import com.diego.discoteca.util.Destination
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class ScanBarcodeViewModelTest {
 
     private lateinit var scanBarcodeViewModel: ScanBarcodeViewModel

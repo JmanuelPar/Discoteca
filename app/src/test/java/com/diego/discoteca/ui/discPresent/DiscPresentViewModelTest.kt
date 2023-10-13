@@ -12,14 +12,12 @@ import com.diego.discoteca.getOrAwaitValue
 import com.diego.discoteca.util.AddBy
 import com.diego.discoteca.util.UIText
 import com.diego.discoteca.util.asDatabaseModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class DiscPresentViewModelTest {
 
     private lateinit var discPresentViewModel: DiscPresentViewModel

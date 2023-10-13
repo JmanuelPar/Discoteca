@@ -115,14 +115,17 @@ class UpdateDiscViewModel(
                 _errorMessageDiscYear.value = UIText.DiscYearIndicate
                 return false
             }
+
             when {
                 isFromEditable -> discYear.value!! < "1"
                         || (discYear.value?.length!! == 4 && discYear.value!! < "1900")
+
                 else -> discYear.value?.length!! < 4 || discYear.value!! < "1900"
             } -> {
                 _errorMessageDiscYear.value = UIText.NoValidDiscYear
                 return false
             }
+
             else -> {
                 _errorMessageDiscYear.value = null
                 return true
